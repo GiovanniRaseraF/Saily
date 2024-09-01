@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/gps_types.dart';
 import 'package:saily/settings/settings_controller.dart';
-import 'package:saily/utils/hm_colors.dart';
+import 'package:saily/utils/saily_colors.dart';
 
 class GpsCounter extends StatefulWidget {
   GpsCounter({super.key, required this.settingsController});
@@ -60,8 +60,8 @@ class _GpsCounterState extends State<GpsCounter> {
 
               if (isFixed) {
                 return Column(children: [
-                  Icon(color: HMBlue, gpsFixIcon),
-                  Text(style: TextStyle(color: HMBlue), "$count")
+                  Icon(color: SailyBlue, gpsFixIcon),
+                  Text(style: TextStyle(color: SailyBlue), "$count")
                 ]);
               } else {
                 return Column(children: [

@@ -5,7 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:saily/boatinfo/boatinfo_view.dart';
+import 'package:saily/user/user_view.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_types.dart';
 import 'package:saily/env.dart';
@@ -13,13 +13,14 @@ import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:saily/settings/settings_view.dart';
 import 'package:saily/tracks/fake_data.dart';
+import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
-import 'package:saily/widgets/battery_gauge.dart';
+import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/temperature_gauge.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:saily/utils/hm_colors.dart';
+import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,7 +89,7 @@ class MyApp extends StatelessWidget {
       title: 'Saily',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: HMBlue),
+        colorScheme: ColorScheme.fromSeed(seedColor: SailyBlue),
         useMaterial3: true,
       ),
       home: MyHomePage(title: 'Saily'),
@@ -109,6 +110,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    setGlobalContext(context);
     return Scaffold(
       body: Stack(children: [
         // Map
@@ -183,19 +185,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: scaleH(context, 0.01),
                 ),
                 FloatingActionButton(
-                    heroTag: "boatinfo",
+                    heroTag: "user",
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BoatInfoView(
+                            builder: (context) => UserView(
                                 settingsController: settingsController)),
                       );
                     },
                     mini: false,
                     backgroundColor: HMWhite,
                     elevation: 100,
-                    child: Icon(color: HMBlue, Icons.account_box_outlined)),
+                    child: Icon(color: SailyBlue, Icons.account_box_outlined)),
                 SizedBox(
                   height: scaleH(context, 0.05),
                 ),
