@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/user/boat_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
 import 'package:saily/utils/saily_colors.dart';
@@ -25,7 +26,8 @@ class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("User")),
+        appBar: AppBar(title: Text("User"), backgroundColor: Colors.white,),
+        backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -62,63 +64,13 @@ class _UserViewState extends State<UserView> {
               child: Center(
                 child: SingleChildScrollView(
                   child: Column(children: [
-                    SizedBox(
-                        height: 200,
-                        width: gCtxW() * 0.9,
-                        child: Card(
-                          elevation: 10,
-                          child: Text("Boat 1"),
-                        )),
-                    SizedBox(
-                        height: 200,
-                        width: gCtxW() * 0.9,
-                        child: Card(
-                          elevation: 10,
-                          child: Text("Boat 1"),
-                        )),
-                    SizedBox(
-                        height: 200,
-                        width: gCtxW() * 0.9,
-                        child: Card(
-                          elevation: 10,
-                          child: Text("Boat 1"),
-                        )),
-                    SizedBox(
-                        height: 200,
-                        width: gCtxW() * 0.9,
-                        child: Card(
-                          elevation: 10,
-                          child: Text("Boat 1"),
-                        )),
-                    SizedBox(
-                        height: 200,
-                        width: gCtxW() * 0.9,
-                        child: Card(
-                          elevation: 10,
-                          child: Text("Boat 1"),
-                        )),
-                    SizedBox(
-                        height: 200,
-                        width: gCtxW() * 0.9,
-                        child: Card(
-                          elevation: 10,
-                          child: Text("Boat 1"),
-                        )),
+                    BoatWidget(), 
+                    BoatWidget(), 
+                    BoatWidget(), 
+                    BoatWidget(), 
+                    BoatWidget(), 
                   ]),
                 ),
-                // SizedBox(
-                //     width: gCtxW() * 0.9,
-                //     child: FloatingActionButton(
-                //         child: Text(
-                //           "Add New Boat",
-                //           style: TextStyle(color: Colors.white),
-                //         ),
-                //         backgroundColor: SailyBlue,
-                //         elevation: 10,
-                //         onPressed: () {
-                //           print("Add New Boat");
-                //         }))
-                // ]),
               ),
             ),
             SizedBox(

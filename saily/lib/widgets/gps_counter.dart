@@ -41,7 +41,7 @@ class _GpsCounterState extends State<GpsCounter> {
         heroTag: "gps_counter",
         onPressed: () {},
         mini: false,
-        backgroundColor: HMAlmostWhite,//Color.fromARGB(0, 255, 255, 255),
+        backgroundColor: SailyAlmostWhite,//Color.fromARGB(0, 255, 255, 255),
         elevation: 0,
         child: StreamBuilder(
             stream: settingsController.getCurrentGpsCounterStream(),
@@ -65,8 +65,8 @@ class _GpsCounterState extends State<GpsCounter> {
                 ]);
               } else {
                 return Column(children: [
-                  Icon(color: HMOrange, gpsFixIcon),
-                  Text(style: TextStyle(color: HMOrange), "no gps")
+                  Icon(color: SailyOrange, gpsFixIcon),
+                  Text(style: TextStyle(color: SailyOrange), "no gps")
                 ]);
               }
             }));

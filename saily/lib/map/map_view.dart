@@ -223,7 +223,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                         child: Card(
                             elevation: 10,
                             color: Color.fromARGB(0, 255, 255, 255),
-                            child: Icon(color: HMLightOrange, Icons.circle)),
+                            child: Icon(color: SailyLightOrange, Icons.circle)),
                       ))
                 ],
               );

@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: w,
                       height: h / 4,
                       child: Card(
-                        color: HMWhite,
+                        color: SailyWhite,
                         elevation: 10,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: w,
                       height: h,
                       child: Card(
-                        color: HMWhite,
+                        color: SailyWhite,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -177,9 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                   mini: false,
-                  backgroundColor: HMWhite,
+                  backgroundColor: SailyWhite,
                   elevation: 100,
-                  child: Icon(color: HMGrey, Icons.settings),
+                  child: Icon(color: SailyGrey, Icons.settings),
                 ),
                 SizedBox(
                   height: scaleH(context, 0.01),
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     mini: false,
-                    backgroundColor: HMWhite,
+                    backgroundColor: SailyWhite,
                     elevation: 100,
                     child: Icon(color: SailyBlue, Icons.account_box_outlined)),
                 SizedBox(
