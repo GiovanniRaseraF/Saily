@@ -136,7 +136,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              
+                              BatteryGauge(
+                                  settingsController: settingsController,
+                                  small: true),
+                              BatteryGauge(
+                                  settingsController: settingsController,
+                                  small: true),
+                              BatteryGauge(
+                                  settingsController: settingsController,
+                                  small: true),
                             ]),
                       )),
                   expanded: SizedBox(
@@ -145,10 +153,42 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Card(
                         color: SailyWhite,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                          
-                        ]),
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    BatteryGauge(
+                                        settingsController: settingsController,
+                                        small: true),
+                                    BatteryGauge(
+                                        settingsController: settingsController,
+                                        small: true),
+                                  ]),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    BatteryGauge(
+                                        settingsController: settingsController,
+                                        small: true),
+                                    BatteryGauge(
+                                        settingsController: settingsController,
+                                        small: true),
+                                  ]),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    BatteryGauge(
+                                        settingsController: settingsController,
+                                        small: true),
+                                    BatteryGauge(
+                                        settingsController: settingsController,
+                                        small: true),
+                                  ]),
+                            ]),
                       )),
                   header: Text("exp"),
                   expandedatstart: expandedatstart,

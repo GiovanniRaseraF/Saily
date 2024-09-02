@@ -69,8 +69,8 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     interactionOptions = defaultInteractionOptions;
 
     // positioning
-    currentPosition = HuracanMarine().homePosition;
-    fakeCurrentPosition = HuracanMarine().homePosition;
+    currentPosition = Saily().homePosition;
+    fakeCurrentPosition = Saily().homePosition;
 
     // stream listener
     mapFakeOffsetStreamSub =

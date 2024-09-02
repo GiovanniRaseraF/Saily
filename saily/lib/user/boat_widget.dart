@@ -45,6 +45,7 @@ class BoatWidget extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                   FloatingActionButton(
+                                    heroTag: "select_boat_",
                                     elevation: 2,
                                     mini: true,
                                     backgroundColor: Colors.white,
@@ -57,6 +58,7 @@ class BoatWidget extends StatelessWidget {
                                     ),
                                   ),
                                   FloatingActionButton(
+                                    heroTag: "delete_boat_",
                                     elevation: 2,
                                     mini: true,
                                     backgroundColor: Colors.white,

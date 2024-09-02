@@ -42,6 +42,7 @@ class _UserViewState extends State<UserView> {
                       SizedBox(
                           width: gCtxW() * 0.9,
                           child: FloatingActionButton(
+                              heroTag: "logout",
                               child: Text(
                                 "Logout",
                                 style: TextStyle(color: Colors.white),
@@ -65,10 +66,10 @@ class _UserViewState extends State<UserView> {
                 child: SingleChildScrollView(
                   child: Column(children: [
                     BoatWidget(), 
-                    BoatWidget(), 
-                    BoatWidget(), 
-                    BoatWidget(), 
-                    BoatWidget(), 
+                    //BoatWidget(), 
+                    // BoatWidget(), 
+                    // BoatWidget(), 
+                    // BoatWidget(), 
                   ]),
                 ),
               ),
@@ -76,6 +77,7 @@ class _UserViewState extends State<UserView> {
             SizedBox(
                 width: gCtxW() * 0.9,
                 child: FloatingActionButton(
+                  heroTag: "add_new_boat",
                     child: Text(
                       "Add New Boat",
                       style: TextStyle(color: Colors.white),

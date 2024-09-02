@@ -14,7 +14,7 @@ double scaleH(BuildContext c, double scale){
 // just read file
 String read_file({required String path}) => File("$path").readAsStringSync();
 
-class HuracanMarine{
+class Saily{
   final homePosition = LatLng(45.9034078,12.1159257);
   // static final compass = Image.asset("assets/icons/compass.png");
   // static final boat = Image.asset("assets/icons/boat.png");
