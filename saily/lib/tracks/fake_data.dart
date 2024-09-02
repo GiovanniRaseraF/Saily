@@ -11,8 +11,8 @@ class FakeData {
   late XmlDocument document;
   late List<LatLng> positions;
 
-  void load_parse() async {
-    rawdata = veniceTrip;
+  void load_parse(String trip) async {
+    rawdata = trip;
     document = XmlDocument.parse(rawdata);
 
     // estract data

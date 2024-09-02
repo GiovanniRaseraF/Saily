@@ -2,202 +2,95 @@
 author: Giovanni Rasera
 */
 
+import 'dart:async';
+import 'dart:convert';
 
+import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:saily/datatypes/battery_info.dart';
+import 'package:saily/datatypes/gps_types.dart';
+import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/widgets/gps_counter.dart';
+import 'package:saily/widgets/microdivider_widget.dart';
 
-// class SpeedGauge extends StatefulWidget {
-//   SpeedGauge({
-//     required this.wscale, 
-//     required this.hscale, 
-//     required this.textscale, 
-//     required this.settingsController,
-//     required this.small,
-//   });
+class SOGGauge extends StatefulWidget {
+  SOGGauge({required this.settingsController, required this.small});
 
-//   bool small;
+  SettingsController settingsController;
+  bool small;
+  @override
+  State<SOGGauge> createState() =>
+      _SOGGaugeState(settingsController: settingsController, small: small);
+}
 
-//   double wscale;
-//   double hscale;
-//   double textscale;
+class _SOGGaugeState extends State<SOGGauge> {
+  _SOGGaugeState({required this.settingsController, required this.small}) {}
 
-//   SettingsController settingsController;
+  SettingsController settingsController;
+  bool small;
 
-//   @override
-//   State<SpeedGauge> createState() => 
-//     _SpeedGaugeState(
-//       wscale: wscale, 
-//       hscale: hscale, 
-//       textscale: textscale, 
-//       settingsController: settingsController,
-//       small: small,
-//     );
-// }
+  GpsDataType gpsData = GpsDataType(isFixed: false, satellitesCount: 0, SOG: 0);
 
-// class _SpeedGaugeState extends State<SpeedGauge>{
-//   _SpeedGaugeState({
-//     required this.wscale, 
-//     required this.hscale, 
-//     required this.textscale, 
-//     required this.settingsController,
-//     required this.small,
-//   });
+  Widget buildSmall(BuildContext c) {
+    return StreamBuilder(
+        stream: settingsController.getCurrentGpsCounterStream(),
+        builder: (bc, snapshot) {
+          // read data
+          if (snapshot.data != null) {
+            gpsData = snapshot.data!;
+          }
 
-//   bool small;
+          return Container(
+            child: Column(
+              children: [
+                Text("SOG: Km/h"),
+                Row(
+                  children: [
+                    Text(
+                      "${gpsData.SOG.toStringAsFixed(1)}",
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
 
-//   double wscale;
-//   double hscale;
-//   double textscale;
-  
-//   SettingsController settingsController;
-//   late SpeedData speedDataStream;
-//   late DriveMotorData driveMotorDataStream;
-//   late Styles appStyle;
+  Widget buildBig(BuildContext c) {
+    return StreamBuilder(
+        stream: settingsController.getCurrentGpsCounterStream(),
+        builder: (bc, snapshot) {
+          // read data
+          if (snapshot.data != null) {
+            gpsData = snapshot.data!;
+          }
 
-//   @override
-//   void dispose(){
-//     super.dispose();
-//   }
+          return Container(
+            child: Column(
+              children: [
+                Text("SOG: Km/h"),
+                Row(
+                  children: [
+                    Text(
+                      "${gpsData.SOG.toStringAsFixed(1)}",
+                      style: TextStyle(fontSize: 38),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
 
-//   @override
-//   void initState(){
-//     super.initState();
-    
-//     updateSpeedDataStream(settingsController.speedStream);
-//     updateDriveMotorDataStream(settingsController.driveMotorStream);
-//   }
-
-//   void updateSpeedDataStream(SpeedData newsd){
-//     if(mounted){
-//       speedDataStream = newsd;
-//       // speed kn
-//     }
-//   }
-  
-//   void updateDriveMotorDataStream(DriveMotorData newdmd){
-//     if(mounted){
-//       driveMotorDataStream = newdmd;
-//       // rpms and other values
-//     }
-//   }
-
-//   void updateAppStyle(Styles newas){
-//     if(mounted){
-//       appStyle = newas;
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListenableBuilder(listenable: settingsController, builder: (context, child) {
-//       updateSpeedDataStream(settingsController.speedStream);
-//       updateDriveMotorDataStream(settingsController.driveMotorStream);
-
-//       updateAppStyle(getAppStyle(settingsController));
-
-//       if(small){
-//         return _getTextGauge(context);
-//       }else{
-//         return _getRadialGauge(context);
-//       } 
-//     },);
-    
-//   }
-
-//   Widget _getTextGauge(BuildContext c){
-//     return StreamBuilder(stream: speedDataStream.streamOut.stream, 
-//       builder: (c, s){
-//         final sog = speedDataStream.csg_SOG.toStringAsFixed(1);
-
-//         return Row(
-//           children: [
-//             Icon(
-//               Icons.speed,
-//               color: Colors.blue,
-//             ),
-//             Text("    "),
-//             Text('$sog kn',
-//               style: TextStyle(fontSize: 20*textscale, fontWeight: FontWeight.bold))
-//           ]);
-//       }
-//     );
-    
-//   }
-
-//   // graphics
-//   Widget _getRadialGauge(BuildContext c) {
-//     return 
-//        Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//         children: [
-//           // RPM
-//           StreamBuilder(
-//             stream: driveMotorDataStream.streamOut.stream,
-//             builder: (context, s) {
-//               final rpm_value = driveMotorDataStream.drv_motorSpeed;
-//               final rpm = rpm_value.toStringAsFixed(0);
-
-//               return CircularGaugeWidget(wscale: wscale, hscale: hscale, textscale: textscale, 
-//                 headText: "RPM", 
-//                 textBeforeValue: "", 
-//                 value: rpm_value, 
-//                 valueToDisplay: rpm,
-//                 textAfterValue: "", 
-//                 color: appStyle.primary_2_color, 
-//                 startAngle: 180, 
-//                 endAngle: 0, 
-//                 minimum: 0, 
-//                 maximum: 5000,
-//                 appStyle: appStyle, 
-//               );
-//             }
-//           ),
-
-//           // speed
-//           StreamBuilder(
-//             stream: speedDataStream.streamOut.stream,
-//             builder: (context, s) {
-//               final speed_value = speedDataStream.csg_SOG;
-//               final sog = speed_value.toStringAsFixed(1);
-
-//               return CircularGaugeWidget(wscale: wscale, hscale: hscale, textscale: textscale, 
-//                 headText: "Speed", 
-//                 textBeforeValue: "", 
-//                 value: speed_value, 
-//                 valueToDisplay: sog,
-//                 textAfterValue: " kn", 
-//                 color: appStyle.secondary_color, 
-//                 startAngle: 180, 
-//                 endAngle: 0, 
-//                 minimum: 0, 
-//                 maximum: 50,
-//                 appStyle: appStyle, 
-//               );
-//             }
-//           ),
-
-//           // temps
-//           StreamBuilder(
-//             stream: driveMotorDataStream.streamOut.stream,
-//             builder: (context, c) {
-//               final motor_temp_value = driveMotorDataStream.drv_motorTemperature;
-//               final temp = motor_temp_value.toStringAsFixed(0);
-
-//               return CircularGaugeWidget(wscale: wscale, hscale: hscale, textscale: textscale, 
-//                 headText: "Temp", 
-//                 textBeforeValue: "", 
-//                 value: motor_temp_value, 
-//                 valueToDisplay: temp,
-//                 textAfterValue: " C°", 
-//                 color: Colors.red, 
-//                 startAngle: 180, 
-//                 endAngle: 0, 
-//                 minimum: 0, 
-//                 maximum: 150,
-//                 appStyle: appStyle, 
-//               );
-//             }
-//           ),
-//         ],
-//       );
-//   } 
-// }
+  @override
+  Widget build(BuildContext c) {
+    if (small) {
+      return buildSmall(c);
+    } else {
+      return buildBig(c);
+    }
+  }
+}

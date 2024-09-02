@@ -46,8 +46,8 @@ class _GpsCounterState extends State<GpsCounter> {
         child: StreamBuilder(
             stream: settingsController.getCurrentGpsCounterStream(),
             builder: (bc, snapshot) {
-              GpsCountType gpsCountType =
-                  GpsCountType(isFixed: false, satellitesCount: 0);
+              GpsDataType gpsCountType =
+                  GpsDataType(isFixed: false, satellitesCount: 0, SOG: 0);
 
               // read data
               if (snapshot.data != null) {

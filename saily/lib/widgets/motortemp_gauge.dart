@@ -2,22 +2,21 @@
 author: Giovanni Rasera
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:saily/settings/settings_controller.dart';
 
-class TemperatureGauge extends StatefulWidget {
-  TemperatureGauge({  required this.settingsController, required this.small});
+class MotorTempGauge extends StatefulWidget {
+  MotorTempGauge({  required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
 
   @override
-  State<TemperatureGauge> createState() => _TemperatureGauge(settingsController: settingsController, small: small);
+  State<MotorTempGauge> createState() => _MotorTempGauge(settingsController: settingsController, small: small);
 }
 
-class _TemperatureGauge extends State<TemperatureGauge>{
-  _TemperatureGauge({required this.settingsController, required this.small});
+class _MotorTempGauge extends State<MotorTempGauge>{
+  _MotorTempGauge({required this.settingsController, required this.small});
   SettingsController settingsController;
   bool small;
 

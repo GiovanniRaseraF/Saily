@@ -5,6 +5,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/routes/routes_view.dart';
+import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_types.dart';
@@ -18,10 +20,11 @@ import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
 import 'package:saily/widgets/gps_counter.dart';
-import 'package:saily/widgets/temperature_gauge.dart';
+import 'package:saily/widgets/motortemp_gauge.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
+import 'package:saily/widgets/sog_gauge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences
@@ -36,7 +39,7 @@ late Timer send;
 FakeData fakeData = FakeData();
 
 void createDebug() async {
-  fakeData.load_parse();
+  fakeData.load_parse(cannesTrip);
   // debug send gps
   send = Timer.periodic(Duration(milliseconds: 500), (t) {
     // gps positioning
@@ -45,11 +48,11 @@ void createDebug() async {
     // gps count
     bool isFixed = Random().nextBool();
     int count = Random().nextInt(10);
-    final gpsCount = GpsCountType(isFixed: isFixed, satellitesCount: count);
+    final gpsCount = GpsDataType(isFixed: isFixed, satellitesCount: count, SOG: Random().nextDouble() * 100);
     settingsController.updateCurrentGpsCounter(gpsCount);
 
     // battery info
-    BatteryInfo batteryInfo = BatteryInfo(
+    BatteryDataType batteryInfo = BatteryDataType(
         SOC: Random().nextInt(100),
         power: Random().nextDouble(),
         temp: Random().nextDouble() * 80);
@@ -127,6 +130,31 @@ class _MyHomePageState extends State<MyHomePage> {
               var w = scaleW(context, 0.90);
               var h = scaleH(context, 0.40);
               return ExpandableTile(
+                  leftTopComponent: FloatingActionButton(
+                    heroTag: "record",
+                    onPressed: () {
+                      print("record");
+                    },
+                    backgroundColor: Colors.white,
+                    child: Text("rec"),
+                  ),
+                  rightTopComponent: FloatingActionButton(
+                    heroTag: "routes",
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RoutesView(
+                                  settingsController: settingsController,
+                                )),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.route,
+                      color: SailyBlue,
+                    ),
+                  ),
                   collapsed: SizedBox(
                       width: w,
                       height: h / 4,
@@ -136,13 +164,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              BatteryGauge(
+                              SOGGauge(
                                   settingsController: settingsController,
                                   small: true),
-                              BatteryGauge(
+                              SOCGauge(
                                   settingsController: settingsController,
                                   small: true),
-                              BatteryGauge(
+                              SOCGauge(
                                   settingsController: settingsController,
                                   small: true),
                             ]),
@@ -159,34 +187,38 @@ class _MyHomePageState extends State<MyHomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    BatteryGauge(
+                                    Container(
+                                      width: gCtxHHalf(),
+                                      child: SOGGauge(
                                         settingsController: settingsController,
-                                        small: true),
-                                    BatteryGauge(
+                                        small: false),
+                                    ),
+                                    
+                                    SOCGauge(
                                         settingsController: settingsController,
-                                        small: true),
+                                        small: false),
                                   ]),
                               Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    BatteryGauge(
+                                    SOCGauge(
                                         settingsController: settingsController,
-                                        small: true),
-                                    BatteryGauge(
+                                        small: false),
+                                    SOCGauge(
                                         settingsController: settingsController,
-                                        small: true),
+                                        small: false),
                                   ]),
                               Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    BatteryGauge(
+                                    SOCGauge(
                                         settingsController: settingsController,
-                                        small: true),
-                                    BatteryGauge(
+                                        small: false),
+                                    SOCGauge(
                                         settingsController: settingsController,
-                                        small: true),
+                                        small: false),
                                   ]),
                             ]),
                       )),

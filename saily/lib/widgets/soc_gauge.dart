@@ -11,42 +11,79 @@ import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 
-class BatteryGauge extends StatefulWidget {
-  BatteryGauge({required this.settingsController, required this.small});
+class SOCGauge extends StatefulWidget {
+  SOCGauge({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
   @override
-  State<BatteryGauge> createState() =>
-      _BatteryGaugeState(settingsController: settingsController, small: small);
+  State<SOCGauge> createState() =>
+      _SOCGaugeState(settingsController: settingsController, small: small);
 }
 
-class _BatteryGaugeState extends State<BatteryGauge> {
-  _BatteryGaugeState({required this.settingsController, required this.small}) {}
+class _SOCGaugeState extends State<SOCGauge> {
+  _SOCGaugeState({required this.settingsController, required this.small}) {}
 
-  BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
+  BatteryDataType internalBatteryInfo = BatteryDataType(SOC: 0);
   SettingsController settingsController;
-  bool small;
+  bool small = true;
+
+  Widget buildSmall(BuildContext c) {
+    return StreamBuilder(
+        stream: settingsController.getBatteryInfoStream(),
+        builder: (bc, snapshot) {
+          String spacer = "";
+          // read data
+          if (snapshot.data != null) {
+            internalBatteryInfo = snapshot.data!;
+            if(internalBatteryInfo.SOC < 10) spacer = "0";
+          }
+
+          return Container(
+            child: Column(
+              children: [
+                Text("SOC"),
+                Text(
+                  "${spacer}${internalBatteryInfo.SOC} %",
+                  style: TextStyle(fontSize: 25),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget buildBig(BuildContext c) {
+    return StreamBuilder(
+        stream: settingsController.getBatteryInfoStream(),
+        builder: (bc, snapshot) {
+          String spacer = "";
+          // read data
+          if (snapshot.data != null) {
+            internalBatteryInfo = snapshot.data!;
+            if(internalBatteryInfo.SOC < 10) spacer = "0";
+        }
+
+          return Container(
+            child: Column(
+              children: [
+                Text("SOC"),
+                Text(
+                  "${spacer}${internalBatteryInfo.SOC} %",
+                  style: TextStyle(fontSize: 38),
+                )
+              ],
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext c) {
-      return StreamBuilder(
-            stream: settingsController.getBatteryInfoStream(),
-            builder: (bc, snapshot) {
-            // read data
-              if (snapshot.data != null) {
-                internalBatteryInfo = snapshot.data!;
-              }
-
-              return Container(
-                child: Column(
-                  children: [
-                    Text("SOC"),
-                    Text("${internalBatteryInfo.SOC} %", style: TextStyle(fontSize: 38),)
-                  ],
-                ),
-              );
-            }
-      );
+    if (small) {
+      return buildSmall(c);
+    } else {
+      return buildBig(c);
+    }
   }
 }

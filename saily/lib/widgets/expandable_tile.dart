@@ -3,6 +3,7 @@ author: Giovanni Rasera
 at: Huracan Marine s.r.l.
 */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:saily/settings/settings_controller.dart';
@@ -14,6 +15,8 @@ class ExpandableTile extends StatefulWidget {
     required this.header,
     required this.expandedatstart,
     required this.settingsController,
+    required this.leftTopComponent,
+    required this.rightTopComponent,
   });
 
   Widget collapsed;
@@ -21,16 +24,20 @@ class ExpandableTile extends StatefulWidget {
   Text header;
   bool expandedatstart;
 
+  Widget leftTopComponent;
+  Widget rightTopComponent;
+
   SettingsController settingsController;
 
   @override
   State<ExpandableTile> createState() => _ExpandableTileState(
-        collapsed: collapsed,
-        expanded: expanded,
-        header: header,
-        expandedatstart: expandedatstart,
-        settingsController: settingsController,
-      );
+      collapsed: collapsed,
+      expanded: expanded,
+      header: header,
+      expandedatstart: expandedatstart,
+      settingsController: settingsController,
+      leftTopComponent: leftTopComponent,
+      rightTopComponent: rightTopComponent);
 }
 
 class _ExpandableTileState extends State<ExpandableTile> {
@@ -40,7 +47,9 @@ class _ExpandableTileState extends State<ExpandableTile> {
     required this.header,
     required this.expandedatstart,
     required this.settingsController,
-  }){
+    required this.leftTopComponent,
+    required this.rightTopComponent,
+  }) {
     nowexpanded = expandedatstart;
   }
 
@@ -50,6 +59,9 @@ class _ExpandableTileState extends State<ExpandableTile> {
   Text header;
   bool expandedatstart;
   bool nowexpanded = false;
+
+  Widget leftTopComponent;
+  Widget rightTopComponent;
 
   @override
   void initState() {
@@ -71,16 +83,23 @@ class _ExpandableTileState extends State<ExpandableTile> {
 
             return Column(
               children: [
-                GestureDetector(
-                    child: Card(
-                        child: Icon(
-                      Icons.arrow_downward,
-                      color: Colors.blue,
-                      size: 30,
-                    )),
-                    onTap: () {
-                      settingsController.setExpandedTileValue(false);
-                    }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    leftTopComponent,
+                    GestureDetector(
+                        child: Card(
+                            child: Icon(
+                          Icons.arrow_downward,
+                          color: Colors.blue,
+                          size: 30,
+                        )),
+                        onTap: () {
+                          settingsController.setExpandedTileValue(false);
+                        }),
+                    rightTopComponent
+                  ],
+                ),
                 expanded,
               ],
             );
@@ -88,13 +107,20 @@ class _ExpandableTileState extends State<ExpandableTile> {
             print("reprint not expanded");
             return Column(
               children: [
-                GestureDetector(
-                    child: Card(
-                        child: Icon(Icons.arrow_upward,
-                            color: Colors.blue, size: 40)),
-                    onTap: () {
-                      settingsController.setExpandedTileValue(true);
-                    }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    leftTopComponent,
+                    GestureDetector(
+                        child: Card(
+                            child: Icon(Icons.arrow_upward,
+                                color: Colors.blue, size: 40)),
+                        onTap: () {
+                          settingsController.setExpandedTileValue(true);
+                        }),
+                    rightTopComponent,
+                  ],
+                ),
                 collapsed
               ],
             );

@@ -1,5 +1,5 @@
-class BatteryInfo {
-  BatteryInfo(
+class BatteryDataType {
+  BatteryDataType(
       {required this.SOC,
       this.voltage = 0,
       this.current = 0,

@@ -11,8 +11,8 @@ class SettingsController extends ChangeNotifier {
   SettingsController({required this.settingsService}) {
     // create a broadcast stream
     currentBoatPositionStream = StreamController<LatLng>.broadcast();
-    currentGpsCounterStream = StreamController<GpsCountType>.broadcast();
-    currentBatteryInfoStream = StreamController<BatteryInfo>.broadcast();
+    currentGpsCounterStream = StreamController<GpsDataType>.broadcast();
+    currentBatteryInfoStream = StreamController<BatteryDataType>.broadcast();
 
     // map
     followMapRotationStream = StreamController<bool>.broadcast();
@@ -31,8 +31,8 @@ class SettingsController extends ChangeNotifier {
   ///
   late String selectedBoatdId;
   late StreamController<LatLng> currentBoatPositionStream;
-  late StreamController<GpsCountType> currentGpsCounterStream;
-  late StreamController<BatteryInfo> currentBatteryInfoStream;
+  late StreamController<GpsDataType> currentGpsCounterStream;
+  late StreamController<BatteryDataType> currentBatteryInfoStream;
 
   // map
   late StreamController<bool> followMapRotationStream;
@@ -62,7 +62,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Send here the new gps counter
   ///
-  void updateCurrentGpsCounter(GpsCountType? gps_counter) {
+  void updateCurrentGpsCounter(GpsDataType? gps_counter) {
     if (gps_counter == null) {
       debugPrint("updateCurrentGpsCounter: gps_counter is null");
       return;
@@ -74,7 +74,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Get the stream controller for gps counter
   ///
-  Stream<GpsCountType> getCurrentGpsCounterStream() {
+  Stream<GpsDataType> getCurrentGpsCounterStream() {
     return currentGpsCounterStream.stream;
   }
 
@@ -159,7 +159,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Send Battery Info
   ///
-  void updateBatteryInfo(BatteryInfo? battInfo) {
+  void updateBatteryInfo(BatteryDataType? battInfo) {
     if (battInfo == null) {
       debugPrint("updateBatteryInfo: battInfo is null");
       return;
@@ -171,7 +171,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Get
   ///
-  Stream<BatteryInfo> getBatteryInfoStream() {
+  Stream<BatteryDataType> getBatteryInfoStream() {
     return currentBatteryInfoStream.stream;
   }
 
