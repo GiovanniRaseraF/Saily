@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/widgets/microdivider_widget.dart';
 
 class ExpandableTile extends StatefulWidget {
   ExpandableTile({
@@ -87,16 +88,28 @@ class _ExpandableTileState extends State<ExpandableTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     leftTopComponent,
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
                     GestureDetector(
                         child: Card(
                             child: Icon(
                           Icons.arrow_downward,
                           color: Colors.blue,
-                          size: 30,
+                          size: 40,
                         )),
                         onTap: () {
                           settingsController.setExpandedTileValue(false);
                         }),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
                     rightTopComponent
                   ],
                 ),
@@ -111,6 +124,9 @@ class _ExpandableTileState extends State<ExpandableTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     leftTopComponent,
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
                     GestureDetector(
                         child: Card(
                             child: Icon(Icons.arrow_upward,
@@ -118,6 +134,15 @@ class _ExpandableTileState extends State<ExpandableTile> {
                         onTap: () {
                           settingsController.setExpandedTileValue(true);
                         }),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
+                    MicrodividerWidgetd(height: 0),
                     rightTopComponent,
                   ],
                 ),

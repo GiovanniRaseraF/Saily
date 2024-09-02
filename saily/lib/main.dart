@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
@@ -48,7 +49,10 @@ void createDebug() async {
     // gps count
     bool isFixed = Random().nextBool();
     int count = Random().nextInt(10);
-    final gpsCount = GpsDataType(isFixed: isFixed, satellitesCount: count, SOG: Random().nextDouble() * 100);
+    final gpsCount = GpsDataType(
+        isFixed: isFixed,
+        satellitesCount: count,
+        SOG: Random().nextDouble() * 100);
     settingsController.updateCurrentGpsCounter(gpsCount);
 
     // battery info
@@ -130,14 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
               var w = scaleW(context, 0.90);
               var h = scaleH(context, 0.40);
               return ExpandableTile(
-                  leftTopComponent: FloatingActionButton(
-                    heroTag: "record",
-                    onPressed: () {
-                      print("record");
-                    },
-                    backgroundColor: Colors.white,
-                    child: Text("rec"),
-                  ),
+                  leftTopComponent:
+                      RecordView(settingsController: settingsController),
                   rightTopComponent: FloatingActionButton(
                     heroTag: "routes",
                     onPressed: () {
@@ -157,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   collapsed: SizedBox(
                       width: w,
-                      height: h / 4,
+                      height: h / 3.5,
                       child: Card(
                         color: SailyWhite,
                         elevation: 10,
@@ -187,13 +185,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Container(
-                                      width: gCtxHHalf(),
-                                      child: SOGGauge(
+                                    SOGGauge(
                                         settingsController: settingsController,
                                         small: false),
-                                    ),
-                                    
                                     SOCGauge(
                                         settingsController: settingsController,
                                         small: false),
