@@ -24,6 +24,9 @@ class SettingsController extends ChangeNotifier {
 
     // gps recording
     currentRouteToFollow = StreamController<RouteInfo>.broadcast();
+
+    // load ids
+    listOfIds = settingsService.loadRoutesIds();
   }
 
   // service
@@ -44,6 +47,7 @@ class SettingsController extends ChangeNotifier {
 
   // gps recording
   List<LatLng> listOfRecordedPositions = [];
+  List<String> listOfIds = [];
   late StreamController<RouteInfo> currentRouteToFollow;
 
   ///
@@ -57,7 +61,7 @@ class SettingsController extends ChangeNotifier {
   /// Clear the new active route to follow
   ///
   void clearActiveRoute(){
-    RouteInfo empty = RouteInfo(name: "empty", positions: []);
+    RouteInfo empty = RouteInfo(name: "empty", positions: [], from: DateTime.now().toString(), to: DateTime.now().toString());
     currentRouteToFollow.sink.add(empty);
   }
   
@@ -86,8 +90,11 @@ class SettingsController extends ChangeNotifier {
   ///  
   /// Save recroder positions
   /// 
-  void saveRecorderPositions(String name){
-    settingsService.saveRouteInfo(name, listOfRecordedPositions);
+  void saveRecorderPositions(String name, String from){
+    String to = DateTime.now().toString();
+    settingsService.saveRouteInfo(name, listOfRecordedPositions, from, to);
+    listOfIds.add(to);
+    settingsService.saveRoutesIds(listOfIds);
   }
 
   ///
@@ -95,6 +102,16 @@ class SettingsController extends ChangeNotifier {
   ///
   RouteInfo? getRouteInfo(){
     final ret = settingsService.loadRouteInfo("CustomName");
+    return ret;
+  }
+
+  List<RouteInfo> getRoutes(){
+    List<RouteInfo> ret = [];
+
+    for(final id in listOfIds){
+      ret.add(settingsService.loadRouteInfo(id)!);
+    }
+
     return ret;
   }
 

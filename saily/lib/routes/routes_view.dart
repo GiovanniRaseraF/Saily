@@ -26,7 +26,7 @@ class _RoutesViewState extends State<RoutesView> {
 
   @override
   Widget build(BuildContext context) {
-    final route = settingsController.getRouteInfo();
+    final routes = settingsController.getRoutes();
     return Scaffold(
         appBar: AppBar(
           title: Text("Routes"),
@@ -34,18 +34,11 @@ class _RoutesViewState extends State<RoutesView> {
         ),
         backgroundColor: Colors.white,
         body: Center(child:  SingleChildScrollView(
-          child: Column(children: [
-            //BoatWidget(),
-            RouteWidget(info: route!)
-            // BoatWidget(),
-            // BoatWidget(),
-            // BoatWidget(),
-            // BoatWidget(),
-            // BoatWidget(),
-            // BoatWidget(),
-            // BoatWidget(),
-            // BoatWidget(),
-          ])),
+          child: Column(children: routes.map((e){
+            return RouteWidget(info: e);
+          }).toList()
+           
+          )),
         ));
   }
 }

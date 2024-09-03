@@ -35,6 +35,7 @@ class _RecordViewState extends State<RecordView> {
 
   SettingsController settingsController;
   bool recording = false;
+  String from = "";
 
   late Timer timeout;
   int internalTime = 0;
@@ -83,7 +84,7 @@ class _RecordViewState extends State<RecordView> {
                           timeout.cancel();
                           print("STOP recording ${internalTime} s");
                           recording = false;
-                          settingsController.saveRecorderPositions("CustomName");
+                          settingsController.saveRecorderPositions("CustomName", from);
                           settingsController.resetRecorderPositions();
                           internalTime = 0;
                           setState(() {});
@@ -105,6 +106,7 @@ class _RecordViewState extends State<RecordView> {
             );
           } else {
             internalTime = 0;
+            from = DateTime.now().toString();
             print("START recording");
             recording = true;
             timeout = Timer.periodic(Duration(seconds: 1), (t) {
