@@ -24,10 +24,10 @@ class RecordView extends StatefulWidget {
 }
 
 class _RecordViewState extends State<RecordView> {
-  _RecordViewState({required this.settingsController}){
+  _RecordViewState({required this.settingsController}) {
     mapPositioning = settingsController.getCurrentBoatPositionStream();
-    mapPositioning!.listen((data){
-      if (recording){
+    mapPositioning!.listen((data) {
+      if (recording) {
         settingsController.addPositionToRecordedPositions(data);
       }
     });
@@ -58,52 +58,67 @@ class _RecordViewState extends State<RecordView> {
         onPressed: () {
           if (recording) {
             String selectedName = "";
+            
             // create a dialog
             showDialog<String>(
               context: context,
               builder: (BuildContext context) => Dialog(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Save Route',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Name',
-                          ),
-                          onChanged: (value){
-                            selectedName = value;
-                          },
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Save Route',
+                          style: TextStyle(fontSize: 20),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          timeout.cancel();
-                          print("STOP recording ${internalTime} s");
-                          recording = false;
-                          settingsController.saveRecorderPositions(selectedName, from);
-                          settingsController.resetRecorderPositions();
-                          internalTime = 0;
-                          setState(() {});
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Save'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          print("CONTINUE recording");
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Continue'),
-                      ),
-                    ],
+                        Divider(color: Colors.transparent,),
+                        SizedBox(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Name',
+                            ),
+                            onChanged: (value) {
+                              selectedName = value;
+                            },
+                          ),
+                        ),
+                        Divider(color: Colors.transparent,),
+                        SizedBox(
+                            width: gCtxW() * 0.9,
+                            child: FloatingActionButton(
+                                heroTag: "add_new_boat",
+                                child: Text(
+                                  "Save",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: SailyBlue,
+                                elevation: 10,
+                                onPressed: () {
+                                  timeout.cancel();
+                                  print("STOP recording ${internalTime} s");
+                                  recording = false;
+                                  settingsController.saveRecorderPositions(
+                                      selectedName, from);
+                                  settingsController.resetRecorderPositions();
+                                  internalTime = 0;
+                                  setState(() {});
+                                  Navigator.pop(context);
+                                })),
+                        Divider(color: Colors.transparent,),
+                        Divider(color: Colors.transparent,),
+                        TextButton(
+                          onPressed: () {
+                            print("CONTINUE recording");
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Continue'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

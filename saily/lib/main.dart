@@ -28,10 +28,9 @@ import 'package:saily/map/map_view.dart';
 import 'package:saily/widgets/sog_gauge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-late SharedPreferences
-    sharedPreferences; //= await SharedPreferences.getInstance();
-late SettingsController settingsController; // = SettingsController();
-late SettingsService settingsService; // = SettingsService(sharePreferences: );
+late SharedPreferences sharedPreferences; 
+late SettingsController settingsController;
+late SettingsService settingsService; 
 
 // expanded at start
 late bool expandedatstart;
@@ -80,7 +79,7 @@ void main() async {
   debugPrint(Env.str());
 
   // load settings
-  expandedatstart = false; //= await settingsController.getExpandTileValue();
+  expandedatstart = await settingsController.getExpandTileValue();
 
   debugPrint("$expandedatstart");
 
@@ -223,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               )),
                     );
                   },
-                  mini: false,
+                  mini: true,
                   backgroundColor: SailyWhite,
                   elevation: 100,
                   child: Icon(color: SailyGrey, Icons.settings),
@@ -241,7 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 settingsController: settingsController)),
                       );
                     },
-                    mini: false,
+                    mini: true,
                     backgroundColor: SailyWhite,
                     elevation: 100,
                     child: Icon(color: SailyBlue, Icons.account_box_outlined)),
@@ -250,6 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 FloatingActionButton(
                   heroTag: "routes",
+                  mini: true,
                   onPressed: () {
                     Navigator.push(
                       context,

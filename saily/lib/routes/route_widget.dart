@@ -12,7 +12,7 @@ class RouteWidget extends StatelessWidget {
   RouteWidget({required this.info, required this.onDelete});
   RouteInfo info;
 
-  void Function() onDelete = (){};
+  void Function() onDelete = () {};
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class RouteWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-          margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
                       color: Colors.white,
                       height: 150,
                       width: gCtxW() * 0.35,
@@ -34,7 +34,7 @@ class RouteWidget extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0)),
-                                // Dispaly the preview map with the route 
+                            // Dispaly the preview map with the route
                             child: FlutterMap(
                                 options: MapOptions(
                                   interactionOptions: const InteractionOptions(
@@ -62,7 +62,7 @@ class RouteWidget extends StatelessWidget {
                                       ])
                                 ])),
                       )),
-                  
+
                   // Dispay the rest of the info
                   SizedBox(
                     height: 150,
@@ -76,15 +76,20 @@ class RouteWidget extends StatelessWidget {
                             child: Column(
                               children: [
                                 Row(children: [Text(info.name)]),
-                                Row(children: [Text("date: ${info.from.split(" ")[0]}")]),
-                                Row(children: [Text("time: ${info.from.split(" ")[1].split(".")[0]}")]),
+                                Row(children: [
+                                  Text("date: ${info.from.split(" ")[0]}")
+                                ]),
+                                Row(children: [
+                                  Text(
+                                      "time: ${info.from.split(" ")[1].split(".")[0]}")
+                                ]),
                                 Divider(),
                                 Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       FloatingActionButton(
-                                        heroTag: "view_route_"+info.id,
+                                        heroTag: "view_route_" + info.id,
                                         elevation: 2,
                                         mini: true,
                                         backgroundColor: Colors.white,
@@ -99,7 +104,7 @@ class RouteWidget extends StatelessWidget {
                                         ),
                                       ),
                                       FloatingActionButton(
-                                        heroTag: "share_route_"+info.id,
+                                        heroTag: "share_route_" + info.id,
                                         elevation: 2,
                                         mini: true,
                                         backgroundColor: Colors.white,
@@ -112,15 +117,94 @@ class RouteWidget extends StatelessWidget {
                                         ),
                                       ),
                                       FloatingActionButton(
-                                        heroTag: "delete_route_"+info.id,
+                                        heroTag: "delete_route_" + info.id,
                                         elevation: 2,
                                         mini: true,
                                         backgroundColor: Colors.white,
                                         onPressed: () {
+                                          // create a dialog
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                Dialog(
+                                              child: Container(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Delete: ${info.name} ?',
+                                                        style: TextStyle(
+                                                            fontSize: 15),
+                                                      ),
+                                                     Divider(color: Colors.transparent,),
+                                                      Divider(
+                                                        color:
+                                                            Colors.transparent,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        children: [
 
-                                          print("Delete route");
-                                          settingsController.deleteRoute(info.id);
-                                          onDelete();
+                                                          SizedBox(
+                                                          width: gCtxW() * 0.3,
+                                                          child:
+                                                              FloatingActionButton(
+                                                                  heroTag:
+                                                                      "confirm_delete_${info.id}",
+                                                                  child: Text(
+                                                                    "Yes",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      Colors.red,
+                                                                  elevation: 10,
+                                                                  onPressed:
+                                                                      () {
+                                                                    print(
+                                                                        "Delete route");
+                                                                    settingsController
+                                                                        .deleteRoute(
+                                                                            info.id);
+                                                                    onDelete();
+                                                                    Navigator.pop(context);
+                                                                  })),
+                                                                  SizedBox(
+                                                          width: gCtxW() * 0.3,
+                                                          child:
+                                                              FloatingActionButton(
+                                                                  heroTag:
+                                                                      "decline_delete_${info.id}",
+                                                                  child: Text(
+                                                                    "NO",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      SailyBlue,
+                                                                  elevation: 10,
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(context);
+                                                                  })),
+                                                        ],
+                                                      ),
+                                                     Divider(color: Colors.transparent,) 
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
                                         },
                                         child: Icon(
                                           Icons.delete,
