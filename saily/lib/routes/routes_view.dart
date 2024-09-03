@@ -26,6 +26,7 @@ class _RoutesViewState extends State<RoutesView> {
 
   @override
   Widget build(BuildContext context) {
+    final route = settingsController.getRouteInfo();
     return Scaffold(
         appBar: AppBar(
           title: Text("Routes"),
@@ -35,7 +36,7 @@ class _RoutesViewState extends State<RoutesView> {
         body: Center(child:  SingleChildScrollView(
           child: Column(children: [
             //BoatWidget(),
-            RouteWidget()
+            RouteWidget(info: route!)
             // BoatWidget(),
             // BoatWidget(),
             // BoatWidget(),

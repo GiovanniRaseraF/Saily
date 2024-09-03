@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -22,6 +23,7 @@ class SettingsController extends ChangeNotifier {
     // current off set value
 
     // gps recording
+    currentRouteToFollow = StreamController<RouteInfo>.broadcast();
   }
 
   // service
@@ -42,6 +44,26 @@ class SettingsController extends ChangeNotifier {
 
   // gps recording
   List<LatLng> listOfRecordedPositions = [];
+  late StreamController<RouteInfo> currentRouteToFollow;
+
+  ///
+  /// Set the new active route to follow
+  ///
+  void setActiveRoute(RouteInfo routeToFollow){
+    currentRouteToFollow.sink.add(routeToFollow);
+  }
+
+  ///
+  /// Clear the new active route to follow
+  ///
+  void clearActiveRoute(){
+    RouteInfo empty = RouteInfo(name: "empty", positions: []);
+    currentRouteToFollow.sink.add(empty);
+  }
+  
+  Stream<RouteInfo> getActiveRouteStream() {
+    return currentRouteToFollow.stream;
+  }
 
   ///
   /// Record new postion
@@ -65,9 +87,16 @@ class SettingsController extends ChangeNotifier {
   /// Save recroder positions
   /// 
   void saveRecorderPositions(String name){
-    settingsService.saveRecorderPositions(name, listOfRecordedPositions);
+    settingsService.saveRouteInfo(name, listOfRecordedPositions);
   }
-  
+
+  ///
+  /// Get route info
+  ///
+  RouteInfo? getRouteInfo(){
+    final ret = settingsService.loadRouteInfo("CustomName");
+    return ret;
+  }
 
   ///
   /// Send new position to the broadcast stream controller

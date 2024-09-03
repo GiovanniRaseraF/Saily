@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/route_info.dart';
@@ -13,11 +15,38 @@ class SettingsService extends CacheProvider {
   ///
   /// Save the route info
   ///
-  void saveRecorderPositions(String name, List<LatLng> positions) {
+  void saveRouteInfo(String name, List<LatLng> positions) {
     final toSave = RouteInfo(name: name, positions: positions);
 
     setString(name, toSave.toJSONString());
     print("Saved: ${name}");
+  }
+
+  ///
+  /// Load the route info
+  ///
+  RouteInfo? loadRouteInfo(String name){
+    String? recordInJSON = getString(name);
+    if (recordInJSON == null){
+      return null;
+    }else{
+      try{
+        final decoded = jsonDecode(recordInJSON);
+        final pos = decoded["positions"] as List<dynamic>;
+
+        // load positioning
+        List<LatLng> loadedPos = [];
+        for(final p in pos){
+          var ln = LatLng(p["lat"], p["lon"]);
+          loadedPos.add(ln);
+        }
+
+        // return new positioning
+        return RouteInfo(name: decoded["name"], positions: loadedPos);
+      } on Exception{
+        return null;
+      }
+    }
   }
 
   @override

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:saily/datatypes/route_info.dart';
+import 'package:saily/main.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 
 class RouteWidget extends StatelessWidget {
+  RouteWidget({required this.info});
+  RouteInfo info;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -38,53 +43,55 @@ class RouteWidget extends StatelessWidget {
                             elevation: 0,
                             child: Column(
                               children: [
-                                Row(children: [Text("Giro generico")]),
+                                Row(children: [Text(info.name)]),
                                 Row(children: [Text("from: 2024/09/10-12:30")]),
                                 Row(children: [Text("to: 2024/09/10-7:00")]),
                                 Divider(),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                  FloatingActionButton(
-                                    heroTag: "view_route_",
-                                    elevation: 2,
-                                    mini: true,
-                                    backgroundColor: Colors.white,
-                                    onPressed: () {
-                                      print("View Route");
-                                    },
-                                    child: Icon(
-                                      Icons.visibility,
-                                      color: SailyBlue,
-                                    ),
-                                  ),
-                                  FloatingActionButton(
-                                    heroTag: "share_route_",
-                                    elevation: 2,
-                                    mini: true,
-                                    backgroundColor: Colors.white,
-                                    onPressed: () {
-                                      print("Sharare Route");
-                                    },
-                                    child: Icon(
-                                      Icons.share,
-                                      color: SailyBlue,
-                                    ),
-                                  ),
-                                  FloatingActionButton(
-                                    heroTag: "delete_route_",
-                                    elevation: 2,
-                                    mini: true,
-                                    backgroundColor: Colors.white,
-                                    onPressed: () {
-                                      print("Delete route");
-                                    },
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ])
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      FloatingActionButton(
+                                        heroTag: "view_route_",
+                                        elevation: 2,
+                                        mini: true,
+                                        backgroundColor: Colors.white,
+                                        onPressed: () {
+                                            settingsController.setActiveRoute(info);
+                                            Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.visibility,
+                                          color: SailyBlue,
+                                        ),
+                                      ),
+                                      FloatingActionButton(
+                                        heroTag: "share_route_",
+                                        elevation: 2,
+                                        mini: true,
+                                        backgroundColor: Colors.white,
+                                        onPressed: () {
+                                          print("Sharare Route");
+                                        },
+                                        child: Icon(
+                                          Icons.share,
+                                          color: SailyBlue,
+                                        ),
+                                      ),
+                                      FloatingActionButton(
+                                        heroTag: "delete_route_",
+                                        elevation: 2,
+                                        mini: true,
+                                        backgroundColor: Colors.white,
+                                        onPressed: () {
+                                          print("Delete route");
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ])
                               ],
                             ))),
                   ),

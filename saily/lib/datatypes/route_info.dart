@@ -7,6 +7,8 @@ class RouteInfo {
   List<LatLng> positions = [];
 
   String listToJSONString(List<LatLng> pos) {
+    if (pos.length == 0) return "";
+
     String ret = "";
     for (final p in pos) {
       ret += """{"lat": ${p.latitude}, "lon": ${p.longitude}},""";
