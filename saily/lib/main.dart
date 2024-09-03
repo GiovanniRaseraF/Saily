@@ -134,25 +134,6 @@ class _MyHomePageState extends State<MyHomePage> {
               var w = scaleW(context, 0.90);
               var h = scaleH(context, 0.40);
               return ExpandableTile(
-                  leftTopComponent:
-                      RecordView(settingsController: settingsController),
-                  rightTopComponent: FloatingActionButton(
-                    heroTag: "routes",
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RoutesView(
-                                  settingsController: settingsController,
-                                )),
-                      );
-                    },
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.route,
-                      color: SailyBlue,
-                    ),
-                  ),
                   collapsed: SizedBox(
                       width: w,
                       height: h / 3.5,
@@ -267,8 +248,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: scaleH(context, 0.05),
                 ),
+                FloatingActionButton(
+                  heroTag: "routes",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RoutesView(
+                                settingsController: settingsController,
+                              )),
+                    );
+                  },
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.route,
+                    color: SailyBlue,
+                  ),
+                ),
               ]),
         ),
+        Positioned(
+            top: scaleH(context, 0.05),
+            left: scaleW(context, 0.04),
+            child: RecordView(settingsController: settingsController)),
       ]),
     );
   }

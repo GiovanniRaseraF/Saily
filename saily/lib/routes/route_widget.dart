@@ -26,9 +26,10 @@ class RouteWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+          margin: EdgeInsets.all(10),
                       color: Colors.white,
                       height: 150,
-                      width: gCtxW() * 0.4,
+                      width: gCtxW() * 0.35,
                       child: Container(
                         child: ClipRRect(
                             borderRadius:
@@ -116,7 +117,7 @@ class RouteWidget extends StatelessWidget {
                                         mini: true,
                                         backgroundColor: Colors.white,
                                         onPressed: () {
-                                          
+
                                           print("Delete route");
                                           settingsController.deleteRoute(info.id);
                                           onDelete();

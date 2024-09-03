@@ -16,17 +16,12 @@ class ExpandableTile extends StatefulWidget {
     required this.header,
     required this.expandedatstart,
     required this.settingsController,
-    required this.leftTopComponent,
-    required this.rightTopComponent,
   });
 
   Widget collapsed;
   Widget expanded;
   Text header;
   bool expandedatstart;
-
-  Widget leftTopComponent;
-  Widget rightTopComponent;
 
   SettingsController settingsController;
 
@@ -37,8 +32,7 @@ class ExpandableTile extends StatefulWidget {
       header: header,
       expandedatstart: expandedatstart,
       settingsController: settingsController,
-      leftTopComponent: leftTopComponent,
-      rightTopComponent: rightTopComponent);
+      );
 }
 
 class _ExpandableTileState extends State<ExpandableTile> {
@@ -48,8 +42,6 @@ class _ExpandableTileState extends State<ExpandableTile> {
     required this.header,
     required this.expandedatstart,
     required this.settingsController,
-    required this.leftTopComponent,
-    required this.rightTopComponent,
   }) {
     nowexpanded = expandedatstart;
   }
@@ -60,9 +52,6 @@ class _ExpandableTileState extends State<ExpandableTile> {
   Text header;
   bool expandedatstart;
   bool nowexpanded = false;
-
-  Widget leftTopComponent;
-  Widget rightTopComponent;
 
   @override
   void initState() {
@@ -87,10 +76,7 @@ class _ExpandableTileState extends State<ExpandableTile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    leftTopComponent,
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
+                    
                     GestureDetector(
                         child: Card(
                             child: Icon(
@@ -101,16 +87,6 @@ class _ExpandableTileState extends State<ExpandableTile> {
                         onTap: () {
                           settingsController.setExpandedTileValue(false);
                         }),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    rightTopComponent
                   ],
                 ),
                 expanded,
@@ -123,10 +99,6 @@ class _ExpandableTileState extends State<ExpandableTile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    leftTopComponent,
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
                     GestureDetector(
                         child: Card(
                             child: Icon(Icons.arrow_upward,
@@ -134,16 +106,6 @@ class _ExpandableTileState extends State<ExpandableTile> {
                         onTap: () {
                           settingsController.setExpandedTileValue(true);
                         }),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    MicrodividerWidgetd(height: 0),
-                    rightTopComponent,
                   ],
                 ),
                 collapsed
