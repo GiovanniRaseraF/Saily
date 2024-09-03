@@ -27,6 +27,9 @@ class SettingsController extends ChangeNotifier {
 
     // load ids
     listOfIds = settingsService.loadRoutesIds();
+
+    // logged
+    logged = false;
   }
 
   // service
@@ -49,6 +52,25 @@ class SettingsController extends ChangeNotifier {
   List<LatLng> listOfRecordedPositions = [];
   List<String> listOfIds = [];
   late StreamController<RouteInfo> currentRouteToFollow;
+
+  // logged
+  bool logged = false;
+
+  void setLogged(bool value){
+    logged = value;
+  }
+
+  void logout(){
+    logged = false;
+  }
+
+  void login(){
+    logged = true;
+  }
+
+  bool isLogged(){
+    return logged;
+  }
 
   ///
   /// Set the new active route to follow

@@ -31,5 +31,6 @@ flutter:
   assets:
     - images/boat.jpeg
     - images/map.png
+    - images/water.png
 
   

@@ -7,20 +7,24 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 
 class UserView extends StatefulWidget {
-  UserView({super.key, required this.settingsController});
+  UserView({super.key, required this.settingsController, required this.onLogout});
 
   final String title = "user";
   SettingsController settingsController;
 
+  void Function() onLogout;
+
   @override
   State<UserView> createState() =>
-      _UserViewState(settingsController: settingsController);
+      _UserViewState(settingsController: settingsController, onLogout: onLogout);
 }
 
 class _UserViewState extends State<UserView> {
-  _UserViewState({required this.settingsController});
+  _UserViewState({required this.settingsController, required this.onLogout});
 
   SettingsController settingsController;
+
+  void Function() onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,9 @@ class _UserViewState extends State<UserView> {
                               backgroundColor: SailyBlue,
                               elevation: 10,
                               onPressed: () {
+                                settingsController.logout();
+                                Navigator.pop(context);
+                                onLogout();
                                 print("Log out from account");
                               }))
                     ],

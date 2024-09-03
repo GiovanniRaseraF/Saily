@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/login/login_view.dart';
 import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
 import 'package:saily/tracks/gpx_trips.dart';
@@ -87,6 +88,7 @@ void main() async {
 
   debugPrint("$expandedatstart");
 
+
   runApp(MyApp());
 }
 
@@ -95,6 +97,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setGlobalContext(context);
     return MaterialApp(
       title: 'Saily',
       debugShowCheckedModeBanner: false,
@@ -121,6 +124,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     setGlobalContext(context);
+
+    if(!settingsController.isLogged()){
+      return LoginView(settingsController: settingsController, onLogin : (){
+        setState(() {});
+      });
+    }
+
     return Scaffold(
       body: Stack(children: [
         // Map
@@ -246,7 +256,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => UserView(
-                                settingsController: settingsController)),
+                                settingsController: settingsController,
+                                onLogout: (){setState(() {
+                                });},
+                                )),
                       );
                     },
                     mini: true,
