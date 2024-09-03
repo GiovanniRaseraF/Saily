@@ -5,9 +5,14 @@ import 'package:saily/main.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 
+///
+/// This widget allows to view a single route and select it
+///
 class RouteWidget extends StatelessWidget {
-  RouteWidget({required this.info});
+  RouteWidget({required this.info, required this.onDelete});
   RouteInfo info;
+
+  void Function() onDelete = (){};
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,7 @@ class RouteWidget extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0)),
+                                // Dispaly the preview map with the route 
                             child: FlutterMap(
                                 options: MapOptions(
                                   interactionOptions: const InteractionOptions(
@@ -55,6 +61,8 @@ class RouteWidget extends StatelessWidget {
                                       ])
                                 ])),
                       )),
+                  
+                  // Dispay the rest of the info
                   SizedBox(
                     height: 150,
                     width: gCtxW() * 0.45,
@@ -75,7 +83,7 @@ class RouteWidget extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       FloatingActionButton(
-                                        heroTag: "view_route_",
+                                        heroTag: "view_route_"+info.id,
                                         elevation: 2,
                                         mini: true,
                                         backgroundColor: Colors.white,
@@ -90,7 +98,7 @@ class RouteWidget extends StatelessWidget {
                                         ),
                                       ),
                                       FloatingActionButton(
-                                        heroTag: "share_route_",
+                                        heroTag: "share_route_"+info.id,
                                         elevation: 2,
                                         mini: true,
                                         backgroundColor: Colors.white,
@@ -103,12 +111,15 @@ class RouteWidget extends StatelessWidget {
                                         ),
                                       ),
                                       FloatingActionButton(
-                                        heroTag: "delete_route_",
+                                        heroTag: "delete_route_"+info.id,
                                         elevation: 2,
                                         mini: true,
                                         backgroundColor: Colors.white,
                                         onPressed: () {
+                                          
                                           print("Delete route");
+                                          settingsController.deleteRoute(info.id);
+                                          onDelete();
                                         },
                                         child: Icon(
                                           Icons.delete,

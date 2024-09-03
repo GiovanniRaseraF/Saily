@@ -92,16 +92,27 @@ class SettingsController extends ChangeNotifier {
   /// 
   void saveRecorderPositions(String name, String from){
     String to = DateTime.now().toString();
-    settingsService.saveRouteInfo(name, listOfRecordedPositions, from, to);
+
+    if(name.trim() == ""){
+      name = "GenericRoute";
+    }
+
+    settingsService.saveRouteInfo(name.trim(), listOfRecordedPositions, from, to);
     listOfIds.add(to);
     settingsService.saveRoutesIds(listOfIds);
+  }
+
+  void deleteRoute(String id){
+    listOfIds = listOfIds.where((value){ return value != id;}).toList();
+    settingsService.saveRoutesIds(listOfIds);
+    listOfIds = settingsService.loadRoutesIds();
   }
 
   ///
   /// Get route info
   ///
-  RouteInfo? getRouteInfo(){
-    final ret = settingsService.loadRouteInfo("CustomName");
+  RouteInfo? getRouteInfo(String id){
+    final ret = settingsService.loadRouteInfo(id);
     return ret;
   }
 

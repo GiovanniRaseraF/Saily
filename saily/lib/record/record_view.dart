@@ -57,6 +57,7 @@ class _RecordViewState extends State<RecordView> {
       child: FloatingActionButton(
         onPressed: () {
           if (recording) {
+            String selectedName = "";
             // create a dialog
             showDialog<String>(
               context: context,
@@ -77,6 +78,9 @@ class _RecordViewState extends State<RecordView> {
                             border: OutlineInputBorder(),
                             hintText: 'Name',
                           ),
+                          onChanged: (value){
+                            selectedName = value;
+                          },
                         ),
                       ),
                       TextButton(
@@ -84,7 +88,7 @@ class _RecordViewState extends State<RecordView> {
                           timeout.cancel();
                           print("STOP recording ${internalTime} s");
                           recording = false;
-                          settingsController.saveRecorderPositions("CustomName", from);
+                          settingsController.saveRecorderPositions(selectedName, from);
                           settingsController.resetRecorderPositions();
                           internalTime = 0;
                           setState(() {});

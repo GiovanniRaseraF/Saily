@@ -26,19 +26,28 @@ class _RoutesViewState extends State<RoutesView> {
 
   @override
   Widget build(BuildContext context) {
-    final routes = settingsController.getRoutes();
+    var routes = settingsController.getRoutes();
+    routes.sort((a, b) {
+      return b.from.compareTo(a.from);
+    });
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Routes"),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
-        body: Center(child:  SingleChildScrollView(
-          child: Column(children: routes.map((e){
-            return RouteWidget(info: e);
-          }).toList()
-           
-          )),
+        body: Center(
+          child: SingleChildScrollView(
+              child: Column(
+                  children: routes.map((e) {
+            return RouteWidget(
+              info: e,
+              onDelete: () {
+                setState(() {});
+              },
+            );
+          }).toList())),
         ));
   }
 }
