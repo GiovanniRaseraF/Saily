@@ -81,8 +81,6 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
-
     // close stream
     if (mapFakeOffsetStreamSub != null) {
       mapFakeOffsetStreamSub!.cancel();
@@ -94,15 +92,19 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
   static const _finishedId = 'AnimatedMapController#MoveFinished';
 
   void setFakeOffset(double newV) {
+    if(mounted){
     setState(() {
       fakeOffset = newV;
     });
+    }
+    
   }
 
   void resetFakeOffset() {
-    setState(() {
-      fakeOffset = defaultFakeOffset;
-    });
+    if(mounted)
+      setState(() {
+        fakeOffset = defaultFakeOffset;
+      });
   }
 
   // move map
