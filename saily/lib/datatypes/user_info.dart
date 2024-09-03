@@ -1,7 +1,9 @@
 import 'package:saily/datatypes/boat_info.dart';
 
 class UserInfo {
+  UserInfo({required this.email, required this.username, required this.password});
   String username = "";
+  String email = "";
   String password = "";
 
   List<BoatInfo> boats = [];
@@ -11,6 +13,12 @@ class UserInfo {
   }
 
   String toJSONString(){
-    return "";
+    return """{
+      "username" : "$username",
+      "email" : "$email",
+      "password" : "$password",
+      "boats" : []
+    }
+    """;
   }
 }

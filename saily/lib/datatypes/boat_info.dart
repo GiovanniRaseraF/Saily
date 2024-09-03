@@ -19,6 +19,7 @@ class BoatInfo {
       return null; 
     }
   }
+  
   // From the json dynamic
   static BoatInfo? fromJSONDynamic(dynamic json){
     try{
