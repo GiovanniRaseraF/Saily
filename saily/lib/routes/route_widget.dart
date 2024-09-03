@@ -12,6 +12,7 @@ class RouteWidget extends StatelessWidget {
   RouteWidget({required this.info, required this.onDelete});
   RouteInfo info;
 
+  // Function used for passing a onDelete callback
   void Function() onDelete = () {};
 
   @override
@@ -109,7 +110,7 @@ class RouteWidget extends StatelessWidget {
                                         mini: true,
                                         backgroundColor: Colors.white,
                                         onPressed: () {
-                                          print("Sharare Route");
+                                          print("Share Route");
                                         },
                                         child: Icon(
                                           Icons.share,

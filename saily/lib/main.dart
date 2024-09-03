@@ -18,6 +18,8 @@ import 'package:saily/settings/settings_view.dart';
 import 'package:saily/tracks/fake_data.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
+import 'package:saily/widgets/fuel_gauge.dart';
+import 'package:saily/widgets/power_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
 import 'package:saily/widgets/gps_counter.dart';
@@ -26,6 +28,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
 import 'package:saily/widgets/sog_gauge.dart';
+import 'package:saily/widgets/voltage_gauge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedPreferences; 
@@ -57,6 +60,7 @@ void createDebug() async {
     // battery info
     BatteryInfo batteryInfo = BatteryInfo(
         SOC: Random().nextInt(100),
+        voltage: Random().nextDouble() * 80,
         power: Random().nextDouble(),
         temp: Random().nextDouble() * 80);
     settingsController.updateBatteryInfo(batteryInfo);
@@ -79,7 +83,7 @@ void main() async {
   debugPrint(Env.str());
 
   // load settings
-  expandedatstart = await settingsController.getExpandTileValue();
+  expandedatstart = false;
 
   debugPrint("$expandedatstart");
 
@@ -139,19 +143,24 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Card(
                         color: SailyWhite,
                         elevation: 10,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SOGGauge(
-                                  settingsController: settingsController,
-                                  small: true),
-                              SOCGauge(
-                                  settingsController: settingsController,
-                                  small: true),
-                              SOCGauge(
-                                  settingsController: settingsController,
-                                  small: true),
-                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SOGGauge(
+                                      settingsController: settingsController,
+                                      small: true),
+                                  PowerGauge(
+                                      settingsController: settingsController,
+                                      small: true),
+                                  FuelGauge(
+                                      settingsController: settingsController,
+                                      small: true),
+                                ]),
+                          ],
+                        ),
                       )),
                   expanded: SizedBox(
                       width: w,
@@ -176,10 +185,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    SOCGauge(
+                                    PowerGauge(
                                         settingsController: settingsController,
                                         small: false),
-                                    SOCGauge(
+                                    FuelGauge(
                                         settingsController: settingsController,
                                         small: false),
                                   ]),
@@ -187,10 +196,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    SOCGauge(
+                                    VoltageGauge(
                                         settingsController: settingsController,
                                         small: false),
-                                    SOCGauge(
+                                    MotorTempGauge(
                                         settingsController: settingsController,
                                         small: false),
                                   ]),

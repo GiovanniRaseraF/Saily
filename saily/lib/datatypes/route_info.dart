@@ -24,15 +24,15 @@ class RouteInfo {
   String toJSONString() {
     final p = listToJSONString(positions);
     String ret = """{
-    "id" : "$to",
-    "name" : "${name}",
-    "from" : "$from",
-    "to" : "$to",
-    "positions" : [
-      ${p}
-    ]
+      "id" : "$to",
+      "name" : "${name}",
+      "from" : "$from",
+      "to" : "$to",
+      "positions" : [
+        ${p}
+      ]
     } 
-    """;
+      """;
     return ret;
   }
 }

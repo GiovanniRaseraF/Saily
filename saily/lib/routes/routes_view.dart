@@ -1,11 +1,9 @@
-// Actual app
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/routes/route_widget.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
-import 'package:saily/utils/utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 
 class RoutesView extends StatefulWidget {
@@ -31,6 +29,7 @@ class _RoutesViewState extends State<RoutesView> {
       return b.from.compareTo(a.from);
     });
 
+    // Create the view with the sorted routes
     return Scaffold(
         appBar: AppBar(
           title: Text("Routes"),
@@ -41,6 +40,7 @@ class _RoutesViewState extends State<RoutesView> {
           child: SingleChildScrollView(
               child: Column(
                   children: routes.map((e) {
+            // map routes with the actual view
             return RouteWidget(
               info: e,
               onDelete: () {

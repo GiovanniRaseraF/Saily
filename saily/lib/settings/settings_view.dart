@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/settings/settings_controller.dart';
-import 'package:saily/utils/utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 
 class SettingsView extends StatefulWidget {

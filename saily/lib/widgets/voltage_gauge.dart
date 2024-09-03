@@ -11,18 +11,18 @@ import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 
-class MotorTempGauge extends StatefulWidget {
-  MotorTempGauge({required this.settingsController, required this.small});
+class VoltageGauge extends StatefulWidget {
+  VoltageGauge({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
   @override
-  State<MotorTempGauge> createState() =>
-      _MotorTempGaugeState(settingsController: settingsController, small: small);
+  State<VoltageGauge> createState() =>
+      _VoltageGaugeState(settingsController: settingsController, small: small);
 }
 
-class _MotorTempGaugeState extends State<MotorTempGauge> {
-  _MotorTempGaugeState({required this.settingsController, required this.small}) {}
+class _VoltageGaugeState extends State<VoltageGauge> {
+  _VoltageGaugeState({required this.settingsController, required this.small}) {}
 
   BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
   SettingsController settingsController;
@@ -36,15 +36,15 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.temp < 10) spacer = "0";
+            if(internalBatteryInfo.voltage < 10) spacer = "0";
           }
 
           return Container(
             child: Column(
               children: [
-                Text("Motor Temp: C"),
+                Text("Voltage"),
                 Text(
-                  "${spacer}${internalBatteryInfo.temp.toStringAsFixed(1)}",
+                  "${spacer}${internalBatteryInfo.voltage.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 25),
                 )
               ],
@@ -61,15 +61,15 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.temp < 10) spacer = "0";
+            if(internalBatteryInfo.voltage < 10) spacer = "0";
         }
 
           return Container(
             child: Column(
               children: [
-                Text("Motor Temp: C"),
+                Text("Voltage"),
                 Text(
-                  "${spacer}${internalBatteryInfo.temp.toStringAsFixed(1)}",
+                  "${spacer}${internalBatteryInfo.voltage.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 38),
                 )
               ],
