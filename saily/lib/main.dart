@@ -10,7 +10,7 @@ import 'package:saily/routes/routes_view.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
 import 'package:saily/datatypes/battery_info.dart';
-import 'package:saily/datatypes/gps_types.dart';
+import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/env.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/settings/settings_service.dart';
@@ -49,14 +49,14 @@ void createDebug() async {
     // gps count
     bool isFixed = Random().nextBool();
     int count = Random().nextInt(10);
-    final gpsCount = GpsDataType(
+    final gpsCount = GpsInfo(
         isFixed: isFixed,
         satellitesCount: count,
         SOG: Random().nextDouble() * 100);
     settingsController.updateCurrentGpsCounter(gpsCount);
 
     // battery info
-    BatteryDataType batteryInfo = BatteryDataType(
+    BatteryInfo batteryInfo = BatteryInfo(
         SOC: Random().nextInt(100),
         power: Random().nextDouble(),
         temp: Random().nextDouble() * 80);

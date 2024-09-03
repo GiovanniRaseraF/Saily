@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:latlong2/latlong.dart';
 
 class SettingsService extends CacheProvider {
   SettingsService({required this.sharePreferences});
 
   SharedPreferences sharePreferences;
+
+  ///
+  /// Save the route info
+  ///
+  void saveRecorderPositions(String name, List<LatLng> positions) {
+    final toSave = RouteInfo(name: name, positions: positions);
+
+    setString(name, toSave.toJSONString());
+    print("Saved: ${name}");
+  }
 
   @override
   bool containsKey(String key) {

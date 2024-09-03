@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/battery_info.dart';
-import 'package:saily/datatypes/gps_types.dart';
+import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
@@ -29,7 +29,7 @@ class _SOGGaugeState extends State<SOGGauge> {
   SettingsController settingsController;
   bool small;
 
-  GpsDataType gpsData = GpsDataType(isFixed: false, satellitesCount: 0, SOG: 0);
+  GpsInfo gpsData = GpsInfo(isFixed: false, satellitesCount: 0, SOG: 0);
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(

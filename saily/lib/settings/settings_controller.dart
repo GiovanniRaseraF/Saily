@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/battery_info.dart';
-import 'package:saily/datatypes/gps_types.dart';
+import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -11,8 +11,8 @@ class SettingsController extends ChangeNotifier {
   SettingsController({required this.settingsService}) {
     // create a broadcast stream
     currentBoatPositionStream = StreamController<LatLng>.broadcast();
-    currentGpsCounterStream = StreamController<GpsDataType>.broadcast();
-    currentBatteryInfoStream = StreamController<BatteryDataType>.broadcast();
+    currentGpsCounterStream = StreamController<GpsInfo>.broadcast();
+    currentBatteryInfoStream = StreamController<BatteryInfo>.broadcast();
 
     // map
     followMapRotationStream = StreamController<bool>.broadcast();
@@ -21,6 +21,7 @@ class SettingsController extends ChangeNotifier {
 
     // current off set value
 
+    // gps recording
   }
 
   // service
@@ -31,13 +32,42 @@ class SettingsController extends ChangeNotifier {
   ///
   late String selectedBoatdId;
   late StreamController<LatLng> currentBoatPositionStream;
-  late StreamController<GpsDataType> currentGpsCounterStream;
-  late StreamController<BatteryDataType> currentBatteryInfoStream;
+  late StreamController<GpsInfo> currentGpsCounterStream;
+  late StreamController<BatteryInfo> currentBatteryInfoStream;
 
   // map
   late StreamController<bool> followMapRotationStream;
   late StreamController<bool> expandTileStream;
   late StreamController<double> currentMapFakeOffsetStream;
+
+  // gps recording
+  List<LatLng> listOfRecordedPositions = [];
+
+  ///
+  /// Record new postion
+  ///
+  void addPositionToRecordedPositions(LatLng? newPosition){
+    if (newPosition == null) {
+      return;
+    }
+
+    listOfRecordedPositions.add(newPosition);
+  }
+
+  ///
+  /// Rest the recorder positions
+  ///
+  void resetRecorderPositions(){
+    listOfRecordedPositions = [];
+  }
+
+  ///  
+  /// Save recroder positions
+  /// 
+  void saveRecorderPositions(String name){
+    settingsService.saveRecorderPositions(name, listOfRecordedPositions);
+  }
+  
 
   ///
   /// Send new position to the broadcast stream controller
@@ -62,7 +92,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Send here the new gps counter
   ///
-  void updateCurrentGpsCounter(GpsDataType? gps_counter) {
+  void updateCurrentGpsCounter(GpsInfo? gps_counter) {
     if (gps_counter == null) {
       debugPrint("updateCurrentGpsCounter: gps_counter is null");
       return;
@@ -74,7 +104,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Get the stream controller for gps counter
   ///
-  Stream<GpsDataType> getCurrentGpsCounterStream() {
+  Stream<GpsInfo> getCurrentGpsCounterStream() {
     return currentGpsCounterStream.stream;
   }
 
@@ -159,7 +189,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Send Battery Info
   ///
-  void updateBatteryInfo(BatteryDataType? battInfo) {
+  void updateBatteryInfo(BatteryInfo? battInfo) {
     if (battInfo == null) {
       debugPrint("updateBatteryInfo: battInfo is null");
       return;
@@ -171,7 +201,7 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Get
   ///
-  Stream<BatteryDataType> getBatteryInfoStream() {
+  Stream<BatteryInfo> getBatteryInfoStream() {
     return currentBatteryInfoStream.stream;
   }
 

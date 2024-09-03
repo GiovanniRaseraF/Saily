@@ -10,6 +10,7 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:latlong2/latlong.dart';
 
 class RecordView extends StatefulWidget {
   RecordView({super.key, required this.settingsController});
@@ -23,13 +24,22 @@ class RecordView extends StatefulWidget {
 }
 
 class _RecordViewState extends State<RecordView> {
-  _RecordViewState({required this.settingsController});
+  _RecordViewState({required this.settingsController}){
+    mapPositioning = settingsController.getCurrentBoatPositionStream();
+    mapPositioning!.listen((data){
+      if (recording){
+        settingsController.addPositionToRecordedPositions(data);
+      }
+    });
+  }
 
   SettingsController settingsController;
   bool recording = false;
 
   late Timer timeout;
   int internalTime = 0;
+
+  late Stream<LatLng>? mapPositioning;
 
   // Add one second to the timer
   void addOneSecond() {
@@ -46,10 +56,6 @@ class _RecordViewState extends State<RecordView> {
       child: FloatingActionButton(
         onPressed: () {
           if (recording) {
-            timeout.cancel();
-            print("STOP recording ${internalTime} s");
-            recording = false;
-
             // create a dialog
             showDialog<String>(
               context: context,
@@ -60,20 +66,43 @@ class _RecordViewState extends State<RecordView> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text('Save Route'),
-                      const SizedBox(height: 15),
+                      Text(
+                        'Save Route',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Name',
+                          ),
+                        ),
+                      ),
                       TextButton(
                         onPressed: () {
+                          timeout.cancel();
+                          print("STOP recording ${internalTime} s");
+                          recording = false;
+                          settingsController.saveRecorderPositions("CustomName");
+                          settingsController.resetRecorderPositions();
+                          internalTime = 0;
+                          setState(() {});
                           Navigator.pop(context);
                         },
                         child: const Text('Save'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          print("CONTINUE recording");
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Continue'),
                       ),
                     ],
                   ),
                 ),
               ),
             );
-
           } else {
             internalTime = 0;
             print("START recording");

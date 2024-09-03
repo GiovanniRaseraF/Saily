@@ -1,5 +1,5 @@
-class GpsDataType {
-  GpsDataType({required this.isFixed, required this.satellitesCount, required this.SOG});
+class GpsInfo {
+  GpsInfo({required this.isFixed, required this.satellitesCount, required this.SOG});
 
   int satellitesCount = 0;
   bool isFixed = false;

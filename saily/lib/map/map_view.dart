@@ -197,6 +197,44 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
           tileProvider: CancellableNetworkTileProvider(),
         ),
 
+        // Active Poliline for positioning
+        PolylineLayer(simplificationTolerance: 0, polylines: [
+          Polyline(
+            points: const [
+              LatLng(43.523975, 7.034122),
+              LatLng(43.523975, 7.034335),
+              LatLng(43.523975, 7.034517),
+              LatLng(43.523975, 7.034759),
+              LatLng(43.524019, 7.034942),
+              LatLng(43.52406, 7.035037),
+              LatLng(43.524075, 7.035101),
+              LatLng(43.524078, 7.035143),
+              LatLng(43.524064, 7.03518),
+              LatLng(43.524045, 7.035203),
+              LatLng(43.524022, 7.035228),
+              LatLng(43.524001, 7.035243),
+              LatLng(43.523986, 7.035256),
+              LatLng(43.523959, 7.035272),
+              LatLng(43.523938, 7.035279),
+              LatLng(43.523898, 7.035287),
+              LatLng(43.523882, 7.035294),
+              LatLng(43.523839, 7.0353),
+              LatLng(43.523741, 7.035368),
+              LatLng(43.523708, 7.0354)
+            ],
+            strokeWidth: 6,
+            color: Colors.red[900]!,
+            pattern: StrokePattern.dashed(
+              segments: const [50, 20, 30, 20],
+            ),
+            borderStrokeWidth: 6,
+            hitValue: (
+              title: 'Green Line',
+              subtitle: 'Dashed line',
+            ),
+          ),
+        ]),
+
         // will change using streams
         StreamBuilder<LatLng>(
             stream: settingsController.getCurrentBoatPositionStream(),
@@ -228,7 +266,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 ],
               );
             }),
-
+        
       ],
     );
   }

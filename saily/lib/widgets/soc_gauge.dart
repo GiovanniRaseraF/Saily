@@ -24,7 +24,7 @@ class SOCGauge extends StatefulWidget {
 class _SOCGaugeState extends State<SOCGauge> {
   _SOCGaugeState({required this.settingsController, required this.small}) {}
 
-  BatteryDataType internalBatteryInfo = BatteryDataType(SOC: 0);
+  BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
   SettingsController settingsController;
   bool small = true;
 
