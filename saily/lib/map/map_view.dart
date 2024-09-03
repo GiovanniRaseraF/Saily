@@ -56,7 +56,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     super.initState();
 
     // offset
-    settingsController.getCurrentMapFakeOffsetValue().then((value) {
+    mapFakeOffsetStreamSub = settingsController.getCurrentMapFakeOffsetStream().listen((value) {
       setFakeOffset(value);
     });
 
@@ -71,18 +71,12 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     // positioning
     currentPosition = Saily().homePosition;
     fakeCurrentPosition = Saily().homePosition;
-
-    // stream listener
-    mapFakeOffsetStreamSub =
-        settingsController.getCurrentMapFakeOffsetStream().listen((value) {
-      setFakeOffset(value);
-    });
   }
 
   @override
   void dispose() {
-    // close stream
-    if (mapFakeOffsetStreamSub != null) {
+    super.dispose();
+    if(mapFakeOffsetStreamSub != null){
       mapFakeOffsetStreamSub!.cancel();
     }
   }
@@ -93,11 +87,11 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
 
   void setFakeOffset(double newV) {
     if(mounted){
-    setState(() {
       fakeOffset = newV;
+    print("fake off $newV");
+    setState(() {
     });
     }
-    
   }
 
   void resetFakeOffset() {
