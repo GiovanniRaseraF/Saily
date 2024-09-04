@@ -76,6 +76,7 @@ void main() async {
   sharedPreferences = await SharedPreferences.getInstance();
   settingsService = SettingsService(sharePreferences: sharedPreferences);
   settingsController = SettingsController(settingsService: settingsService);
+  await settingsController.loadDependeces();
 
   recordController = RecordController(settingsController: settingsController);
 

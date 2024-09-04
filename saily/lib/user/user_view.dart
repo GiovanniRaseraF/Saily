@@ -1,8 +1,11 @@
 // Actual app
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/addnewboat/addnewboat_view.dart';
+import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
+import 'package:saily/user/user_controller.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 
@@ -75,11 +78,8 @@ class _UserViewState extends State<UserView> {
               child: Center(
                 child: SingleChildScrollView(
                   child: Column(children: [
-                    BoatWidget(),
-                    //BoatWidget(),
-                    // BoatWidget(),
-                    // BoatWidget(),
-                    // BoatWidget(),
+                    BoatWidget(info: BoatInfo(name: "Fake",   id: "0x111"), settingsController: settingsController),
+                    BoatWidget(info: BoatInfo(name: "Fake 2", id: "0x111"), settingsController: settingsController),
                   ]),
                 ),
               ),
@@ -95,9 +95,20 @@ class _UserViewState extends State<UserView> {
                     backgroundColor: SailyBlue,
                     elevation: 10,
                     onPressed: () {
+                      String name = "";
                       print("Add New Boat");
+                      Navigator.push(context, MaterialPageRoute(builder: (c){
+                        return TakePictureScreen(
+                          settingsController: settingsController,
+                          onQRCodeTaken: (scannedId){
+                            UserController.dialogCreator(c, scannedId, (v){name = v;}, (){Navigator.pop(c);}, (){Navigator.pop(c);});
+                          },
+                          );
+                      }));
                     })),
           ],
         ));
   }
+
+
 }

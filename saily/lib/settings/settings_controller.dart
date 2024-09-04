@@ -7,6 +7,7 @@ import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:camera/camera.dart';
 
 class SettingsController extends ChangeNotifier {
   SettingsController({required this.settingsService}) {
@@ -31,6 +32,19 @@ class SettingsController extends ChangeNotifier {
     // logged
     logged = settingsService.loadIsLogged();
   }
+
+  // camera load
+  CameraDescription getCamera(){
+    return camera;
+  }
+
+  Future<void> loadDependeces() async {
+    var cam = await availableCameras();
+    camera = cam.first;
+  }
+  
+  // camera
+  late CameraDescription camera;
 
   // service
   SettingsService settingsService;

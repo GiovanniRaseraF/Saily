@@ -19,6 +19,8 @@ dependencies:
   flutter_settings_screens: ^0.3.4
   shared_preferences: ^2.2.3
   cupertino_battery_indicator: ^1.1.0
+  # this is importantant for camera usage on android
+  camera: ^0.10.0+2
 
 dev_dependencies:
   flutter_test:

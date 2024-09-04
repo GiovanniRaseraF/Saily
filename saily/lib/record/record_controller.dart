@@ -76,18 +76,30 @@ class RecordController {
     internalTime++;
     onSecondPassed();
   }
+}
 
-  // Dialog creator
-  static void dialogCreator(
-      BuildContext context,
-      void Function(String) onChangedNameTextField,
-      void Function() onPressedNewBoat,
-      void Function() onPressedContinue) {
-    // create a dialog
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => Dialog(
-        child: Container(
+class SaveRouteDialog extends StatefulWidget {
+  SaveRouteDialog({super.key, required this.onChangedNameTextField, required this.onPressedNewBoat, required this.onPressedContinue });
+
+    void Function(String) onChangedNameTextField;
+    void Function() onPressedNewBoat;
+    void Function() onPressedContinue;
+
+  @override
+  State<SaveRouteDialog> createState() =>
+      _SaveRouteDialogState();
+}
+
+class _SaveRouteDialogState extends State<SaveRouteDialog> {
+  _SaveRouteDialogState();
+
+      
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+        body:         
+        Container(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -107,7 +119,7 @@ class RecordController {
                       border: OutlineInputBorder(),
                       hintText: 'Name',
                     ),
-                    onChanged: onChangedNameTextField,
+                    onChanged: widget.onChangedNameTextField,
                   ),
                 ),
                 Divider(
@@ -123,7 +135,7 @@ class RecordController {
                       ),
                       backgroundColor: SailyBlue,
                       elevation: 10,
-                      onPressed: onPressedNewBoat,
+                      onPressed: widget.onPressedNewBoat,
                     )),
                 Divider(
                   color: Colors.transparent,
@@ -132,14 +144,13 @@ class RecordController {
                   color: Colors.transparent,
                 ),
                 TextButton(
-                  onPressed: onPressedContinue,
+                  onPressed: widget.onPressedContinue,
                   child: const Text('Continue'),
                 ),
               ],
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 }

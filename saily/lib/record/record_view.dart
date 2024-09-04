@@ -39,28 +39,30 @@ class _RecordViewState extends State<RecordView> {
           if (recordController.isRecording()) {
             String selectedName = "";
 
-            // dialog creator
-            RecordController.dialogCreator(
-              context,
-              // change name
-              (value) {selectedName = value;},
-              // on presed save
-              (){
-                recordController.cancelTimer();
-                recordController.stopRecording();
-                settingsController.saveRecorderPositions(
-                    selectedName, recordController.getFrom());
-                settingsController.resetRecorderPositions();
-                recordController.restoreIntenalTime();
-                setState(() {});
-                Navigator.pop(context);
-              },
-              // on presed continue
-              (){
-                print("CONTINUE recording");
-                Navigator.pop(context);
-              }
-            );
+            // create dialog
+            Navigator.push(context, MaterialPageRoute(builder: (c){
+              return SaveRouteDialog(
+                // change name
+                onChangedNameTextField: (value) {selectedName = value;},
+                // on presed save
+                onPressedNewBoat: (){
+                  recordController.cancelTimer();
+                  recordController.stopRecording();
+                  settingsController.saveRecorderPositions(
+                      selectedName, recordController.getFrom());
+                  settingsController.resetRecorderPositions();
+                  recordController.restoreIntenalTime();
+                  setState(() {});
+                  Navigator.pop(c);
+                },
+                // on presed continue
+                onPressedContinue: (){
+                  print("CONTINUE recording");
+                  Navigator.pop(c);
+                }
+              );
+            }));
+            
   
           } else {
             recordController.restoreIntenalTime();
@@ -86,6 +88,7 @@ class _RecordViewState extends State<RecordView> {
       ),
     );
   }
+
 }
 
 // displays the intenal time as 00:00
