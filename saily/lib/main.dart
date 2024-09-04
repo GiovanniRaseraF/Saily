@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/login/login_view.dart';
+import 'package:saily/record/record_controller.dart';
 import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
 import 'package:saily/tracks/gpx_trips.dart';
@@ -35,6 +36,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 late SharedPreferences sharedPreferences;
 late SettingsController settingsController;
 late SettingsService settingsService;
+late RecordController recordController;
 
 // expanded at start
 late bool expandedatstart;
@@ -74,6 +76,8 @@ void main() async {
   sharedPreferences = await SharedPreferences.getInstance();
   settingsService = SettingsService(sharePreferences: sharedPreferences);
   settingsController = SettingsController(settingsService: settingsService);
+
+  recordController = RecordController(settingsController: settingsController);
 
   await Settings.init(
     cacheProvider: settingsService,
@@ -297,7 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Positioned(
             top: scaleH(context, 0.05),
             left: scaleW(context, 0.04),
-            child: RecordView(settingsController: settingsController)),
+            child: RecordView(settingsController: settingsController, recordController: recordController,)),
       ]),
     );
   }

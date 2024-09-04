@@ -39,7 +39,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
   late InteractionOptions interactionOptions;
   late InteractionOptions defaultInteractionOptions;
 
-  late StreamSubscription<double>? mapFakeOffsetStreamSub;
+  late StreamSubscription<double> mapFakeOffsetStreamSub;
 
   double zoom = 16;
   double defaultFakeOffset = 0.00;
@@ -73,13 +73,13 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     fakeCurrentPosition = Saily().homePosition;
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    if(mapFakeOffsetStreamSub != null){
-      mapFakeOffsetStreamSub!.cancel();
-    }
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   // if(mapFakeOffsetStreamSub != null){
+  //   //   mapFakeOffsetStreamSub!.cancel();
+  //   // }
+  // }
 
   static const _startedId = 'AnimatedMapController#MoveStarted';
   static const _inProgressId = 'AnimatedMapController#MoveInProgress';

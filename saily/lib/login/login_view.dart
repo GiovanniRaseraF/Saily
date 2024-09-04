@@ -42,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
     if(settingsController.isLogged()){
       print("Try to Log in one second");
       // check if is logged in
-      Future.delayed(Duration(microseconds: 500)).then((t){
+      Future.delayed(Duration(seconds: 1)).then((t){
         tryLogin(context);
       });
     }

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/record/record_controller.dart';
 import 'package:saily/routes/route_widget.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
@@ -12,42 +13,22 @@ import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:latlong2/latlong.dart';
 
 class RecordView extends StatefulWidget {
-  RecordView({super.key, required this.settingsController});
+  RecordView({super.key, required this.settingsController, required this.recordController});
 
   final String title = "routes";
   SettingsController settingsController;
+  RecordController recordController;
 
   @override
   State<RecordView> createState() =>
-      _RecordViewState(settingsController: settingsController);
+      _RecordViewState(settingsController: settingsController, recordController: recordController);
 }
 
 class _RecordViewState extends State<RecordView> {
-  _RecordViewState({required this.settingsController}) {
-    mapPositioning = settingsController.getCurrentBoatPositionStream();
-    mapPositioning!.listen((data) {
-      if (recording) {
-        settingsController.addPositionToRecordedPositions(data);
-      }
-    });
-  }
+  _RecordViewState({required this.settingsController, required this.recordController}) {}
 
+  RecordController recordController;
   SettingsController settingsController;
-  bool recording = false;
-  String from = "";
-
-  late Timer timeout;
-  int internalTime = 0;
-
-  late Stream<LatLng>? mapPositioning;
-
-  // Add one second to the timer
-  void addOneSecond() {
-    internalTime++;
-    if (mounted) {
-      setState(() {});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,102 +36,52 @@ class _RecordViewState extends State<RecordView> {
       width: gCtxW() * 0.3,
       child: FloatingActionButton(
         onPressed: () {
-          if (recording) {
+          if (recordController.isRecording()) {
             String selectedName = "";
 
-            // create a dialog
-            showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => Dialog(
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Save Route',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                        ),
-                        SizedBox(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Name',
-                            ),
-                            onChanged: (value) {
-                              selectedName = value;
-                            },
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                        ),
-                        SizedBox(
-                            width: gCtxW() * 0.9,
-                            child: FloatingActionButton(
-                                heroTag: "add_new_boat",
-                                child: Text(
-                                  "Save",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                backgroundColor: SailyBlue,
-                                elevation: 10,
-                                onPressed: () {
-                                  timeout.cancel();
-                                  print("STOP recording ${internalTime} s");
-                                  recording = false;
-                                  settingsController.saveRecorderPositions(
-                                      selectedName, from);
-                                  settingsController.resetRecorderPositions();
-                                  internalTime = 0;
-                                  setState(() {});
-                                  Navigator.pop(context);
-                                })),
-                        Divider(
-                          color: Colors.transparent,
-                        ),
-                        Divider(
-                          color: Colors.transparent,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            print("CONTINUE recording");
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Continue'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            // dialog creator
+            RecordController.dialogCreator(
+              context,
+              // change name
+              (value) {selectedName = value;},
+              // on presed save
+              (){
+                recordController.cancelTimer();
+                recordController.stopRecording();
+                settingsController.saveRecorderPositions(
+                    selectedName, recordController.getFrom());
+                settingsController.resetRecorderPositions();
+                recordController.restoreIntenalTime();
+                setState(() {});
+                Navigator.pop(context);
+              },
+              // on presed continue
+              (){
+                print("CONTINUE recording");
+                Navigator.pop(context);
+              }
             );
+  
           } else {
-            internalTime = 0;
-            from = DateTime.now().toString();
+            recordController.restoreIntenalTime();
+            recordController.setFrom(DateTime.now().toString());
             print("START recording");
-            recording = true;
-            timeout = Timer.periodic(Duration(seconds: 1), (t) {
-              addOneSecond();
-            });
+            recordController.startRecording();
+            recordController.startTimer((){if(mounted) setState(() {});});
+            // timeout = Timer.periodic(Duration(seconds: 1), (t) {
+            //   addOneSecond();
+            // });
           }
         },
         backgroundColor: Colors.white,
-        child: Row(children: [
-          MicrodividerWidgetd(height: 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
           Icon(
             Icons.emergency_recording,
             color: Colors.red,
           ),
-          MicrodividerWidgetd(height: 0),
-          MicrodividerWidgetd(height: 0),
-          MicrodividerWidgetd(height: 0),
-          TimerDisplay(seconds: internalTime)
+          TimerDisplay(seconds: recordController.getInternalTime())
         ]),
       ),
     );
