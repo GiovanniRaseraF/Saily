@@ -57,7 +57,7 @@ class _RecordViewState extends State<RecordView> {
         onPressed: () {
           if (recording) {
             String selectedName = "";
-            
+
             // create a dialog
             showDialog<String>(
               context: context,
@@ -73,7 +73,9 @@ class _RecordViewState extends State<RecordView> {
                           'Save Route',
                           style: TextStyle(fontSize: 20),
                         ),
-                        Divider(color: Colors.transparent,),
+                        Divider(
+                          color: Colors.transparent,
+                        ),
                         SizedBox(
                           child: TextField(
                             decoration: InputDecoration(
@@ -85,7 +87,9 @@ class _RecordViewState extends State<RecordView> {
                             },
                           ),
                         ),
-                        Divider(color: Colors.transparent,),
+                        Divider(
+                          color: Colors.transparent,
+                        ),
                         SizedBox(
                             width: gCtxW() * 0.9,
                             child: FloatingActionButton(
@@ -107,8 +111,12 @@ class _RecordViewState extends State<RecordView> {
                                   setState(() {});
                                   Navigator.pop(context);
                                 })),
-                        Divider(color: Colors.transparent,),
-                        Divider(color: Colors.transparent,),
+                        Divider(
+                          color: Colors.transparent,
+                        ),
+                        Divider(
+                          color: Colors.transparent,
+                        ),
                         TextButton(
                           onPressed: () {
                             print("CONTINUE recording");

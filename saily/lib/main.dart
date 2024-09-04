@@ -32,9 +32,9 @@ import 'package:saily/widgets/sog_gauge.dart';
 import 'package:saily/widgets/voltage_gauge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-late SharedPreferences sharedPreferences; 
+late SharedPreferences sharedPreferences;
 late SettingsController settingsController;
-late SettingsService settingsService; 
+late SettingsService settingsService;
 
 // expanded at start
 late bool expandedatstart;
@@ -88,7 +88,6 @@ void main() async {
 
   debugPrint("$expandedatstart");
 
-
   runApp(MyApp());
 }
 
@@ -99,38 +98,40 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     setGlobalContext(context);
     return MaterialApp(
-      title: 'Saily',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: SailyBlue),
-        useMaterial3: true,
-      ),
-      home: MyHomePage(title: 'Saily'),
-    );
+        title: 'Saily',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: SailyBlue),
+          useMaterial3: true,
+        ),
+        home:
+            LoginView(settingsController: settingsController, onLogin: () {}));
   }
 }
 
 // Actual app
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
+  MyHomePage(
+      {super.key,
+      required this.title,
+      required this.settingsController,
+      required this.onLogout});
 
   final String title;
+  SettingsController settingsController;
+  void Function() onLogout;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState(
+      settingsController: settingsController, onLogout: onLogout);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState({required this.settingsController, required this.onLogout});
+  SettingsController settingsController;
+  void Function() onLogout;
   @override
   Widget build(BuildContext context) {
-    setGlobalContext(context);
-
-    if(!settingsController.isLogged()){
-      return LoginView(settingsController: settingsController, onLogin : (){
-        setState(() {});
-      });
-    }
-
     return Scaffold(
       body: Stack(children: [
         // Map
@@ -157,7 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   SOGGauge(
                                       settingsController: settingsController,
@@ -184,10 +186,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    SOGGauge(
+                                    
+                                    SOCGauge(
                                         settingsController: settingsController,
                                         small: false),
-                                    SOCGauge(
+                                    SOGGauge(
                                         settingsController: settingsController,
                                         small: false),
                                   ]),
@@ -256,9 +259,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => UserView(
-                                settingsController: settingsController,
-                                onLogout: (){setState(() {
-                                });},
+                                  settingsController: settingsController,
+                                  onLogout: () {
+                                    Navigator.pop(context);
+                                    this.onLogout();
+                                  },
                                 )),
                       );
                     },

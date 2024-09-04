@@ -12,6 +12,26 @@ class SettingsService extends CacheProvider {
 
   SharedPreferences sharePreferences;
 
+  /// 
+  /// Check if logged
+  /// 
+  bool loadIsLogged(){
+    const String PREFIX = "IS_LOGGED";
+    final ret = getBool(PREFIX);
+    if(ret == null){
+      return false;
+    }
+    return ret;
+  }
+
+  ///
+  /// Save logged state
+  ///
+  void saveLogged(bool newLogged){
+    const String PREFIX = "IS_LOGGED";
+    setBool(PREFIX, newLogged);
+  }
+
   ///
   /// Save the route info
   ///

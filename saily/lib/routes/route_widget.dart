@@ -144,62 +144,77 @@ class RouteWidget extends StatelessWidget {
                                                         style: TextStyle(
                                                             fontSize: 15),
                                                       ),
-                                                     Divider(color: Colors.transparent,),
+                                                      Divider(
+                                                        color:
+                                                            Colors.transparent,
+                                                      ),
                                                       Divider(
                                                         color:
                                                             Colors.transparent,
                                                       ),
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
                                                         children: [
-
                                                           SizedBox(
-                                                          width: gCtxW() * 0.3,
-                                                          child:
-                                                              FloatingActionButton(
-                                                                  heroTag:
-                                                                      "confirm_delete_${info.id}",
-                                                                  child: Text(
-                                                                    "Yes",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
-                                                                  backgroundColor:
-                                                                      Colors.red,
-                                                                  elevation: 10,
-                                                                  onPressed:
-                                                                      () {
-                                                                    print(
-                                                                        "Delete route");
-                                                                    settingsController
-                                                                        .deleteRoute(
-                                                                            info.id);
-                                                                    onDelete();
-                                                                    Navigator.pop(context);
-                                                                  })),
-                                                                  SizedBox(
-                                                          width: gCtxW() * 0.3,
-                                                          child:
-                                                              FloatingActionButton(
-                                                                  heroTag:
-                                                                      "decline_delete_${info.id}",
-                                                                  child: Text(
-                                                                    "NO",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
-                                                                  backgroundColor:
-                                                                      SailyBlue,
-                                                                  elevation: 10,
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(context);
-                                                                  })),
+                                                              width:
+                                                                  gCtxW() * 0.3,
+                                                              child:
+                                                                  FloatingActionButton(
+                                                                      heroTag:
+                                                                          "confirm_delete_${info.id}",
+                                                                      child:
+                                                                          Text(
+                                                                        "Yes",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .red,
+                                                                      elevation:
+                                                                          10,
+                                                                      onPressed:
+                                                                          () {
+                                                                        print(
+                                                                            "Delete route");
+                                                                        settingsController
+                                                                            .deleteRoute(info.id);
+                                                                        onDelete();
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      })),
+                                                          SizedBox(
+                                                              width:
+                                                                  gCtxW() * 0.3,
+                                                              child:
+                                                                  FloatingActionButton(
+                                                                      heroTag:
+                                                                          "decline_delete_${info.id}",
+                                                                      child:
+                                                                          Text(
+                                                                        "NO",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                      backgroundColor:
+                                                                          SailyBlue,
+                                                                      elevation:
+                                                                          10,
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      })),
                                                         ],
                                                       ),
-                                                     Divider(color: Colors.transparent,) 
+                                                      Divider(
+                                                        color:
+                                                            Colors.transparent,
+                                                      )
                                                     ],
                                                   ),
                                                 ),

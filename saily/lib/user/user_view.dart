@@ -7,7 +7,8 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 
 class UserView extends StatefulWidget {
-  UserView({super.key, required this.settingsController, required this.onLogout});
+  UserView(
+      {super.key, required this.settingsController, required this.onLogout});
 
   final String title = "user";
   SettingsController settingsController;
@@ -15,8 +16,8 @@ class UserView extends StatefulWidget {
   void Function() onLogout;
 
   @override
-  State<UserView> createState() =>
-      _UserViewState(settingsController: settingsController, onLogout: onLogout);
+  State<UserView> createState() => _UserViewState(
+      settingsController: settingsController, onLogout: onLogout);
 }
 
 class _UserViewState extends State<UserView> {
@@ -29,7 +30,10 @@ class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("User"), backgroundColor: Colors.white,),
+        appBar: AppBar(
+          title: Text("User"),
+          backgroundColor: Colors.white,
+        ),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -71,11 +75,11 @@ class _UserViewState extends State<UserView> {
               child: Center(
                 child: SingleChildScrollView(
                   child: Column(children: [
-                    BoatWidget(), 
-                    //BoatWidget(), 
-                    // BoatWidget(), 
-                    // BoatWidget(), 
-                    // BoatWidget(), 
+                    BoatWidget(),
+                    //BoatWidget(),
+                    // BoatWidget(),
+                    // BoatWidget(),
+                    // BoatWidget(),
                   ]),
                 ),
               ),
@@ -83,7 +87,7 @@ class _UserViewState extends State<UserView> {
             SizedBox(
                 width: gCtxW() * 0.9,
                 child: FloatingActionButton(
-                  heroTag: "add_new_boat",
+                    heroTag: "add_new_boat",
                     child: Text(
                       "Add New Boat",
                       style: TextStyle(color: Colors.white),

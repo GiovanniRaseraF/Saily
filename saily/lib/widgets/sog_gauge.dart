@@ -24,7 +24,7 @@ class SOGGauge extends StatefulWidget {
 }
 
 class _SOGGaugeState extends State<SOGGauge> {
-  _SOGGaugeState({required this.settingsController, required this.small}) {}
+  _SOGGaugeState({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
@@ -46,9 +46,7 @@ class _SOGGaugeState extends State<SOGGauge> {
                 Text("SOG: Km/h"),
                 Row(
                   children: [
-                    Text(
-                      "${gpsData.SOG.toStringAsFixed(1)}",
-                      style: TextStyle(fontSize: 25),
+                    Text("${gpsData.SOG.toStringAsFixed(1)}", style: TextStyle(fontSize: 25),
                     ),
                   ],
                 )
@@ -73,10 +71,7 @@ class _SOGGaugeState extends State<SOGGauge> {
                 Text("SOG: Km/h"),
                 Row(
                   children: [
-                    Text(
-                      "${gpsData.SOG.toStringAsFixed(1)}",
-                      style: TextStyle(fontSize: 38),
-                    ),
+                    Text("${gpsData.SOG.toStringAsFixed(1)}", style: TextStyle(fontSize: 38),),
                   ],
                 )
               ],

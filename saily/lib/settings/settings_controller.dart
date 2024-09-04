@@ -29,7 +29,7 @@ class SettingsController extends ChangeNotifier {
     listOfIds = settingsService.loadRoutesIds();
 
     // logged
-    logged = false;
+    logged = settingsService.loadIsLogged();
   }
 
   // service
@@ -56,19 +56,25 @@ class SettingsController extends ChangeNotifier {
   // logged
   bool logged = false;
 
+  // On final app this serviceSerice will contact a server to check if 
+  // you can login 
   void setLogged(bool value){
     logged = value;
+    settingsService.saveLogged(logged);
   }
 
   void logout(){
     logged = false;
+    setLogged(logged);
   }
 
   void login(){
     logged = true;
+    setLogged(logged);
   }
 
   bool isLogged(){
+    logged = settingsService.loadIsLogged();
     return logged;
   }
 

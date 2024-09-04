@@ -1,6 +1,8 @@
 // Actual app
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/main.dart';
 import 'package:saily/register/register_view.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
@@ -22,13 +24,29 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  _LoginViewState({required this.settingsController, required this.onLogin});
+  _LoginViewState({required this.settingsController, required this.onLogin}){
+    homePage = MyHomePage(
+      title: "Home Page",
+      settingsController: this.settingsController,
+      onLogout : (){setState(() {});}
+    );
+  }
 
+  late Widget homePage;
   SettingsController settingsController;
 
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
+
+    if(settingsController.isLogged()){
+      print("Try to Log in one second");
+      // check if is logged in
+      Future.delayed(Duration(microseconds: 500)).then((t){
+        tryLogin(context);
+      });
+    }
+
     return Scaffold(
         body: Stack(
       children: [
@@ -56,13 +74,8 @@ class _LoginViewState extends State<LoginView> {
                       padding: EdgeInsets.all(8),
                       child: Column(
                         children: [
-                          Divider(
-                            color: Colors.transparent,
-                          ),
-                          Text(
-                            "Welcome to",
-                            style: TextStyle(fontSize: 20),
-                          ),
+                          Divider(color: Colors.transparent),
+                          Text("Welcome to", style: TextStyle(fontSize: 20)),
                           Text("Saily", style: TextStyle(fontSize: 70))
                         ],
                       ),
@@ -108,7 +121,9 @@ class _LoginViewState extends State<LoginView> {
                                   onPressed: () {
                                     print("login");
                                     settingsController.login();
-                                    onLogin();
+
+                                    // build
+                                    tryLogin(context);
                                   }))
                         ],
                       ),
@@ -154,12 +169,13 @@ class _LoginViewState extends State<LoginView> {
                                       onPressed: () {
                                         print("Register");
                                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisterView(
-                                settingsController: settingsController
-                                )),
-                      );
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterView(
+                                                      settingsController:
+                                                          settingsController)),
+                                        );
                                       }))
                             ],
                           ),
@@ -175,4 +191,23 @@ class _LoginViewState extends State<LoginView> {
       ],
     ));
   }
+  
+  // try to login
+  void tryLogin(BuildContext c) {
+    bool canLogin = settingsController.isLogged();
+      if (canLogin) {
+        print("You can Login");
+      } else {
+        print("You CANNOT Login !");
+      }
+
+      // create homepage
+      if (canLogin) {
+        Navigator.push(
+          c,
+          MaterialPageRoute(
+              builder: (context) => homePage),
+        );
+      }
+    }
 }

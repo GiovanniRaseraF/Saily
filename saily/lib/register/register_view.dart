@@ -7,12 +7,10 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 
 class RegisterView extends StatefulWidget {
-  RegisterView(
-      {super.key, required this.settingsController});
+  RegisterView({super.key, required this.settingsController});
 
   final String title = "register";
   SettingsController settingsController;
-
 
   @override
   State<RegisterView> createState() =>
