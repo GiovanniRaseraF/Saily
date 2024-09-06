@@ -153,8 +153,6 @@ class SettingsController extends ChangeNotifier {
     settingsService.saveRouteInfo(name.trim(), listOfRecordedPositions, from, to);
     listOfIds.add(to);
     settingsService.saveRoutesIds(listOfIds);
-
-
   }
 
   void deleteRoute(String id){
@@ -200,6 +198,8 @@ class SettingsController extends ChangeNotifier {
   Stream<LatLng> getCurrentBoatPositionStream() {
     return currentBoatPositionStream.stream;
   }
+
+  // Stream<>
 
   ///
   /// Send here the new gps counter

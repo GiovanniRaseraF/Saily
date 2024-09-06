@@ -32,7 +32,14 @@ class _RoutesViewState extends State<RoutesView> {
     // Create the view with the sorted routes
     return Scaffold(
         appBar: AppBar(
-          title: Text("Routes"),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Routes"), 
+              FloatingActionButton(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                mini: true, onPressed: (){print("Import route");}, child: Icon(Icons.import_contacts, color: SailyBlue,),)]),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,

@@ -26,37 +26,26 @@ class _SettingsViewState extends State<SettingsView> {
       body: SettingsScreen(hasAppBar: true, children: [
         SettingsGroup(title: 'Map Setting', children: <Widget>[
           SwitchSettingsTile(
-            settingKey: 'follow-map-rotation',
-            title: 'Follow Map Rotation',
-            subtitle: 'The map will rotate according to gps rotation',
-            enabledLabel: 'Enabled',
-            disabledLabel: 'Disabled',
-            defaultValue: false,
-            leading: Icon(Icons.rotate_90_degrees_ccw_outlined),
-            onChange: (value) async {
-              final val = await settingsController.getFollowMapRotationValue();
-              debugPrint("Stored Follow Map Rotation: $val");
-            },
-          ),
-          SwitchSettingsTile(
             settingKey: 'expand-tile',
             title: 'Expand Tile',
             subtitle:
                 'The map will move the cursor according to the expande tile below',
-            enabledLabel: 'Enabled',
-            disabledLabel: 'Disabled',
             defaultValue: false,
-            leading: Icon(Icons.expand_more_outlined),
             onChange: (value) async {
               settingsController.updateExpandTile(value);
             },
           ),
-          // SliderSettingsTile(
-          //   leading: Icon(Icons.roller_shades),
-          //   title: "Map Fake Offset", settingKey: "map-fake-offset", min: 0, max: 0.05, step: 0.01,
-          //   onChange: (value){
-          //     settingsController.updateCurrentMapFakeOffset(value);
-          //   },)
+
+        SettingsGroup(title: 'Telemetry Units', children: <Widget>[
+          DropDownSettingsTile<String>(
+            title: "SOG Unit", 
+            subtitle: "Speed over gournd calculated using gps",
+            settingKey: "sog-unit", selected: "km/h", values: {"km/h": "km/h", "knt" : "knt"}),
+          DropDownSettingsTile<String>(
+            title: "MotorTemp Unit", 
+            subtitle: "Motor temperature average read with NMEA2000",
+            settingKey: "motor-temp-unit", selected: "c", values: {"c": "c", "F" : "F", "K": "K"}) 
+        ]),
         ]),
       ]),
       // Settings
