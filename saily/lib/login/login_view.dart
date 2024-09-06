@@ -59,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
               color: Colors.transparent,
             ),
             Container(
-              height: gCtxH() * 0.60,
+              height: gCtxH() * 0.70,
               width: gCtxW() * 0.9,
               child: Card(
                 elevation: 10,
@@ -73,7 +73,7 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           Divider(color: Colors.transparent),
                           Text("Welcome to", style: TextStyle(fontSize: 20)),
-                          Text("Saily", style: TextStyle(fontSize: 70))
+                          Text("Saily", style: TextStyle(fontSize: 50))
                         ],
                       ),
                     ),
@@ -132,59 +132,58 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             Container(
-              height: gCtxH() * 0.08,
-              width: gCtxW() * 0.9,
-            ),
-            Container(
-              height: gCtxH() * 0.2,
-              width: gCtxW() * 0.9,
-              child: Card(
-                  elevation: 10,
-                  color: Colors.white,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(
-                            children: [
-                              Divider(
-                                color: Colors.transparent,
-                              ),
-                              Text(
-                                "New Here ?",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              SizedBox(
-                                  width: gCtxW() * 0.9,
-                                  child: FloatingActionButton(
-                                      heroTag: "register",
-                                      child: Text(
-                                        "Register",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: SailyBlue,
-                                      elevation: 10,
-                                      onPressed: () {
-                                        print("Register");
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterView(
-                                                      settingsController:
-                                                          settingsController)),
-                                        );
-                                      }))
-                            ],
-                          ),
-                        ),
-                      ])),
-            ),
-            Container(
               height: gCtxH() * 0.01,
-              color: Colors.transparent,
+              width: gCtxW() * 0.9,
             ),
+            Container(
+              height: gCtxH() * 0.23,
+              width: gCtxW() * 0.9,
+              child: Center(
+                child: Card(
+                    elevation: 10,
+                    color: Colors.white,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              children: [
+                                Divider(
+                                  color: Colors.transparent,
+                                ),
+                                Text(
+                                  "New Here ?",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(
+                                    width: gCtxW() * 0.9,
+                                    child: FloatingActionButton(
+                                        heroTag: "register",
+                                        child: Text(
+                                          "Register",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        backgroundColor: SailyBlue,
+                                        elevation: 10,
+                                        onPressed: () {
+                                          print("Register");
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RegisterView(
+                                                        settingsController:
+                                                            settingsController)),
+                                          );
+                                        }))
+                              ],
+                            ),
+                          ),
+                        ])),
+              ),
+            ),
+            
           ],
         ),
       ],

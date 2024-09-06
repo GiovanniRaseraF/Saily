@@ -39,7 +39,7 @@ class _RegisterViewState extends State<RegisterView> {
               color: Colors.transparent,
             ),
             Container(
-              height: gCtxH() * 0.60,
+              height: gCtxH() * 0.70,
               width: gCtxW() * 0.9,
               child: Card(
                 elevation: 10,
@@ -140,11 +140,11 @@ class _RegisterViewState extends State<RegisterView> {
               ),
             ),
             Container(
-              height: gCtxH() * 0.08,
+              height: gCtxH() * 0.01,
               width: gCtxW() * 0.9,
             ),
             Container(
-              height: gCtxH() * 0.2,
+              height: gCtxH() * 0.23,
               width: gCtxW() * 0.9,
               child: Card(
                   elevation: 10,
@@ -181,10 +181,7 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                       ])),
             ),
-            Container(
-              height: gCtxH() * 0.01,
-              color: Colors.transparent,
-            ),
+            
           ],
         ),
       ],
