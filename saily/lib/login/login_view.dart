@@ -40,11 +40,12 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
 
     if(settingsController.isLogged()){
-      print("Try to Log in one second");
-      // check if is logged in
-      Future.delayed(Duration(seconds: 1)).then((t){
-        tryLogin(context);
-      });
+      // print("Try to Log in one second");
+      // // check if is logged in
+      // Future.delayed(Duration(seconds: 1)).then((t){
+      //   tryLogin(context);
+      // });
+      return homePage;
     }
 
     return Scaffold(
@@ -193,7 +194,7 @@ class _LoginViewState extends State<LoginView> {
   }
   
   // try to login
-  void tryLogin(BuildContext c) {
+  void tryLogin(BuildContext context) {
     bool canLogin = settingsController.isLogged();
       if (canLogin) {
         print("You can Login");
@@ -204,7 +205,7 @@ class _LoginViewState extends State<LoginView> {
       // create homepage
       if (canLogin) {
         Navigator.push(
-          c,
+          context,
           MaterialPageRoute(
               builder: (context) => homePage),
         );

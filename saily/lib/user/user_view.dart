@@ -101,7 +101,7 @@ class _UserViewState extends State<UserView> {
                         return TakePictureScreen(
                           settingsController: settingsController,
                           onQRCodeTaken: (scannedId){
-                            UserController.dialogCreator(c, scannedId, (v){name = v;}, (){Navigator.pop(c);}, (){Navigator.pop(c);});
+                            UserController.dialogCreator(context, scannedId, (v){name = v;}, (){Navigator.pop(context);}, (){Navigator.pop(context);});
                           },
                           );
                       }));

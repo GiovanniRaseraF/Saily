@@ -110,7 +110,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home:
-            LoginView(settingsController: settingsController, onLogin: () {}));
+            // MyHomePage(settingsController: settingsController, onLogout: (){}, title: "Saily",)
+             LoginView(settingsController: settingsController, onLogin: () {})
+            );
   }
 }
 
