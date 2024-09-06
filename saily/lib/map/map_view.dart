@@ -210,7 +210,24 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 ),
               ]);
             }),
-
+        
+        // Tracking for current positioning
+          StreamBuilder(
+            stream: settingsController.getCurrentRouteStream(),
+            builder: (bc, snapshot) {
+              List<LatLng> p = [];
+              if (snapshot.data != null) {
+                var route = snapshot!.data;
+                p = route!.positions;
+              }
+              return PolylineLayer(simplificationTolerance: 0, polylines: [
+                Polyline(
+                  points: p,
+                  strokeWidth: 6,
+                  color: SailyOrange,
+                ),
+              ]);
+            }),
         // will change using streams
         StreamBuilder<LatLng>(
             stream: settingsController.getCurrentBoatPositionStream(),

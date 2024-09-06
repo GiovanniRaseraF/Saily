@@ -25,6 +25,7 @@ class SettingsController extends ChangeNotifier {
 
     // gps recording
     currentRouteToFollow = StreamController<RouteInfo>.broadcast();
+    currentRouteBuilding = StreamController<RouteInfo>.broadcast();
 
     // load ids
     listOfIds = settingsService.loadRoutesIds();
@@ -66,6 +67,7 @@ class SettingsController extends ChangeNotifier {
   List<LatLng> listOfRecordedPositions = [];
   List<String> listOfIds = [];
   late StreamController<RouteInfo> currentRouteToFollow;
+  late StreamController<RouteInfo> currentRouteBuilding;
 
   // logged
   bool logged = false;
@@ -111,6 +113,10 @@ class SettingsController extends ChangeNotifier {
     return currentRouteToFollow.stream;
   }
 
+  Stream<RouteInfo> getCurrentRouteStream() {
+    return currentRouteBuilding.stream;
+  }
+
   ///
   /// Record new postion
   ///
@@ -120,6 +126,8 @@ class SettingsController extends ChangeNotifier {
     }
 
     listOfRecordedPositions.add(newPosition);
+    RouteInfo current = RouteInfo(name: "current", positions: this.listOfRecordedPositions, from: DateTime.now().toString(), to: DateTime.now().toString());
+    currentRouteBuilding.sink.add(current);
   }
 
   ///
@@ -127,6 +135,9 @@ class SettingsController extends ChangeNotifier {
   ///
   void resetRecorderPositions(){
     listOfRecordedPositions = [];
+    
+    RouteInfo current = RouteInfo(name: "current", positions: this.listOfRecordedPositions, from: DateTime.now().toString(), to: DateTime.now().toString());
+    currentRouteBuilding.sink.add(current);
   }
 
   ///  
@@ -142,6 +153,8 @@ class SettingsController extends ChangeNotifier {
     settingsService.saveRouteInfo(name.trim(), listOfRecordedPositions, from, to);
     listOfIds.add(to);
     settingsService.saveRoutesIds(listOfIds);
+
+
   }
 
   void deleteRoute(String id){

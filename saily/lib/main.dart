@@ -268,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             builder: (context) => UserView(
                                   settingsController: settingsController,
                                   onLogout: () {
-                                    Navigator.pop(context);
+                                    //Navigator.pop(context);
                                     this.onLogout();
                                   },
                                 )),

@@ -29,25 +29,21 @@ class _LoginViewState extends State<LoginView> {
       title: "Home Page",
       settingsController: this.settingsController,
       onLogout : (){setState(() {});}
-    );
+    ); 
   }
-
   late Widget homePage;
   SettingsController settingsController;
 
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
-
+    // check login
     if(settingsController.isLogged()){
-      // print("Try to Log in one second");
-      // // check if is logged in
-      // Future.delayed(Duration(seconds: 1)).then((t){
-      //   tryLogin(context);
-      // });
       return homePage;
     }
 
+    print("You Need to login");
+    // return login page
     return Scaffold(
         body: Stack(
       children: [
@@ -122,9 +118,8 @@ class _LoginViewState extends State<LoginView> {
                                   onPressed: () {
                                     print("login");
                                     settingsController.login();
-
-                                    // build
-                                    tryLogin(context);
+                                    setState(() {
+                                    });
                                   }))
                         ],
                       ),
@@ -203,12 +198,12 @@ class _LoginViewState extends State<LoginView> {
       }
 
       // create homepage
-      if (canLogin) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => homePage),
-        );
-      }
+      // if (canLogin) {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => homePage),
+      //   );
+      // }
     }
 }

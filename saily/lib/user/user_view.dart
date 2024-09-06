@@ -79,7 +79,7 @@ class _UserViewState extends State<UserView> {
                 child: SingleChildScrollView(
                   child: Column(children: [
                     BoatWidget(info: BoatInfo(name: "Fake",   id: "0x111"), settingsController: settingsController),
-                    BoatWidget(info: BoatInfo(name: "Fake 2", id: "0x111"), settingsController: settingsController),
+                    BoatWidget(info: BoatInfo(name: "Fake 2", id: "0x112"), settingsController: settingsController),
                   ]),
                 ),
               ),

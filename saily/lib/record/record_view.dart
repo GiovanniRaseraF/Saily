@@ -40,12 +40,15 @@ class _RecordViewState extends State<RecordView> {
             String selectedName = "";
 
             // create dialog
-            Navigator.push(context, MaterialPageRoute(builder: (c){
-              return SaveRouteDialog(
+            // Navigator.push(context, MaterialPageRoute(builder: (c){
+              // return 
+              // return 
+              dialogCreator(
+                context,
                 // change name
-                onChangedNameTextField: (value) {selectedName = value;},
+                (value) {selectedName = value;},
                 // on presed save
-                onPressedNewBoat: (){
+                (){
                   recordController.cancelTimer();
                   recordController.stopRecording();
                   settingsController.saveRecorderPositions(
@@ -53,15 +56,15 @@ class _RecordViewState extends State<RecordView> {
                   settingsController.resetRecorderPositions();
                   recordController.restoreIntenalTime();
                   setState(() {});
-                  Navigator.pop(c);
+                  Navigator.pop(context);
                 },
                 // on presed continue
-                onPressedContinue: (){
+                (){
                   print("CONTINUE recording");
-                  Navigator.pop(c);
+                  Navigator.pop(context);
                 }
               );
-            }));
+            // }));
             
   
           } else {
@@ -89,6 +92,21 @@ class _RecordViewState extends State<RecordView> {
     );
   }
 
+ static void dialogCreator(
+      BuildContext c,
+      void Function(String) onChangedNameTextField,
+      void Function() onPressedNewBoat,
+      void Function() onPressedContinue) {
+    // create a dialog
+    showDialog<String>(
+      context: c,
+      builder: (BuildContext context) => Dialog(
+        child: SaveRouteDialog(
+          onChangedNameTextField: onChangedNameTextField,
+          onPressedNewBoat: onPressedNewBoat,
+          onPressedContinue: onPressedContinue,
+        )));
+    }
 }
 
 // displays the intenal time as 00:00
