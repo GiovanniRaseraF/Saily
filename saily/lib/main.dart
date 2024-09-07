@@ -71,6 +71,7 @@ void createDebug() async {
 }
 
 void main() async {
+
   await WidgetsFlutterBinding.ensureInitialized();
   // setting init
   sharedPreferences = await SharedPreferences.getInstance();

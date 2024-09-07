@@ -5,6 +5,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/datatypes/route_info.dart';
+import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:camera/camera.dart';
@@ -34,15 +35,8 @@ class SettingsController extends ChangeNotifier {
     logged = settingsService.loadIsLogged();
   }
 
-  // camera load
-  CameraDescription getCamera(){
-    return camera;
-  }
-
-  Future<void> loadDependeces() async {
-    var cam = await availableCameras();
-    camera = cam.first;
-  }
+  // Current User
+  UserInfo? currentUser = null;
   
   // camera
   late CameraDescription camera;
@@ -72,6 +66,12 @@ class SettingsController extends ChangeNotifier {
   // logged
   bool logged = false;
 
+
+  UserInfo? loadUser(String email, String password){
+    currentUser = settingsService.loadUser(email, password);
+    return currentUser;
+  }
+
   // On final app this serviceSerice will contact a server to check if 
   // you can login 
   void setLogged(bool value){
@@ -81,6 +81,10 @@ class SettingsController extends ChangeNotifier {
 
   void logout(){
     logged = false;
+    if(currentUser != null){
+      settingsService.saveUser(currentUser!);
+      currentUser = null;
+    }
     setLogged(logged);
   }
 
@@ -91,8 +95,20 @@ class SettingsController extends ChangeNotifier {
 
   bool isLogged(){
     logged = settingsService.loadIsLogged();
-    return logged;
+    return logged && currentUser != null;
   }
+
+
+  // camera load
+  CameraDescription getCamera(){
+    return camera;
+  }
+
+  Future<void> loadDependeces() async {
+    var cam = await availableCameras();
+    camera = cam.first;
+  }
+
 
   ///
   /// Set the new active route to follow

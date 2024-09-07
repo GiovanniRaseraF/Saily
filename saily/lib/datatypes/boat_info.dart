@@ -9,8 +9,7 @@ class BoatInfo {
     return """{
       "name" : "${name}",
       "id" : "${id}"
-    }
-    """;
+    }""";
   }
   // From the json string saved
   static BoatInfo? fromJSONString(String json){

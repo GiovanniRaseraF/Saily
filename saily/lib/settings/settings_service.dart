@@ -3,14 +3,31 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/route_info.dart';
+import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 class SettingsService extends CacheProvider {
   SettingsService({required this.sharePreferences});
 
   SharedPreferences sharePreferences;
+
+
+  UserInfo? loadUser(String email, String password){
+    const String PREFIX = "USER_INFO";
+    final userJson = getString(PREFIX);
+    if(userJson == null) return null;
+
+    return UserInfo.fromJSONString(userJson);
+  }
+
+  void saveUser(UserInfo user){
+    const String PREFIX = "USER_INFO";
+    final save = user.toJSONString();
+    setString(PREFIX, save);
+  }
 
   /// 
   /// Check if logged
