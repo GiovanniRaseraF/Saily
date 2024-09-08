@@ -93,11 +93,9 @@ void main() async {
   UserInfo? logged = settingsService.loadUser("admin", "admin");
   if(logged == null){
     settingsService.saveUser(adminDefault);
-
     var u = settingsService.loadUser("admin", "admin");
     print(u!.toJSONString());
   }
-  print(logged!.toJSONString());
   //
 
   recordController = RecordController(settingsController: settingsController);
