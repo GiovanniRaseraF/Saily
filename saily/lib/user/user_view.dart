@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/addnewboat/addnewboat_view.dart';
 import 'package:saily/datatypes/boat_info.dart';
+import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
 import 'package:saily/user/user_controller.dart';
@@ -32,6 +33,8 @@ class _UserViewState extends State<UserView> {
 
   @override
   Widget build(BuildContext context) {
+    UserInfo? currentUser = settingsController.loadUser("admin", "admin");
+
     return Scaffold(
         appBar: AppBar(
           title: Text("User"),
@@ -47,8 +50,8 @@ class _UserViewState extends State<UserView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Giovanni Rasera"),
-                      Text("g.rasera@gmail.com"),
+                      Text("${currentUser!.username}"),
+                      Text("${currentUser!.email}"),
                       SizedBox(
                           width: gCtxW() * 0.9,
                           child: FloatingActionButton(
@@ -77,10 +80,11 @@ class _UserViewState extends State<UserView> {
               height: gCtxH() * 0.5,
               child: Center(
                 child: SingleChildScrollView(
-                  child: Column(children: [
-                    BoatWidget(info: BoatInfo(name: "Fake",   id: "0x111"), settingsController: settingsController),
-                    BoatWidget(info: BoatInfo(name: "Fake 2", id: "0x112"), settingsController: settingsController),
-                  ]),
+                  child: Column(
+                    children : currentUser!.boats.map((b){
+                      return BoatWidget(info: b, settingsController: settingsController, onDelete: (){setState(() {});},);
+                    }).toList()
+                  ),
                 ),
               ),
             ),
@@ -95,13 +99,21 @@ class _UserViewState extends State<UserView> {
                     backgroundColor: SailyBlue,
                     elevation: 10,
                     onPressed: () {
-                      String name = "";
+                      String name = "DefaultBoat";
                       print("Add New Boat");
                       Navigator.push(context, MaterialPageRoute(builder: (c){
                         return TakePictureScreen(
                           settingsController: settingsController,
                           onQRCodeTaken: (scannedId){
-                            UserController.dialogCreator(context, scannedId, (v){name = v;}, (){Navigator.pop(context);}, (){Navigator.pop(context);});
+                            UserController.dialogCreator(context, scannedId, 
+                            (v){name = v;}, 
+                            (){
+                              BoatInfo newboat = BoatInfo(name: name, id: "0x" + name);
+                              settingsController.addNewBoat(newboat);
+                              Navigator.pop(context);
+                              setState(() {});
+                              },
+                            (){Navigator.pop(context);});
                           },
                           );
                       }));

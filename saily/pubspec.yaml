@@ -22,7 +22,6 @@ dependencies:
   # this is importantant for camera usage on android
   camera: ^0.10.0+2
   share: ^2.0.4
-  sqlite3: ^2.4.6
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/login/login_view.dart';
 import 'package:saily/record/record_controller.dart';
 import 'package:saily/record/record_view.dart';
@@ -44,6 +45,9 @@ late bool expandedatstart;
 late Timer send;
 FakeData fakeData = FakeData();
 
+//User for testing
+UserInfo adminDefault = UserInfo(email: "admin@admin.com", username: "admin", password: "admin", boats: []);
+
 void createDebug() async {
   fakeData.load_parse(cannesTrip);
   // debug send gps
@@ -71,13 +75,21 @@ void createDebug() async {
 }
 
 void main() async {
-
+ 
   await WidgetsFlutterBinding.ensureInitialized();
   // setting init
   sharedPreferences = await SharedPreferences.getInstance();
   settingsService = SettingsService(sharePreferences: sharedPreferences);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
+
+  //
+  // ad use to memory if not exists
+  UserInfo? logged = settingsService.loadUser("admin", "admin");
+  if(logged == null){
+    settingsService.saveUser(adminDefault);
+  }
+  //
 
   recordController = RecordController(settingsController: settingsController);
 

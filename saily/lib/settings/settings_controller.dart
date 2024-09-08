@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/battery_info.dart';
+import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
@@ -66,9 +67,8 @@ class SettingsController extends ChangeNotifier {
   // logged
   bool logged = false;
 
-
-  UserInfo? loadUser(String email, String password){
-    currentUser = settingsService.loadUser(email, password);
+  UserInfo? loadUser(String username, String password){
+    currentUser = settingsService.loadUser(username, password);
     return currentUser;
   }
 
@@ -95,9 +95,8 @@ class SettingsController extends ChangeNotifier {
 
   bool isLogged(){
     logged = settingsService.loadIsLogged();
-    return logged && currentUser != null;
+    return logged;
   }
-
 
   // camera load
   CameraDescription getCamera(){
@@ -109,6 +108,24 @@ class SettingsController extends ChangeNotifier {
     camera = cam.first;
   }
 
+  void addNewBoat(BoatInfo newboat){
+    if(currentUser == null) return;
+    currentUser!.addBoat(newboat);
+    settingsService.saveUser(currentUser!);
+  }
+
+  void deleteBoat(String id){
+    if(currentUser == null) return;
+    List<BoatInfo> newList = [];
+    for(final b in currentUser!.boats){
+      if(b.id != id){
+        newList.add(b);
+      }
+    }
+
+    currentUser!.boats = newList;
+    settingsService.saveUser(currentUser!);
+  }
 
   ///
   /// Set the new active route to follow

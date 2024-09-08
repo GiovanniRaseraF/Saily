@@ -73,13 +73,14 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     fakeCurrentPosition = Saily().homePosition;
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   // if(mapFakeOffsetStreamSub != null){
-  //   //   mapFakeOffsetStreamSub!.cancel();
-  //   // }
-  // }
+  @override
+  void dispose() {
+    if(mapFakeOffsetStreamSub != null){
+      mapFakeOffsetStreamSub!.cancel();
+    }
+    
+    super.dispose();
+  }
 
   static const _startedId = 'AnimatedMapController#MoveStarted';
   static const _inProgressId = 'AnimatedMapController#MoveInProgress';

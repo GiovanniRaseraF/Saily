@@ -5,10 +5,11 @@ import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 
 class BoatWidget extends StatelessWidget {
-  BoatWidget({required this.info, required this.settingsController});
+  BoatWidget({required this.info, required this.settingsController, required this.onDelete});
 
   BoatInfo info;
   SettingsController settingsController;
+  void Function() onDelete = (){};
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +98,9 @@ class BoatWidget extends StatelessWidget {
                                                                 elevation: 10,
                                                                 onPressed: () {
                                                                   print("Delete boat ${info.name}");
-                                                                  //onDelete();
+                                                                  settingsController.deleteBoat(info.id);
                                                                   Navigator.pop(context);
+                                                                  onDelete();
                                                           })),
                                                           // Decline Delete
                                                           SizedBox(

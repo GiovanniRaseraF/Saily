@@ -7,7 +7,6 @@ import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:sqlite3/sqlite3.dart';
 
 class SettingsService extends CacheProvider {
   SettingsService({required this.sharePreferences});
@@ -15,12 +14,14 @@ class SettingsService extends CacheProvider {
   SharedPreferences sharePreferences;
 
 
-  UserInfo? loadUser(String email, String password){
+  UserInfo? loadUser(String username, String password){
     const String PREFIX = "USER_INFO";
     final userJson = getString(PREFIX);
     if(userJson == null) return null;
-
-    return UserInfo.fromJSONString(userJson);
+    
+    var ret = UserInfo.fromJSONString(userJson);
+    if(ret == null) return null;
+    if(ret.username == username && ret.password == password) return ret;
   }
 
   void saveUser(UserInfo user){

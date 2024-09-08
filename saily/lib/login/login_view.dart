@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/main.dart';
 import 'package:saily/register/register_view.dart';
 import 'package:saily/settings/settings_controller.dart';
@@ -44,6 +45,8 @@ class _LoginViewState extends State<LoginView> {
 
     print("You Need to login");
     // return login page
+    String username = "";
+    String password = "";
     return Scaffold(
         body: Stack(
       children: [
@@ -87,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                                 border: OutlineInputBorder(),
                                 hintText: 'Username',
                               ),
-                              onChanged: (value) {},
+                              onChanged: (value) {username = value;},
                             ),
                           ),
                           Divider(
@@ -102,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                               obscureText: true,
                               enableSuggestions: false,
                               autocorrect: false,
-                              onChanged: (value) {},
+                              onChanged: (value) {password = value;},
                             ),
                           ),
                           Divider(
@@ -120,7 +123,13 @@ class _LoginViewState extends State<LoginView> {
                                   elevation: 10,
                                   onPressed: () {
                                     print("login");
-                                    settingsController.login();
+                                    UserInfo? user = settingsController.loadUser(username, password);
+                                    if(user == null){
+                                      print("This user does not exist");
+                                    }else{
+                                      print("Logged: ${user.toJSONString()}");
+                                      settingsController.login();
+                                    }
                                     setState(() {
                                     });
                                   }))
