@@ -30,7 +30,7 @@ class BoatWidget extends StatelessWidget {
                       child: Container(
                         child: ClipRRect(
                             borderRadius:BorderRadius.all(Radius.circular(10.0)),
-                            child: Image.asset("images/boat.jpeg")),
+                            child: Image.asset("images/boat.jpeg", fit: BoxFit.fill,)),
                       )),
                   // Dispay the rest of the info
                   SizedBox(
