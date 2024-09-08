@@ -34,6 +34,10 @@ class SettingsController extends ChangeNotifier {
 
     // logged
     logged = settingsService.loadIsLogged();
+
+    // Units info
+    sogUnitStream = StreamController<String>.broadcast();
+    motorTempUnitStream = StreamController<String>.broadcast();
   }
 
   // Current User
@@ -66,6 +70,50 @@ class SettingsController extends ChangeNotifier {
 
   // logged
   bool logged = false;
+
+  // Units info
+  late StreamController<String> sogUnitStream;
+  late StreamController<String>  motorTempUnitStream;
+
+  Stream<String> getSogUnitStream() {
+    return sogUnitStream.stream;
+  }
+
+  Stream<String> getMotorTempStream() {
+    return motorTempUnitStream.stream;
+  }
+
+  void setSogUnit(String? unit){
+    if(unit == null) return;
+    settingsService.setString("sog-unit", unit);
+    final send = settingsService.getString("sog-unit");
+    sogUnitStream.add(send!);
+  }
+
+  void setMotorTempUnit(String? unit){
+    if(unit == null) return;
+    settingsService.setString("motor-temp-unit", unit);
+    final send = settingsService.getString("motor-temp-unit");
+    motorTempUnitStream.add(send!);
+  }
+
+  String getSogUnit(){
+    final send = settingsService.getString("sog-unit");
+    if(send == null){
+      settingsService.setString("sog-unit", "km/h");
+      return "km/h";
+    }
+    return send;
+  }
+
+  String getMotorTempUnit(){
+    final send = settingsService.getString("motor-temp-unit");
+    if(send == null){
+      settingsService.setString("motor-temp-unit", "C");
+      return "C";
+    }
+    return send;
+  }
 
   UserInfo? loadUser(String username, String password){
     currentUser = settingsService.loadUser(username, password);

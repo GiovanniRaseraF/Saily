@@ -27,6 +27,7 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
   BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
   SettingsController settingsController;
   bool small = true;
+  String unit = "";
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
@@ -42,7 +43,12 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
           return Container(
             child: Column(
               children: [
-                Text("Motor Temp: C"),
+                Row(children: [Text("Motor Temp: "), StreamBuilder(stream: settingsController.getMotorTempStream(), builder: (c, sn){
+                  if(sn.data != null){
+                    unit = sn.data!;
+                  }
+                  return Text(unit);
+                },)]),
                 Text(
                   "${spacer}${internalBatteryInfo.temp.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 25),
@@ -67,7 +73,12 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
           return Container(
             child: Column(
               children: [
-                Text("Motor Temp: C"),
+                Row(children: [Text("Motor Temp: "), StreamBuilder(stream: settingsController.getMotorTempStream(), builder: (c, sn){
+                  if(sn.data != null){
+                    unit = sn.data!;
+                  }
+                  return Text(unit);
+                },)]),
                 Text(
                   "${spacer}${internalBatteryInfo.temp.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 38),
@@ -80,6 +91,7 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
 
   @override
   Widget build(BuildContext c) {
+    unit = settingsController.getMotorTempUnit();
     if (small) {
       return buildSmall(c);
     } else {

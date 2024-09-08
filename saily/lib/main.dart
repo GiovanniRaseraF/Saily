@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/login/login_view.dart';
 import 'package:saily/record/record_controller.dart';
@@ -46,7 +47,11 @@ late Timer send;
 FakeData fakeData = FakeData();
 
 //User for testing
-UserInfo adminDefault = UserInfo(email: "admin@admin.com", username: "admin", password: "admin", boats: []);
+UserInfo adminDefault = UserInfo(email: "admin@admin.com", username: "admin", password: "admin", boats: [
+  BoatInfo(name: "Angelica", id: "0x0000"),
+  BoatInfo(name: "Marta", id: "0x0001"),
+  BoatInfo(name: "Lorena", id: "0x0002"),
+]);
 
 void createDebug() async {
   fakeData.load_parse(cannesTrip);
@@ -88,7 +93,11 @@ void main() async {
   UserInfo? logged = settingsService.loadUser("admin", "admin");
   if(logged == null){
     settingsService.saveUser(adminDefault);
+
+    var u = settingsService.loadUser("admin", "admin");
+    print(u!.toJSONString());
   }
+  print(logged!.toJSONString());
   //
 
   recordController = RecordController(settingsController: settingsController);

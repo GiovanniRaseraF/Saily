@@ -34,7 +34,9 @@ class _LoginViewState extends State<LoginView> {
   }
   late Widget homePage;
   SettingsController settingsController;
-
+  String username = "";
+  String password = "";
+  
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
@@ -45,8 +47,7 @@ class _LoginViewState extends State<LoginView> {
 
     print("You Need to login");
     // return login page
-    String username = "";
-    String password = "";
+    
     return Scaffold(
         body: Stack(
       children: [
@@ -122,7 +123,7 @@ class _LoginViewState extends State<LoginView> {
                                   backgroundColor: SailyBlue,
                                   elevation: 10,
                                   onPressed: () {
-                                    print("login");
+                                    print("login: $username, $password" );
                                     UserInfo? user = settingsController.loadUser(username, password);
                                     if(user == null){
                                       print("This user does not exist");

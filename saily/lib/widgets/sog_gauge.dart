@@ -28,10 +28,12 @@ class _SOGGaugeState extends State<SOGGauge> {
 
   SettingsController settingsController;
   bool small;
+  String unit = "";
 
   GpsInfo gpsData = GpsInfo(isFixed: false, satellitesCount: 0, SOG: 0);
 
   Widget buildSmall(BuildContext c) {
+
     return StreamBuilder(
         stream: settingsController.getCurrentGpsCounterStream(),
         builder: (bc, snapshot) {
@@ -43,7 +45,12 @@ class _SOGGaugeState extends State<SOGGauge> {
           return Container(
             child: Column(
               children: [
-                Text("SOG: Km/h"),
+                Row(children: [Text("SOG: "), StreamBuilder(stream: settingsController.getSogUnitStream(), builder: (c, sn){
+                  if(sn.data != null){
+                    unit = sn.data!;
+                  }
+                  return Text(unit);
+                },)]),
                 Row(
                   children: [
                     Text("${gpsData.SOG.toStringAsFixed(1)}", style: TextStyle(fontSize: 25),
@@ -68,7 +75,12 @@ class _SOGGaugeState extends State<SOGGauge> {
           return Container(
             child: Column(
               children: [
-                Text("SOG: Km/h"),
+                Row(children: [Text("SOG: "), StreamBuilder(stream: settingsController.getSogUnitStream(), builder: (c, sn){
+                  if(sn.data != null){
+                    unit = sn.data!;
+                  }
+                  return Text(unit);
+                },)]),
                 Row(
                   children: [
                     Text("${gpsData.SOG.toStringAsFixed(1)}", style: TextStyle(fontSize: 38),),
@@ -82,6 +94,7 @@ class _SOGGaugeState extends State<SOGGauge> {
 
   @override
   Widget build(BuildContext c) {
+    unit = settingsController.getSogUnit();
     if (small) {
       return buildSmall(c);
     } else {

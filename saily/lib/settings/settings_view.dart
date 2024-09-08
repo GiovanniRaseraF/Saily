@@ -40,11 +40,19 @@ class _SettingsViewState extends State<SettingsView> {
           DropDownSettingsTile<String>(
             title: "SOG Unit", 
             subtitle: "Speed over gournd calculated using gps",
-            settingKey: "sog-unit", selected: "km/h", values: {"km/h": "km/h", "knt" : "knt"}),
+            settingKey: "sog-unit", selected: "km/h", values: {"km/h": "km/h", "knt" : "knt"},
+            onChange: (value){
+              settingsController.setSogUnit(value);
+            },
+            ),
           DropDownSettingsTile<String>(
             title: "MotorTemp Unit", 
             subtitle: "Motor temperature average read with NMEA2000",
-            settingKey: "motor-temp-unit", selected: "c", values: {"c": "c", "F" : "F", "K": "K"}) 
+            settingKey: "motor-temp-unit", selected: "C", values: {"C": "C", "F" : "F", "K": "K"},
+            onChange: (value){
+              settingsController.setMotorTempUnit(value);
+            },
+            ),
         ]),
         ]),
       ]),
