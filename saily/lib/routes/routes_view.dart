@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/routes/import_view.dart';
 import 'package:saily/routes/route_widget.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
@@ -39,7 +40,15 @@ class _RoutesViewState extends State<RoutesView> {
               FloatingActionButton(
                 elevation: 0,
                 backgroundColor: Colors.white,
-                mini: true, onPressed: (){print("Import route");}, child: Icon(Icons.import_contacts, color: SailyBlue,),)]),
+                mini: true, onPressed: (){
+                  print("Import route");
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (c){
+                      return ImportView(settingsController: settingsController, onDone: (){setState(() {});},);
+                    }
+                  ));
+                  }, 
+                  child: Icon(Icons.import_contacts, color: SailyBlue,),)]),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,

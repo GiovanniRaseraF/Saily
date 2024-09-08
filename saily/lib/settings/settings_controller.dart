@@ -198,6 +198,12 @@ class SettingsController extends ChangeNotifier {
     return currentRouteBuilding.stream;
   }
 
+  void importRoute(RouteInfo r){
+    settingsService.saveRouteInfo(r.name, r.positions, r.from, r.to);
+    listOfIds.add(r.to);
+    settingsService.saveRoutesIds(listOfIds);
+  }
+
   ///
   /// Record new postion
   ///
