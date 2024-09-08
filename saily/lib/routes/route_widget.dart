@@ -5,6 +5,7 @@ import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/main.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
+import 'package:share/share.dart';
 
 ///
 /// This widget allows to view a single route and select it
@@ -106,6 +107,7 @@ class RouteWidget extends StatelessWidget {
                                         backgroundColor: Colors.white,
                                         onPressed: () {
                                           print("Share Route");
+                                          Share.share("Share your Route :)", subject: "Share your Route :)");
                                         },
                                         child: Icon(
                                           Icons.share,
