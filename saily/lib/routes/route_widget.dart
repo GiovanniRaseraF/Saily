@@ -80,8 +80,8 @@ class RouteWidget extends StatelessWidget {
                             child: Column(
                               children: [
                                 Row(children: [Text(info.name, style: TextStyle(fontWeight: FontWeight.bold),)]),
-                                // Row(children: [Text("date: ${info.from.split(" ")[0]}")]),
-                                // Row(children: [Text("time: ${info.from.split(" ")[2].split(".")[0]}")]),
+                                Row(children: [Text("date: ${info.from.split(" ")[0]}")]),
+                                Row(children: [Text("time: ${info.from.split(" ")[2].split(".")[0]}")]),
                                 Divider(),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
