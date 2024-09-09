@@ -12,7 +12,11 @@ UserInfo adminDefault = UserInfo(
     email: "admin@admin.com",
     username: "admin",
     password: "admin",
-    routes: [],
+    routes: [
+      RouteInfo(name: "Giro con alice", positions: [], from: DateTime.now().toString(), to: DateTime.now().toString()),
+      RouteInfo(name: "Giro con marco", positions: [], from: DateTime.now().toString(), to: DateTime.now().toString()),
+      RouteInfo(name: "Giro con federico", positions: [], from: DateTime.now().toString(), to: DateTime.now().toString()),
+    ],
     boats: [
       BoatInfo(name: "Angelica", id: "0x0000"),
       BoatInfo(name: "Marta", id: "0x0001"),
