@@ -31,6 +31,7 @@ class _LoginViewState extends State<LoginView> {
       settingsController: this.settingsController,
       onLogout : (){setState(() {});}
     ); 
+
   }
   late Widget homePage;
   SettingsController settingsController;
@@ -40,8 +41,11 @@ class _LoginViewState extends State<LoginView> {
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
+    username = settingsController.username;
+    password = settingsController.password;
+
     // check login
-    if(settingsController.isLogged()){
+    if(settingsController.canUserLogin(username, password)){
       return homePage;
     }
 
@@ -124,12 +128,13 @@ class _LoginViewState extends State<LoginView> {
                                   elevation: 10,
                                   onPressed: () {
                                     print("login: $username, $password" );
-                                    UserInfo? user = settingsController.loadUser(username, password);
+                                    UserInfo? user = settingsController.getUser(username, password);
+
                                     if(user == null){
                                       print("This user does not exist");
                                     }else{
-                                      print("Logged: ${user.toJSONString()}");
-                                      settingsController.login();
+                                      print("Logged: ${user!.toJSONString()}");
+                                      settingsController.login(username, password);
                                     }
                                     setState(() {
                                     });
@@ -201,21 +206,5 @@ class _LoginViewState extends State<LoginView> {
   }
   
   // try to login
-  void tryLogin(BuildContext context) {
-    bool canLogin = settingsController.isLogged();
-      if (canLogin) {
-        print("You can Login");
-      } else {
-        print("You CANNOT Login !");
-      }
-
-      // create homepage
-      // if (canLogin) {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => homePage),
-      //   );
-      // }
-    }
+  
 }

@@ -32,17 +32,14 @@ class SettingsController extends ChangeNotifier {
     // load ids
     listOfIds = settingsService.loadRoutesIds();
 
-    // logged
-    logged = settingsService.loadIsLogged();
-
     // Units info
     sogUnitStream = StreamController<String>.broadcast();
     motorTempUnitStream = StreamController<String>.broadcast();
   }
 
-  // Current User
-  UserInfo? currentUser = null;
-  
+  String username = "";
+  String password = "";
+
   // camera
   late CameraDescription camera;
 
@@ -68,12 +65,38 @@ class SettingsController extends ChangeNotifier {
   late StreamController<RouteInfo> currentRouteToFollow;
   late StreamController<RouteInfo> currentRouteBuilding;
 
-  // logged
-  bool logged = false;
-
   // Units info
   late StreamController<String> sogUnitStream;
   late StreamController<String>  motorTempUnitStream;
+
+  void addUser(UserInfo newUser){
+    settingsService.saveUser(newUser);
+  }
+
+  bool canAddUser(UserInfo newUser){
+    return settingsService.canAddUser(newUser);
+  }
+
+  bool canUserLogin(String usename, String password){
+    return settingsService.canUserLogin(usename, password);
+  }
+
+  void login(String username, String password){
+    if(canUserLogin(username, password)){
+      settingsService.loadUser(username, password);
+      this.username = username;
+      this.password = password;
+    }
+  }
+
+  void logout(){
+    username = "";
+    password = "";
+  }
+
+  UserInfo? getUser(String username, String password){
+    return settingsService.loadUser(username, password);
+  }
 
   Stream<String> getSogUnitStream() {
     return sogUnitStream.stream;
@@ -115,36 +138,6 @@ class SettingsController extends ChangeNotifier {
     return send;
   }
 
-  UserInfo? loadUser(String username, String password){
-    currentUser = settingsService.loadUser(username, password);
-    return currentUser;
-  }
-
-  // On final app this serviceSerice will contact a server to check if 
-  // you can login 
-  void setLogged(bool value){
-    logged = value;
-    settingsService.saveLogged(logged);
-  }
-
-  void logout(){
-    logged = false;
-    if(currentUser != null){
-      settingsService.saveUser(currentUser!);
-      currentUser = null;
-    }
-    setLogged(logged);
-  }
-
-  void login(){
-    logged = true;
-    setLogged(logged);
-  }
-
-  bool isLogged(){
-    logged = settingsService.loadIsLogged();
-    return logged;
-  }
 
   // camera load
   CameraDescription getCamera(){
@@ -157,12 +150,14 @@ class SettingsController extends ChangeNotifier {
   }
 
   void addNewBoat(BoatInfo newboat){
+    UserInfo? currentUser = settingsService.loadUser(username, password);
     if(currentUser == null) return;
     currentUser!.addBoat(newboat);
     settingsService.saveUser(currentUser!);
   }
 
   void deleteBoat(String id){
+    UserInfo? currentUser = settingsService.loadUser(username, password);
     if(currentUser == null) return;
     List<BoatInfo> newList = [];
     for(final b in currentUser!.boats){
@@ -173,6 +168,10 @@ class SettingsController extends ChangeNotifier {
 
     currentUser!.boats = newList;
     settingsService.saveUser(currentUser!);
+  }
+
+  UserInfo? getLoggedUser(){
+    return settingsService.loadUser(username, password);
   }
 
   ///

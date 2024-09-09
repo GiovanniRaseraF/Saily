@@ -1,6 +1,7 @@
 // Actual app
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
@@ -21,6 +22,11 @@ class _RegisterViewState extends State<RegisterView> {
   _RegisterViewState({required this.settingsController});
 
   SettingsController settingsController;
+
+  String username = "";
+  String email = "";
+  String password = "";
+  String repeatPassword = "";
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +77,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 border: OutlineInputBorder(),
                                 hintText: 'Username',
                               ),
-                              onChanged: (value) {},
+                              onChanged: (value) {username = value;},
                             ),
                           ),
                           Divider(
@@ -83,7 +89,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 border: OutlineInputBorder(),
                                 hintText: 'Email',
                               ),
-                              onChanged: (value) {},
+                              onChanged: (value) {email = value;},
                             ),
                           ),
                           Divider(
@@ -98,7 +104,7 @@ class _RegisterViewState extends State<RegisterView> {
                               obscureText: true,
                               enableSuggestions: false,
                               autocorrect: false,
-                              onChanged: (value) {},
+                              onChanged: (value) {password = value;},
                             ),
                           ),
                           Divider(
@@ -113,7 +119,7 @@ class _RegisterViewState extends State<RegisterView> {
                               obscureText: true,
                               enableSuggestions: false,
                               autocorrect: false,
-                              onChanged: (value) {},
+                              onChanged: (value) {repeatPassword = value;},
                             ),
                           ),
                           Divider(
@@ -130,7 +136,22 @@ class _RegisterViewState extends State<RegisterView> {
                                   backgroundColor: SailyBlue,
                                   elevation: 10,
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    if(username == ""){
+
+                                    } else if (password == ""){
+
+                                    }else if(password != repeatPassword){
+                                      showAlertDialog(context);
+                                    }else{
+                                      UserInfo newUser = UserInfo(email: email, username: username, password: password, boats: []);
+                                      bool can = settingsController.canAddUser(newUser);
+                                      if(can){
+                                        settingsController.addUser(newUser);
+                                        Navigator.pop(context);
+                                      }else{
+                                        // show you cannot add user
+                                      }
+                                    }
                                   }))
                         ],
                       ),
@@ -187,4 +208,40 @@ class _RegisterViewState extends State<RegisterView> {
       ],
     ));
   }
+
+  showAlertDialog(BuildContext context) {  
+  // Create button  
+  Widget okButton = SizedBox(
+    width: gCtxW() * 0.9,
+    child: FloatingActionButton(
+        heroTag: "ok-tag",
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: SailyBlue,
+        elevation: 10,
+        onPressed: () {
+          Navigator.of(context).pop();  
+  }));
+  
+  
+  
+  // Create AlertDialog  
+  AlertDialog alert = AlertDialog(  
+    title: Text("Password Not matching"),  
+    content: Text("Please check your password"),  
+    actions: [  
+      okButton,  
+    ],  
+  );  
+  
+  // show the dialog  
+  showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );  
+}  
 }

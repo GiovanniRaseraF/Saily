@@ -1,33 +1,35 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
+import 'package:saily/settings/fake_server.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart';
 
 class SettingsService extends CacheProvider {
-  SettingsService({required this.sharePreferences});
+  SettingsService({required this.sharePreferences, required this.server});
 
   SharedPreferences sharePreferences;
+  FakeServer server;
 
+  bool canAddUser(UserInfo newUser){
+    return server.canAddUser(newUser);
+  }
 
   UserInfo? loadUser(String username, String password){
-    const String PREFIX = "USER_INFO";
-    final userJson = getString(PREFIX);
-    if(userJson == null) return null;
-    
-    var ret = UserInfo.fromJSONString(userJson);
-    if(ret == null) return null;
-    if(ret.username == username && ret.password == password) return ret;
+    return server.getUser(username, password);
   }
 
   void saveUser(UserInfo user){
-    const String PREFIX = "USER_INFO";
-    final save = user.toJSONString();
-    setString(PREFIX, save);
+    server.updateUser(user);
+  }
+
+  bool canUserLogin(String username, String password){
+    return server.canUserLogin(username, password);
   }
 
   /// 

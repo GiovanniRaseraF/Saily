@@ -11,6 +11,7 @@ import 'package:saily/login/login_view.dart';
 import 'package:saily/record/record_controller.dart';
 import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
+import 'package:saily/settings/fake_server.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
 import 'package:saily/datatypes/battery_info.dart';
@@ -46,12 +47,8 @@ late bool expandedatstart;
 late Timer send;
 FakeData fakeData = FakeData();
 
-//User for testing
-UserInfo adminDefault = UserInfo(email: "admin@admin.com", username: "admin", password: "admin", boats: [
-  BoatInfo(name: "Angelica", id: "0x0000"),
-  BoatInfo(name: "Marta", id: "0x0001"),
-  BoatInfo(name: "Lorena", id: "0x0002"),
-]);
+// login
+late FakeServer fakeServer; 
 
 void createDebug() async {
   fakeData.load_parse(cannesTrip);
@@ -84,19 +81,17 @@ void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   // setting init
   sharedPreferences = await SharedPreferences.getInstance();
-  settingsService = SettingsService(sharePreferences: sharedPreferences);
+  // server for login
+  fakeServer = FakeServer(preferences: sharedPreferences);
+  fakeServer.loadUsers();
+  fakeServer.updateUser(UserInfo(email: "ciao@hello.com", username: "admin2", password: "admin2", boats:[]));
+
+  // setting service
+  settingsService = SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
 
-  //
-  // ad use to memory if not exists
-  UserInfo? logged = settingsService.loadUser("admin", "admin");
-  if(logged == null){
-    settingsService.saveUser(adminDefault);
-    var u = settingsService.loadUser("admin", "admin");
-    print(u!.toJSONString());
-  }
-  //
+  print("Server: ${fakeServer.toJSONString()}");
 
   recordController = RecordController(settingsController: settingsController);
 

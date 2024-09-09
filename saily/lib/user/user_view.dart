@@ -33,7 +33,7 @@ class _UserViewState extends State<UserView> {
 
   @override
   Widget build(BuildContext context) {
-    UserInfo? currentUser = settingsController.loadUser("admin", "admin");
+    UserInfo? currentUser = settingsController.getLoggedUser();
 
     return Scaffold(
         appBar: AppBar(
