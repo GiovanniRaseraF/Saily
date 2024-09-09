@@ -40,8 +40,11 @@ class _LoginViewState extends State<LoginView> {
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
+    print(settingsController.getUsername());
+    print(settingsController.getPassword());
     // check login
-    if(settingsController.canUserLogin(settingsController.username, settingsController.password)){
+
+    if(settingsController.canUserLogin(settingsController.getUsername(), settingsController.getPassword())){
       return homePage;
     }
 
@@ -92,7 +95,8 @@ class _LoginViewState extends State<LoginView> {
                                 hintText: 'Username',
                               ),
                               onChanged: (value) {
-                                settingsController.username = value;
+                                settingsController.setUsername(value);
+
                                 },
                             ),
                           ),
@@ -109,7 +113,8 @@ class _LoginViewState extends State<LoginView> {
                               enableSuggestions: false,
                               autocorrect: false,
                               onChanged: (value) {
-                                settingsController.password = value;
+                                settingsController.setPassword(value);
+                                print(settingsController.getPassword());
                                 },
                             ),
                           ),
@@ -128,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                                   elevation: 10,
                                   onPressed: () {
                                     UserInfo? user = settingsController.getUser(settingsController.username, settingsController.password);
-
+                                    print("Login: ${settingsController.username}, ${settingsController.password}");
                                     if(user == null){
                                       print("This user does not exist");
                                     }else{

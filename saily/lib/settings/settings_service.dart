@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
+import 'package:saily/main.dart';
 import 'package:saily/settings/fake_server.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,30 +39,37 @@ class SettingsService extends CacheProvider {
 
 
   final String USERNAME = "USERNAME";
-  final String PASSwORD = "USERNAME";
+  final String PASSwORD = "PASSWORD";
+
   String loadUsername(){
-    String? ret = getString(USERNAME);
-    if(ret == null) return "";
+    String? ret = sharedPreferences.getString(USERNAME);
+    if(ret == null){
+      setUsername("");
+      return "";
+    };
     return ret!;
   }
 
   String loadPassword(){
-    String? ret = getString(PASSwORD);
-    if(ret == null) return "";
+    String? ret = sharedPreferences.getString(PASSwORD);
+    if(ret == null){
+      setPassword("");
+      return "";
+    }
     return ret!;
   }
 
   void setUsername(String user){
-    setString(USERNAME, user);
+    sharePreferences.setString(USERNAME, user);
   }
   
   void setPassword(String pass){
-    setString(PASSwORD, pass);
+    sharePreferences.setString(PASSwORD, pass);
   }
   ///
   /// Save the route info
   ///
-  // void saveRouteInfo(String name, List<LatLng> positions, String from, String to) {
+  // void saveRouteInfo(String name, ListLatLng positions, String from, String to) {
   //   const String PREFIX = "SINGLE_ROUTE_ID_";
   //   final toSave = RouteInfo(name: name, positions: positions, from: from, to: to);
 

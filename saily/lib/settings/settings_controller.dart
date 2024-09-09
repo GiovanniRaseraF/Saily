@@ -82,16 +82,29 @@ class SettingsController extends ChangeNotifier {
     return settingsService.canUserLogin(usename, password);
   }
 
+  void setUsername(String us){
+    settingsService.setUsername(us);
+  }
+
+  void setPassword(String us){
+    settingsService.setPassword(us);
+  }
+
   void login(String username, String password){
     if(canUserLogin(username, password)){
-      settingsService.loadUser(username, password);
-      
-      this.username = username;
-      this.password = password;
-
       settingsService.setUsername(username);
       settingsService.setPassword(password);
     }
+  }
+
+  String getUsername(){
+    username = settingsService.loadUsername();
+    return username;
+  }
+
+  String getPassword(){
+    password = settingsService.loadPassword();
+    return password;
   }
 
   void logout(){
