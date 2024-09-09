@@ -36,26 +36,28 @@ class SettingsService extends CacheProvider {
     return server.canUserLogin(username, password);
   }
 
-  /// 
-  /// Check if logged
-  /// 
-  bool loadIsLogged(){
-    const String PREFIX = "IS_LOGGED";
-    final ret = getBool(PREFIX);
-    if(ret == null){
-      return false;
-    }
-    return ret;
+
+  final String USERNAME = "USERNAME";
+  final String PASSwORD = "USERNAME";
+  String loadUsername(){
+    String? ret = getString(USERNAME);
+    if(ret == null) return "";
+    return ret!;
   }
 
-  ///
-  /// Save logged state
-  ///
-  void saveLogged(bool newLogged){
-    const String PREFIX = "IS_LOGGED";
-    setBool(PREFIX, newLogged);
+  String loadPassword(){
+    String? ret = getString(PASSwORD);
+    if(ret == null) return "";
+    return ret!;
   }
 
+  void setUsername(String user){
+    setString(USERNAME, user);
+  }
+  
+  void setPassword(String pass){
+    setString(PASSwORD, pass);
+  }
   ///
   /// Save the route info
   ///

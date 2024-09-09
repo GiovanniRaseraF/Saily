@@ -32,6 +32,10 @@ class SettingsController extends ChangeNotifier {
     // Units info
     sogUnitStream = StreamController<String>.broadcast();
     motorTempUnitStream = StreamController<String>.broadcast();
+
+    // load username
+    username = settingsService.loadUsername();
+    password = settingsService.loadPassword();
   }
 
   String username = "";
@@ -81,14 +85,21 @@ class SettingsController extends ChangeNotifier {
   void login(String username, String password){
     if(canUserLogin(username, password)){
       settingsService.loadUser(username, password);
+      
       this.username = username;
       this.password = password;
+
+      settingsService.setUsername(username);
+      settingsService.setPassword(password);
     }
   }
 
   void logout(){
     username = "";
     password = "";
+
+    settingsService.setUsername(username);
+    settingsService.setPassword(password);
   }
 
   UserInfo? getUser(String username, String password){
