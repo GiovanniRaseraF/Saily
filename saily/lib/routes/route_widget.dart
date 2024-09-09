@@ -6,7 +6,7 @@ import 'package:saily/main.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:share/share.dart';
-
+import 'package:latlong2/latlong.dart';
 ///
 /// This widget allows to view a single route and select it
 ///
@@ -43,7 +43,7 @@ class RouteWidget extends StatelessWidget {
                                   interactionOptions: const InteractionOptions(
                                     flags: InteractiveFlag.pinchZoom,
                                   ),
-                                  initialCenter: info.positions[0],
+                                  initialCenter: (info.positions.length == 0) ? LatLng(0,0) : info.positions[0],
                                   initialZoom: 15,
                                 ),
                                 mapController: MapController(
@@ -80,8 +80,8 @@ class RouteWidget extends StatelessWidget {
                             child: Column(
                               children: [
                                 Row(children: [Text(info.name, style: TextStyle(fontWeight: FontWeight.bold),)]),
-                                Row(children: [Text("date: ${info.from.split(" ")[0]}")]),
-                                Row(children: [Text("time: ${info.from.split(" ")[1].split(".")[0]}")]),
+                                // Row(children: [Text("date: ${info.from.split(" ")[0]}")]),
+                                // Row(children: [Text("time: ${info.from.split(" ")[2].split(".")[0]}")]),
                                 Divider(),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

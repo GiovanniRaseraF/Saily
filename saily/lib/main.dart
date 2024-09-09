@@ -84,7 +84,7 @@ void main() async {
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
   fakeServer.loadUsers();
-  fakeServer.updateUser(UserInfo(email: "ciao@hello.com", username: "admin2", password: "admin2", boats:[]));
+  fakeServer.updateUser(UserInfo(email: "ciao@hello.com", username: "admin2", password: "admin2", boats:[], routes: []));
 
   // setting service
   settingsService = SettingsService(sharePreferences: sharedPreferences, server: fakeServer);

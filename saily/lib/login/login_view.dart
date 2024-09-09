@@ -35,17 +35,13 @@ class _LoginViewState extends State<LoginView> {
   }
   late Widget homePage;
   SettingsController settingsController;
-  String username = "";
-  String password = "";
+
   
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
-    username = settingsController.username;
-    password = settingsController.password;
-
     // check login
-    if(settingsController.canUserLogin(username, password)){
+    if(settingsController.canUserLogin(settingsController.username, settingsController.password)){
       return homePage;
     }
 
@@ -95,7 +91,9 @@ class _LoginViewState extends State<LoginView> {
                                 border: OutlineInputBorder(),
                                 hintText: 'Username',
                               ),
-                              onChanged: (value) {username = value;},
+                              onChanged: (value) {
+                                settingsController.username = value;
+                                },
                             ),
                           ),
                           Divider(
@@ -110,7 +108,9 @@ class _LoginViewState extends State<LoginView> {
                               obscureText: true,
                               enableSuggestions: false,
                               autocorrect: false,
-                              onChanged: (value) {password = value;},
+                              onChanged: (value) {
+                                settingsController.password = value;
+                                },
                             ),
                           ),
                           Divider(
@@ -127,17 +127,17 @@ class _LoginViewState extends State<LoginView> {
                                   backgroundColor: SailyBlue,
                                   elevation: 10,
                                   onPressed: () {
-                                    print("login: $username, $password" );
-                                    UserInfo? user = settingsController.getUser(username, password);
+                                    UserInfo? user = settingsController.getUser(settingsController.username, settingsController.password);
 
                                     if(user == null){
                                       print("This user does not exist");
                                     }else{
                                       print("Logged: ${user!.toJSONString()}");
-                                      settingsController.login(username, password);
+                                      settingsController.login(settingsController.username, settingsController.password);
+                                      setState(() {
+                                      });
                                     }
-                                    setState(() {
-                                    });
+                                    
                                   }))
                         ],
                       ),

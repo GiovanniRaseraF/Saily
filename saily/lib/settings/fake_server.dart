@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:saily/datatypes/boat_info.dart';
+import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ UserInfo adminDefault = UserInfo(
     email: "admin@admin.com",
     username: "admin",
     password: "admin",
+    routes: [],
     boats: [
       BoatInfo(name: "Angelica", id: "0x0000"),
       BoatInfo(name: "Marta", id: "0x0001"),
@@ -22,6 +24,16 @@ class FakeServer {
 
   SharedPreferences preferences;
   List<UserInfo> users = [];
+
+  void addRouteToUser(String username, String password, RouteInfo newRoute){
+    bool can = canUserLogin(username, password);
+    if(can){
+      var user = getUser(username, password);
+
+      user!.addRoute(newRoute);
+      updateUser(user);
+    }
+  }
 
   // First operation
   void loadUsers() {
@@ -103,10 +115,13 @@ class FakeServer {
   }
 
   bool canAddUser(UserInfo newUser){
-    UserInfo? presence = getUser(newUser.username, newUser.password);
+    for(var u in users){
+      if(u.username == newUser.username ){
+        return false;
+      }
+    }
 
-    if(presence == null) return true;
-    return false;
+    return true;
   }
 
   void addUser(UserInfo newUser){

@@ -29,9 +29,6 @@ class SettingsController extends ChangeNotifier {
     currentRouteToFollow = StreamController<RouteInfo>.broadcast();
     currentRouteBuilding = StreamController<RouteInfo>.broadcast();
 
-    // load ids
-    listOfIds = settingsService.loadRoutesIds();
-
     // Units info
     sogUnitStream = StreamController<String>.broadcast();
     motorTempUnitStream = StreamController<String>.broadcast();
@@ -198,9 +195,7 @@ class SettingsController extends ChangeNotifier {
   }
 
   void importRoute(RouteInfo r){
-    settingsService.saveRouteInfo(r.name, r.positions, r.from, r.to);
-    listOfIds.add(r.to);
-    settingsService.saveRoutesIds(listOfIds);
+    settingsService.addRouteToUser(username, password, r);
   }
 
   ///
@@ -236,33 +231,48 @@ class SettingsController extends ChangeNotifier {
       name = "GenericRoute";
     }
 
-    settingsService.saveRouteInfo(name.trim(), listOfRecordedPositions, from, to);
-    listOfIds.add(to);
-    settingsService.saveRoutesIds(listOfIds);
+    RouteInfo newRoute = RouteInfo(name: name.trim(), positions: listOfRecordedPositions, from: from, to: to);
+    settingsService.addRouteToUser(username, password, newRoute);
   }
 
   void deleteRoute(String id){
-    listOfIds = listOfIds.where((value){ return value != id;}).toList();
-    settingsService.saveRoutesIds(listOfIds);
-    listOfIds = settingsService.loadRoutesIds();
+    var user = getUser(username, password);
+    if(user ==  null) return;
+
+    List<RouteInfo> newRoutes = [];
+    for(var r in user.routes){
+      if(r.id == id){
+
+      }else{
+        newRoutes.add(r);
+      }
+    }
+
+    var newUser = UserInfo(email: user.email, username: user.username, password: password, boats: user.boats, routes: newRoutes);
+    
+    settingsService.saveUser(newUser);
   }
 
   ///
   /// Get route info
   ///
   RouteInfo? getRouteInfo(String id){
-    final ret = settingsService.loadRouteInfo(id);
-    return ret;
+    var user = getUser(username, password);
+    if(user ==  null) return null;
+
+    for(var r in user.routes){
+      if(r.id == id){
+        return r;
+      }
+    }
+
+    return null;
   }
 
   List<RouteInfo> getRoutes(){
-    List<RouteInfo> ret = [];
-
-    for(final id in listOfIds){
-      ret.add(settingsService.loadRouteInfo(id)!);
-    }
-
-    return ret;
+    var user = getUser(username, password);
+    if(user ==  null) return [];
+    return user.routes;
   }
 
   ///

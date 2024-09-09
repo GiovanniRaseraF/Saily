@@ -137,19 +137,20 @@ class _RegisterViewState extends State<RegisterView> {
                                   elevation: 10,
                                   onPressed: () {
                                     if(username == ""){
-
+                                      
                                     } else if (password == ""){
 
                                     }else if(password != repeatPassword){
                                       showAlertDialog(context);
                                     }else{
-                                      UserInfo newUser = UserInfo(email: email, username: username, password: password, boats: []);
+                                      UserInfo newUser = UserInfo(email: email, username: username, password: password, boats: [], routes: []);
                                       bool can = settingsController.canAddUser(newUser);
                                       if(can){
                                         settingsController.addUser(newUser);
                                         Navigator.pop(context);
                                       }else{
                                         // show you cannot add user
+                                        showAlertUserAlreadyExistsDialog(context);
                                       }
                                     }
                                   }))
@@ -209,6 +210,42 @@ class _RegisterViewState extends State<RegisterView> {
     ));
   }
 
+  // Cannot add user
+  showAlertUserAlreadyExistsDialog(BuildContext context) {  
+  // Create button  
+  Widget okButton = SizedBox(
+    width: gCtxW() * 0.9,
+    child: FloatingActionButton(
+        heroTag: "ok-tag-add",
+        child: Text(
+          "OK",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: SailyBlue,
+        elevation: 10,
+        onPressed: () {
+          Navigator.of(context).pop();  
+  }));
+  
+  // Create AlertDialog  
+  AlertDialog alert = AlertDialog(  
+    title: Text("Cannot add User"),  
+    content: Text("User already Registered"),  
+    actions: [  
+      okButton,  
+    ],  
+  );  
+  
+  // show the dialog  
+  showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );  
+}  
+
+  // Different password 
   showAlertDialog(BuildContext context) {  
   // Create button  
   Widget okButton = SizedBox(
@@ -224,8 +261,6 @@ class _RegisterViewState extends State<RegisterView> {
         onPressed: () {
           Navigator.of(context).pop();  
   }));
-  
-  
   
   // Create AlertDialog  
   AlertDialog alert = AlertDialog(  

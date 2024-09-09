@@ -16,6 +16,10 @@ class SettingsService extends CacheProvider {
   SharedPreferences sharePreferences;
   FakeServer server;
 
+  void addRouteToUser(String username, String password, RouteInfo newRoute){
+    server.addRouteToUser(username, password, newRoute);
+  }
+
   bool canAddUser(UserInfo newUser){
     return server.canAddUser(newUser);
   }
@@ -55,87 +59,87 @@ class SettingsService extends CacheProvider {
   ///
   /// Save the route info
   ///
-  void saveRouteInfo(String name, List<LatLng> positions, String from, String to) {
-    const String PREFIX = "SINGLE_ROUTE_ID_";
-    final toSave = RouteInfo(name: name, positions: positions, from: from, to: to);
+  // void saveRouteInfo(String name, List<LatLng> positions, String from, String to) {
+  //   const String PREFIX = "SINGLE_ROUTE_ID_";
+  //   final toSave = RouteInfo(name: name, positions: positions, from: from, to: to);
 
-    setString(PREFIX+toSave.id, toSave.toJSONString());
-    print("Saved: ${name}");
-  }
+  //   setString(PREFIX+toSave.id, toSave.toJSONString());
+  //   print("Saved: ${name}");
+  // }
 
   ///
   /// Load the route info
   ///
-  RouteInfo? loadRouteInfo(String id) {
-    const String PREFIX = "SINGLE_ROUTE_ID_";
-    String? recordInJSON = getString(PREFIX + id);
+  // RouteInfo? lloadRouteInfo(String id) {
+  //   const String PREFIX = "SINGLE_ROUTE_ID_";
+  //   String? recordInJSON = getString(PREFIX + id);
 
-    if (recordInJSON == null) {
-      return null;
-    } else {
-      try {
-        final decoded = jsonDecode(recordInJSON);
-        final pos = decoded["positions"] as List<dynamic>;
+  //   if (recordInJSON == null) {
+  //     return null;
+  //   } else {
+  //     try {
+  //       final decoded = jsonDecode(recordInJSON);
+  //       final pos = decoded["positions"] as List<dynamic>;
 
-        // load positioning
-        List<LatLng> loadedPos = [];
-        for (final p in pos) {
-          var ln = LatLng(p["lat"], p["lon"]);
-          loadedPos.add(ln);
-        }
+  //       // load positioning
+  //       List<LatLng> loadedPos = [];
+  //       for (final p in pos) {
+  //         var ln = LatLng(p["lat"], p["lon"]);
+  //         loadedPos.add(ln);
+  //       }
 
-        final from = decoded["from"] as String;
-        final to = decoded["to"] as String;
+  //       final from = decoded["from"] as String;
+  //       final to = decoded["to"] as String;
 
-        // return new positioning
-        return RouteInfo(
-            name: decoded["name"], positions: loadedPos, from: from, to: to);
-      } on Exception {
-        return null;
-      }
-    }
-  }
+  //       // return new positioning
+  //       return RouteInfo(
+  //           name: decoded["name"], positions: loadedPos, from: from, to: to);
+  //     } on Exception {
+  //       return null;
+  //     }
+  //   }
+  // }
 
   ///
   /// save the list of ids
   ///
-  void saveRoutesIds(List<String> ids) {
-    const String LISTOFIDSPREFIX = "LIST_OF_IDS_ROUTES";
+  // void saveRoutesIds(List<String> ids) {
+  //   const String LISTOFIDSPREFIX = "LIST_OF_IDS_ROUTES";
 
-    if (ids.length == 0) {
-      setString(LISTOFIDSPREFIX, "[]");
-    } else {
-      String value = "[";
-      for (final i in ids) {
-        value += """"${i}",""";
-      }
-      value = value.substring(0, value.length - 1);
-      value += "]";
+  //   if (ids.length == 0) {
+  //     setString(LISTOFIDSPREFIX, "[]");
+  //   } else {
+  //     String value = "[";
+  //     for (final i in ids) {
+  //       value += """"${i}",""";
+  //     }
+  //     value = value.substring(0, value.length - 1);
+  //     value += "]";
 
-      setString(LISTOFIDSPREFIX, value);
-    }
-  }
+  //     setString(LISTOFIDSPREFIX, value);
+  //   }
+  // }
 
-  ///
-  /// Load the list of ids
-  ///
-  List<String> loadRoutesIds() {
-    const String LISTOFIDSPREFIX = "LIST_OF_IDS_ROUTES";
-    final listS = getString(LISTOFIDSPREFIX);
-    if (listS == null) return [];
+  // ///
+  // /// Load the list of ids
+  // ///
+  // List<String> loadRoutesIds() {
+  //   const String LISTOFIDSPREFIX = "LIST_OF_IDS_ROUTES";
+  //   final listS = getString(LISTOFIDSPREFIX);
+  //   if (listS == null) return [];
 
-    try{
-      final list = jsonDecode(listS) as List<dynamic>;
-      List<String> ret = [];
-      for(final l in list){
-        ret.add(l as String);
-      }
+  //   try{
+  //     final list = jsonDecode(listS) as List<dynamic>;
+  //     List<String> ret = [];
+  //     for(final l in list){
+  //       ret.add(l as String);
+  //     }
 
-      return ret;
-    }on Exception {
-      return [];
-    }
-  }
+  //     return ret;
+  //   }on Exception {
+  //     return [];
+  //   }
+  // }
 
   @override
   bool containsKey(String key) {
