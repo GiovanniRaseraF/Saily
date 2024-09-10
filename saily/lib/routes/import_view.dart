@@ -27,7 +27,23 @@ class _ImportViewState extends State<ImportView> {
 
   SettingsController settingsController;
   List<RouteInfo> routes = [
-    RouteInfo(name: "Da Giovanni", positions: [LatLng(45.199542, 13.589640)], from: "", to: "1"),
+    RouteInfo(name: "Da Giovanni", positions: [
+      LatLng( 43.52120256331884,  7.056244213486337),
+      LatLng(43.52120256331884,  7.056972511028611),
+      LatLng( 43.52120256331884,  7.057549079916243),
+      LatLng( 43.521158554734676,7.058216685996662),
+      LatLng( 43.52100452443738, 7.058914637807968),
+      LatLng( 43.52091650694805, 7.059430515233745),
+      LatLng( 43.52087249815524, 7.060007084121378),
+      LatLng( 43.52078448047333, 7.060735381663653),
+      LatLng( 43.52071846712764, 7.061888519438921),
+      LatLng( 43.52071846712764, 7.062586471250265),
+      LatLng( 43.52065245370971, 7.063436151716252),
+      LatLng( 43.52043240846161, 7.06395202914199),
+      LatLng( 43.520168353104566, 7.064528598029623),
+      LatLng( 43.51986028706073,  7.064953438262616),
+      LatLng( 43.51972825827471,  7.06528724130282),
+      ], from: "", to: "1"),
     RouteInfo(name: "Da Federico", positions: [LatLng(45.134176, 13.724200)], from: "", to: "2"),
   ];
 

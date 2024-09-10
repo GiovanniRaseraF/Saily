@@ -96,7 +96,7 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               onChanged: (value) {
                                 settingsController.setUsername(value);
-
+                                print(settingsController.getUsername());
                                 },
                             ),
                           ),
