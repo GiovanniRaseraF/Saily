@@ -21,27 +21,21 @@ class RecordView extends StatefulWidget {
 
   @override
   State<RecordView> createState() =>
-      _RecordViewState(settingsController: settingsController, recordController: recordController);
+      _RecordViewState();
 }
 
 class _RecordViewState extends State<RecordView> {
-  _RecordViewState({required this.settingsController, required this.recordController}) {}
-
-  RecordController recordController;
-  SettingsController settingsController;
+  _RecordViewState() {}
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: gCtxW() * 0.3,
+      
       child: FloatingActionButton(
         onPressed: () {
-          if (recordController.isRecording()) {
+          if (widget.recordController.isRecording()) {
             String selectedName = "";
-
-            // create dialog
-            // Navigator.push(context, MaterialPageRoute(builder: (c){
-              // return 
               // return 
               dialogCreator(
                 context,
@@ -49,12 +43,12 @@ class _RecordViewState extends State<RecordView> {
                 (value) {selectedName = value;},
                 // on presed save
                 (){
-                  recordController.cancelTimer();
-                  recordController.stopRecording();
-                  settingsController.saveRecorderPositions(
-                      selectedName, recordController.getFrom());
-                  settingsController.resetRecorderPositions();
-                  recordController.restoreIntenalTime();
+                  widget.recordController.cancelTimer();
+                  widget.recordController.stopRecording();
+                  widget.settingsController.saveRecorderPositions(
+                      selectedName, widget.recordController.getFrom());
+                  widget.settingsController.resetRecorderPositions();
+                  widget.recordController.restoreIntenalTime();
                   setState(() {});
                   Navigator.pop(context);
                 },
@@ -64,29 +58,23 @@ class _RecordViewState extends State<RecordView> {
                   Navigator.pop(context);
                 }
               );
-            // }));
-            
-  
           } else {
-            recordController.restoreIntenalTime();
-            recordController.setFrom(DateTime.now().toString());
+            widget.recordController.restoreIntenalTime();
+            widget.recordController.setFrom(DateTime.now().toString());
             print("START recording");
-            recordController.startRecording();
-            recordController.startTimer((){if(mounted) setState(() {});});
-            // timeout = Timer.periodic(Duration(seconds: 1), (t) {
-            //   addOneSecond();
-            // });
+            widget.recordController.startRecording();
+            widget.recordController.startTimer((){if(mounted) setState(() {});});
           }
         },
         backgroundColor: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
+           Icon(
             Icons.emergency_recording,
             color: Colors.red,
           ),
-          TimerDisplay(seconds: recordController.getInternalTime())
+          TimerDisplay(seconds: widget.recordController.getInternalTime())
         ]),
       ),
     );
@@ -118,10 +106,10 @@ class TimerDisplay extends StatelessWidget {
     int mins = (seconds / 60).toInt();
     int sec = (seconds % 60);
 
-    String minss = (mins < 10 ? "0" : "") + "${mins}";
-    String minunes = (mins < 10 ? "0" : "") + "${mins}";
+    String minss = (mins < 10 ? " " : "") + "${mins} min";
+    String minunes = (mins < 10 ? " " : "") + "${mins} min";
 
-    String secs = (sec < 10 ? "0" : "") + "${sec}";
-    return Text("${minss}:${secs}");
+    String secs = (sec < 10 ? " " : "") + "${sec} sec";
+    return Text("${minss} ${secs}");
   }
 }

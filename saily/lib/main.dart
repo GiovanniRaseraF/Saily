@@ -91,8 +91,6 @@ void main() async {
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
 
-  print("Server: ${fakeServer.toJSONString()}");
-
   recordController = RecordController(settingsController: settingsController);
 
   await Settings.init(
@@ -124,10 +122,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: SailyBlue),
           useMaterial3: true,
         ),
-        home:
-            // MyHomePage(settingsController: settingsController, onLogout: (){}, title: "Saily",)
-             LoginView(settingsController: settingsController, onLogin: () {})
-            );
+        home: LoginView(settingsController: settingsController, onLogin: () {}));
   }
 }
 
@@ -154,173 +149,179 @@ class _MyHomePageState extends State<MyHomePage> {
   void Function() onLogout;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(children: [
-        // Map
-        MapView(
-          settingsController: settingsController,
-        ),
-
-        // main menu
-        Positioned(
-            bottom: scaleH(context, 0.01),
-            left: scaleW(context, 0.05),
-            child: OrientationBuilder(builder: (context, orientation) {
-              //print("scaleW: ${scaleW(context, 0.90)}");
-              var w = scaleW(context, 0.90);
-              var h = scaleH(context, 0.40);
-              return ExpandableTile(
-                  collapsed: SizedBox(
-                      width: w,
-                      height: h / 3.5,
-                      child: Card(
-                        color: SailyWhite,
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  SOGGauge(
-                                      settingsController: settingsController,
-                                      small: true),
-                                  PowerGauge(
-                                      settingsController: settingsController,
-                                      small: true),
-                                  FuelGauge(
-                                      settingsController: settingsController,
-                                      small: true),
-                                ]),
-                          ],
-                        ),
-                      )),
-                  expanded: SizedBox(
-                      width: w,
-                      height: h,
-                      child: Card(
-                        color: SailyWhite,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return NotificationListener<SizeChangedLayoutNotification>(
+      onNotification: (notification){
+        print(scaleW(context, 1));
+        return true;
+      },
+      child: Scaffold(
+        body: Stack(children: [
+          // Map
+          MapView(
+            settingsController: settingsController,
+          ),
+      
+          // main menu
+          Positioned(
+              bottom: scaleH(context, 0.01),
+              left: scaleW(context, 0.05),
+              child: OrientationBuilder(builder: (context, orientation) {
+                //print("scaleW: ${scaleW(context, 0.90)}");
+                var w = scaleW(context, 0.90);
+                var h = scaleH(context, 0.40);
+                return ExpandableTile(
+                    collapsed: SizedBox(
+                        width: w,
+                        height: h / 3.5,
+                        child: Card(
+                          color: SailyWhite,
+                          elevation: 10,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    
-                                    SOCGauge(
-                                        settingsController: settingsController,
-                                        small: false),
                                     SOGGauge(
                                         settingsController: settingsController,
-                                        small: false),
-                                  ]),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
+                                        small: true),
                                     PowerGauge(
                                         settingsController: settingsController,
-                                        small: false),
+                                        small: true),
                                     FuelGauge(
                                         settingsController: settingsController,
-                                        small: false),
+                                        small: true),
                                   ]),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    VoltageGauge(
-                                        settingsController: settingsController,
-                                        small: false),
-                                    MotorTempGauge(
-                                        settingsController: settingsController,
-                                        small: false),
-                                  ]),
-                            ]),
-                      )),
-                  header: Text("exp"),
-                  expandedatstart: expandedatstart,
-                  settingsController: settingsController);
-            })),
-
-        // side menu
-        Positioned(
-          top: scaleH(context, 0.05),
-          right: scaleW(context, 0.04),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: scaleH(context, 0.01),
-                ),
-                FloatingActionButton(
-                  heroTag: "settings",
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SettingsView(
-                                settingsController: settingsController,
-                              )),
-                    );
-                  },
-                  mini: true,
-                  backgroundColor: SailyWhite,
-                  elevation: 100,
-                  child: Icon(color: SailyGrey, Icons.settings),
-                ),
-                SizedBox(
-                  height: scaleH(context, 0.01),
-                ),
-                FloatingActionButton(
-                    heroTag: "user",
+                            ],
+                          ),
+                        )),
+                    expanded: SizedBox(
+                        width: w,
+                        height: h,
+                        child: Card(
+                          color: SailyWhite,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      
+                                      SOCGauge(
+                                          settingsController: settingsController,
+                                          small: false),
+                                      SOGGauge(
+                                          settingsController: settingsController,
+                                          small: false),
+                                    ]),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      PowerGauge(
+                                          settingsController: settingsController,
+                                          small: false),
+                                      FuelGauge(
+                                          settingsController: settingsController,
+                                          small: false),
+                                    ]),
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      VoltageGauge(
+                                          settingsController: settingsController,
+                                          small: false),
+                                      MotorTempGauge(
+                                          settingsController: settingsController,
+                                          small: false),
+                                    ]),
+                              ]),
+                        )),
+                    header: Text("exp"),
+                    expandedatstart: expandedatstart,
+                    settingsController: settingsController);
+              })),
+      
+          // side menu
+          Positioned(
+            top: scaleH(context, 0.05),
+            right: scaleW(context, 0.04),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: scaleH(context, 0.01),
+                  ),
+                  FloatingActionButton(
+                    heroTag: "settings",
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => UserView(
+                            builder: (context) => SettingsView(
                                   settingsController: settingsController,
-                                  onLogout: () {
-                                    //Navigator.pop(context);
-                                    this.onLogout();
-                                  },
                                 )),
                       );
                     },
                     mini: true,
                     backgroundColor: SailyWhite,
                     elevation: 100,
-                    child: Icon(color: SailyBlue, Icons.account_box_outlined)),
-                SizedBox(
-                  height: scaleH(context, 0.05),
-                ),
-                FloatingActionButton(
-                  heroTag: "routes",
-                  mini: true,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RoutesView(
-                                settingsController: settingsController,
-                              )),
-                    );
-                  },
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.route,
-                    color: SailyBlue,
+                    child: Icon(color: SailyGrey, Icons.settings),
                   ),
-                ),
-              ]),
-        ),
-        Positioned(
-            top: scaleH(context, 0.05),
-            left: scaleW(context, 0.04),
-            child: RecordView(settingsController: settingsController, recordController: recordController,)),
-      ]),
+                  SizedBox(
+                    height: scaleH(context, 0.01),
+                  ),
+                  FloatingActionButton(
+                      heroTag: "user",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserView(
+                                    settingsController: settingsController,
+                                    onLogout: () {
+                                      //Navigator.pop(context);
+                                      this.onLogout();
+                                    },
+                                  )),
+                        );
+                      },
+                      mini: true,
+                      backgroundColor: SailyWhite,
+                      elevation: 100,
+                      child: Icon(color: SailyBlue, Icons.account_box_outlined)),
+                  SizedBox(
+                    height: scaleH(context, 0.05),
+                  ),
+                  FloatingActionButton(
+                    heroTag: "routes",
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RoutesView(
+                                  settingsController: settingsController,
+                                )),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.route,
+                      color: SailyBlue,
+                    ),
+                  ),
+                ]),
+          ),
+          Positioned(
+              top: scaleH(context, 0.05),
+              left: scaleW(context, 0.04),
+              child: RecordView(settingsController: settingsController, recordController: recordController,)),
+        ]),
+      ),
     );
   }
 }

@@ -101,7 +101,6 @@ class FakeServer {
   bool canUserLogin(String username, String password){
     for(var u in users){
       if(u.username == username && u.password == password){
-        print(u.toJSONString());
         return true;
       }
     }
