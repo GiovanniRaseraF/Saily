@@ -48,7 +48,7 @@ late Timer send;
 FakeData fakeData = FakeData();
 
 // login
-late FakeServer fakeServer; 
+late FakeServer fakeServer;
 
 void createDebug() async {
   fakeData.load_parse(cannesTrip);
@@ -77,17 +77,22 @@ void createDebug() async {
 }
 
 void main() async {
- 
   await WidgetsFlutterBinding.ensureInitialized();
   // setting init
   sharedPreferences = await SharedPreferences.getInstance();
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
   fakeServer.loadUsers();
-  fakeServer.updateUser(UserInfo(email: "ciao@hello.com", username: "admin2", password: "admin2", boats:[], routes: []));
+  fakeServer.updateUser(UserInfo(
+      email: "ciao@hello.com",
+      username: "admin2",
+      password: "admin2",
+      boats: [],
+      routes: []));
 
   // setting service
-  settingsService = SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
+  settingsService =
+      SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
 
@@ -122,7 +127,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: SailyBlue),
           useMaterial3: true,
         ),
-        home: LoginView(settingsController: settingsController, onLogin: () {}));
+        home:
+            LoginView(settingsController: settingsController, onLogin: () {}));
   }
 }
 
@@ -150,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return NotificationListener<SizeChangedLayoutNotification>(
-      onNotification: (notification){
+      onNotification: (notification) {
         print(scaleW(context, 1));
         return true;
       },
@@ -160,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
           MapView(
             settingsController: settingsController,
           ),
-      
+
           // main menu
           Positioned(
               bottom: scaleH(context, 0.01),
@@ -201,20 +207,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: h,
                         child: Card(
                           color: SailyWhite,
-
                           child: SingleChildScrollView(
                             child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
-                                        SOGGauge(
-                                            settingsController: settingsController,
+                                        PowerGauge(
+                                            settingsController:
+                                                settingsController,
                                             small: false),
-                                        SOGGauge(
-                                            settingsController: settingsController,
+                                        FuelGauge(
+                                            settingsController:
+                                                settingsController,
                                             small: false),
                                       ]),
                                   Divider(),
@@ -223,65 +231,26 @@ class _MyHomePageState extends State<MyHomePage> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         SOGGauge(
-                                            settingsController: settingsController,
+                                            settingsController:
+                                                settingsController,
                                             small: false),
-                                       SOGGauge(
-                                            settingsController: settingsController,
+                                        SOCGauge(
+                                            settingsController:
+                                                settingsController,
                                             small: false),
-                              
-                                      //   PowerGauge(
-                                      //       settingsController: settingsController,
-                                      //       small: false),
-                                      //   FuelGauge(
-                                      //       settingsController: settingsController,
-                                      //       small: false),
                                       ]),
                                   Divider(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        SOGGauge(
-                                            settingsController: settingsController,
-                                            small: false),
-                                       SOGGauge(
-                                            settingsController: settingsController,
-                                            small: false),
-                              
-                                      //   PowerGauge(
-                                      //       settingsController: settingsController,
-                                      //       small: false),
-                                      //   FuelGauge(
-                                      //       settingsController: settingsController,
-                                      //       small: false),
-                                      ]),
-Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        SOGGauge(
-                                            settingsController: settingsController,
-                                            small: false),
-                                       SOGGauge(
-                                            settingsController: settingsController,
-                                            small: false),
-                              
-                                      //   PowerGauge(
-                                      //       settingsController: settingsController,
-                                      //       small: false),
-                                      //   FuelGauge(
-                                      //       settingsController: settingsController,
-                                      //       small: false),
-                                      ]),
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         VoltageGauge(
-                                            settingsController: settingsController,
+                                            settingsController:
+                                                settingsController,
                                             small: false),
                                         MotorTempGauge(
-                                            settingsController: settingsController,
+                                            settingsController:
+                                                settingsController,
                                             small: false),
                                       ]),
                                 ]),
@@ -291,7 +260,7 @@ Row(
                     expandedatstart: expandedatstart,
                     settingsController: settingsController);
               })),
-      
+
           // side menu
           Positioned(
             top: scaleH(context, 0.05),
@@ -339,7 +308,8 @@ Row(
                       mini: true,
                       backgroundColor: SailyWhite,
                       elevation: 100,
-                      child: Icon(color: SailyBlue, Icons.account_box_outlined)),
+                      child:
+                          Icon(color: SailyBlue, Icons.account_box_outlined)),
                   SizedBox(
                     height: scaleH(context, 0.05),
                   ),
@@ -366,7 +336,10 @@ Row(
           Positioned(
               top: scaleH(context, 0.05),
               left: scaleW(context, 0.04),
-              child: RecordView(settingsController: settingsController, recordController: recordController,)),
+              child: RecordView(
+                settingsController: settingsController,
+                recordController: recordController,
+              )),
         ]),
       ),
     );

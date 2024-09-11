@@ -36,7 +36,6 @@ class _SOGGaugeState extends State<SOGGauge> {
   GpsInfo gpsData = GpsInfo(isFixed: false, satellitesCount: 0, SOG: 0);
 
   Widget buildSmall(BuildContext c) {
-
     return StreamBuilder(
         stream: settingsController.getCurrentGpsCounterStream(),
         builder: (bc, snapshot) {
@@ -48,15 +47,23 @@ class _SOGGaugeState extends State<SOGGauge> {
           return Container(
             child: Column(
               children: [
-                Row(children: [Text("SOG: "), StreamBuilder(stream: settingsController.getSogUnitStream(), builder: (c, sn){
-                  if(sn.data != null){
-                    unit = sn.data!;
-                  }
-                  return Text(unit);
-                },)]),
+                Row(children: [
+                  Text("SOG: "),
+                  StreamBuilder(
+                    stream: settingsController.getSogUnitStream(),
+                    builder: (c, sn) {
+                      if (sn.data != null) {
+                        unit = sn.data!;
+                      }
+                      return Text(unit);
+                    },
+                  )
+                ]),
                 Row(
                   children: [
-                    Text("${gpsData.SOG.toStringAsFixed(1)}", style: TextStyle(fontSize: 25),
+                    Text(
+                      "${gpsData.SOG.toStringAsFixed(1)}",
+                      style: TextStyle(fontSize: 25),
                     ),
                   ],
                 )
@@ -67,58 +74,76 @@ class _SOGGaugeState extends State<SOGGauge> {
   }
 
   Widget buildBig(BuildContext c) {
-    return SizedBox(
-      height: 120,
-      width: 100, 
-      child: Center(
-        child: SfRadialGauge(
-            title: GaugeTitle(
-                text: 'SOG',
-                textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
-            axes: <RadialAxis>[
-              RadialAxis(
-                canRotateLabels : false,
-                showFirstLabel : false,
-                showLastLabel : false,
-                canScaleToFit : false,
-                showLabels: false,
-                minimum: 0, maximum: 150, startAngle: 210, endAngle: -30, ranges: <GaugeRange>[
-                GaugeRange(
-                    startValue: 0,
-                    endValue: 50,
-                    color: SailyBlue,
-                    startWidth: 0,
-                    endWidth: 3),
-                  GaugeRange(
-                    startValue: 50,
-                    endValue: 100,
-                    color: SailyOrange,
-                    startWidth: 3,
-                    endWidth: 6),
-                  GaugeRange(
-                    startValue: 100,
-                    endValue: 150,
-                    color: Colors.red,
-                    startWidth: 6,
-                    endWidth: 9),
-              ], 
-              pointers: [
-                NeedlePointer(
-                  value: 90,
-                  needleEndWidth: 1,
-                  needleStartWidth: .1,)
-              ], annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    widget: Container(
-                        child: Text('90',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold))),
-                    angle: 90,
-                    positionFactor: 0.5)
-              ])
-            ]),
-      ),
-    );
+    return StreamBuilder(
+        stream: settingsController.getCurrentGpsCounterStream(),
+        builder: (context, snapshot) {
+          // read data
+          if (snapshot.data != null) {
+            gpsData = snapshot.data!;
+          }
+
+          return SizedBox(
+            height: 120,
+            width: 100,
+            child: Center(
+              child: SfRadialGauge(
+                  title: GaugeTitle(
+                      text: 'SOG',
+                      textStyle: TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.bold)),
+                  axes: <RadialAxis>[
+                    RadialAxis(
+                        canRotateLabels: false,
+                        showFirstLabel: false,
+                        showLastLabel: false,
+                        canScaleToFit: false,
+                        showLabels: false,
+                        minimum: 0,
+                        maximum: 150,
+                        startAngle: 210,
+                        endAngle: -30,
+                        ranges: <GaugeRange>[
+                          GaugeRange(
+                              startValue: 0,
+                              endValue: 50,
+                              color: SailyBlue,
+                              startWidth: 0,
+                              endWidth: 3),
+                          GaugeRange(
+                              startValue: 50,
+                              endValue: 100,
+                              color: SailyOrange,
+                              startWidth: 3,
+                              endWidth: 6),
+                          GaugeRange(
+                              startValue: 100,
+                              endValue: 150,
+                              color: Colors.red,
+                              startWidth: 6,
+                              endWidth: 9),
+                        ],
+                        pointers: [
+                          NeedlePointer(
+                            value: gpsData.SOG,
+                            needleEndWidth: 1,
+                            needleStartWidth: .1,
+                          )
+                        ],
+                        annotations: <GaugeAnnotation>[
+                          GaugeAnnotation(
+                              widget: Container(
+                                  child: Text(
+                                      "${gpsData.SOG.toStringAsFixed(1)}",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold))),
+                              angle: 90,
+                              positionFactor: 0.5)
+                        ])
+                  ]),
+            ),
+          );
+        });
     return StreamBuilder(
         stream: settingsController.getCurrentGpsCounterStream(),
         builder: (bc, snapshot) {
@@ -130,15 +155,24 @@ class _SOGGaugeState extends State<SOGGauge> {
           return Container(
             child: Column(
               children: [
-                Row(children: [Text("SOG: "), StreamBuilder(stream: settingsController.getSogUnitStream(), builder: (c, sn){
-                  if(sn.data != null){
-                    unit = sn.data!;
-                  }
-                  return Text(unit);
-                },)]),
+                Row(children: [
+                  Text("SOG: "),
+                  StreamBuilder(
+                    stream: settingsController.getSogUnitStream(),
+                    builder: (c, sn) {
+                      if (sn.data != null) {
+                        unit = sn.data!;
+                      }
+                      return Text(unit);
+                    },
+                  )
+                ]),
                 Row(
                   children: [
-                    Text("${gpsData.SOG.toStringAsFixed(1)}", style: TextStyle(fontSize: 38),),
+                    Text(
+                      "${gpsData.SOG.toStringAsFixed(1)}",
+                      style: TextStyle(fontSize: 38),
+                    ),
                   ],
                 )
               ],
