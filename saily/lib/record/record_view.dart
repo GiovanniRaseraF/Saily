@@ -30,9 +30,9 @@ class _RecordViewState extends State<RecordView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: gCtxW() * 0.3,
-      
+      width: gCtxW() * 0.4,
       child: FloatingActionButton(
+        isExtended: true,
         onPressed: () {
           if (widget.recordController.isRecording()) {
             String selectedName = "";
@@ -70,10 +70,8 @@ class _RecordViewState extends State<RecordView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-           Icon(
-            Icons.emergency_recording,
-            color: Colors.red,
-          ),
+          // is recording
+          widget.recordController.isRecording() ? Icon(Icons.emergency_recording, color: Colors.red) : Icon(Icons.emergency_recording, color: SailyBlue),
           TimerDisplay(seconds: widget.recordController.getInternalTime())
         ]),
       ),

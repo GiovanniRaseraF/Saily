@@ -10,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SOGGauge extends StatefulWidget {
   SOGGauge({required this.settingsController, required this.small});
@@ -64,6 +66,39 @@ class _SOGGaugeState extends State<SOGGauge> {
   }
 
   Widget buildBig(BuildContext c) {
+    return Container(
+      height: 200,
+      width: gCtxW() * 0.40,
+      child: SfRadialGauge(
+          title: GaugeTitle(
+              text: 'SOG',
+              textStyle:
+                  TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
+          axes: <RadialAxis>[
+            RadialAxis(minimum: 0, maximum: 150, startAngle: 210, endAngle: -30, ranges: <GaugeRange>[
+              GaugeRange(
+                  startValue: 0,
+                  endValue: 50,
+                  color: Colors.green,
+                  startWidth: 10,
+                  endWidth: 10),
+            ], pointers: <GaugePointer>[
+              NeedlePointer(
+                value: 90,
+                needleEndWidth: 1,
+                needleStartWidth: .1,
+                )
+            ], annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                  widget: Container(
+                      child: Text('90.0',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold))),
+                  angle: 90,
+                  positionFactor: 0.5)
+            ])
+          ]),
+    );
     return StreamBuilder(
         stream: settingsController.getCurrentGpsCounterStream(),
         builder: (bc, snapshot) {

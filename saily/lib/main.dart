@@ -201,44 +201,55 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: h,
                         child: Card(
                           color: SailyWhite,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      
-                                      SOCGauge(
-                                          settingsController: settingsController,
-                                          small: false),
-                                      SOGGauge(
-                                          settingsController: settingsController,
-                                          small: false),
-                                    ]),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      PowerGauge(
-                                          settingsController: settingsController,
-                                          small: false),
-                                      FuelGauge(
-                                          settingsController: settingsController,
-                                          small: false),
-                                    ]),
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      VoltageGauge(
-                                          settingsController: settingsController,
-                                          small: false),
-                                      MotorTempGauge(
-                                          settingsController: settingsController,
-                                          small: false),
-                                    ]),
-                              ]),
+
+                          child: SingleChildScrollView(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                        SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                      ]),
+                                  Divider(),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                       SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                              
+                                      //   PowerGauge(
+                                      //       settingsController: settingsController,
+                                      //       small: false),
+                                      //   FuelGauge(
+                                      //       settingsController: settingsController,
+                                      //       small: false),
+                                      ]),
+                                  Divider(),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        VoltageGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                        MotorTempGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                      ]),
+                                ]),
+                          ),
                         )),
                     header: Text("exp"),
                     expandedatstart: expandedatstart,
