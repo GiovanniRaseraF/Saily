@@ -237,6 +237,42 @@ class _MyHomePageState extends State<MyHomePage> {
                                       //       small: false),
                                       ]),
                                   Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                       SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                              
+                                      //   PowerGauge(
+                                      //       settingsController: settingsController,
+                                      //       small: false),
+                                      //   FuelGauge(
+                                      //       settingsController: settingsController,
+                                      //       small: false),
+                                      ]),
+Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                       SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                              
+                                      //   PowerGauge(
+                                      //       settingsController: settingsController,
+                                      //       small: false),
+                                      //   FuelGauge(
+                                      //       settingsController: settingsController,
+                                      //       small: false),
+                                      ]),
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
