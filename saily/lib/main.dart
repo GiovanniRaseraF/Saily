@@ -52,6 +52,7 @@ late FakeServer fakeServer;
 
 void createDebug() async {
   fakeData.load_parse(cannesTrip);
+  double SOG = 0;
   // debug send gps
   send = Timer.periodic(Duration(milliseconds: 500), (t) {
     // gps positioning
@@ -63,9 +64,9 @@ void createDebug() async {
     final gpsCount = GpsInfo(
         isFixed: isFixed,
         satellitesCount: count,
-        SOG: Random().nextDouble() * 100);
+        SOG: SOG % 150);
     settingsController.updateCurrentGpsCounter(gpsCount);
-
+    SOG+=10;
     // battery info
     BatteryInfo batteryInfo = BatteryInfo(
         SOC: Random().nextInt(100),
@@ -226,19 +227,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                             small: false),
                                       ]),
                                   Divider(),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
                                         SOGGauge(
                                             settingsController:
                                                 settingsController,
                                             small: false),
-                                        SOCGauge(
+                                  Divider(),
+                                  Column(
+                                    children: [
+                                      MotorTempGauge(
                                             settingsController:
                                                 settingsController,
                                             small: false),
-                                      ]),
+                                    ],
+                                  ),
                                   Divider(),
                                   Row(
                                       mainAxisAlignment:
@@ -248,10 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             settingsController:
                                                 settingsController,
                                             small: false),
-                                        MotorTempGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
+                                        
                                       ]),
                                 ]),
                           ),

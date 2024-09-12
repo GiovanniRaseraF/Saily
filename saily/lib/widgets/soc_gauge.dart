@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SOCGauge extends StatefulWidget {
   SOCGauge({required this.settingsController, required this.small});
@@ -36,7 +37,7 @@ class _SOCGaugeState extends State<SOCGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.SOC < 10) spacer = "0";
+            if (internalBatteryInfo.SOC < 10) spacer = "0";
           }
 
           return Container(
@@ -61,8 +62,8 @@ class _SOCGaugeState extends State<SOCGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.SOC < 10) spacer = "0";
-        }
+            if (internalBatteryInfo.SOC < 10) spacer = "0";
+          }
 
           return Container(
             child: Column(
