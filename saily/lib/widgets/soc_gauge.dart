@@ -92,7 +92,7 @@ class _SOCGaugeState extends State<SOCGauge> {
                     drawBarForExtraValue: true,
                     duration: Duration(seconds: 1),
                     value: internalBatteryInfo.SOC.toDouble(),
-                    size: Size(100, 70),
+                    size: Size(40, 30),
                     borderColor: CupertinoColors.systemGrey,
                     valueColor: colorFromValue(internalBatteryInfo.SOC.toDouble()),
                     mode: BatteryGaugePaintMode.gauge,

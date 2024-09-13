@@ -52,7 +52,7 @@ FakeData fakeData = FakeData();
 late FakeServer fakeServer;
 
 void createDebug() async {
-  fakeData.load_parse(civoloTrip);
+  fakeData.load_parse(cannesTrip);
   double SOG = 0;
   double SOC = 0;
   // debug send gps
@@ -207,35 +207,32 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: w,
                         height: h,
                         child: Card(
-                          color: SailyWhite,
+                          color: Colors.transparent,
                           child: SingleChildScrollView(
                             child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Divider(
-                                    color: Colors.transparent,
-                                  ),
                                   Center(
                                     child: Card(
-                                    elevation: 10,
-                                    color: SailyWhite,
+                                      elevation: 10,
+                                      color: SailyWhite,
                                       child: Center(
                                         child: SOCGauge(
-                                            settingsController: settingsController,
+                                            settingsController:
+                                                settingsController,
                                             small: false),
                                       ),
                                     ),
-                                  ),
-                                  
-                                  Divider(
-                                    color: Colors.transparent,
                                   ),
                                   Card(
                                     elevation: 10,
                                     color: SailyWhite,
                                     child: Column(
                                       children: [
+                                        Divider(
+                                          color: Colors.transparent,
+                                        ),
                                         MotorTempGauge(
                                             settingsController:
                                                 settingsController,
@@ -247,34 +244,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                             settingsController:
                                                 settingsController,
                                             small: false),
+                                        Divider(
+                                          color: Colors.transparent,
+                                        ),
                                       ],
                                     ),
                                   ),
-                                  Divider(
-                                    color: Colors.transparent,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        VoltageGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
-                                      ]),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        PowerGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
-                                        FuelGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
-                                      ]),
+                                  Card(
+                                      elevation: 10,
+                                      color: SailyWhite,
+                                      child: Column(children: [
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              VoltageGauge(
+                                                  settingsController:
+                                                      settingsController,
+                                                  small: false),
+                                            ]),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              PowerGauge(
+                                                  settingsController:
+                                                      settingsController,
+                                                  small: false),
+                                              FuelGauge(
+                                                  settingsController:
+                                                      settingsController,
+                                                  small: false),
+                                            ]),
+                                      ]))
                                 ]),
                           ),
                         )),

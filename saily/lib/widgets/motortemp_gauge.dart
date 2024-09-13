@@ -125,10 +125,10 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
                           .createShader(bounds)),
                 ],
                 barPointers: <LinearBarPointer>[
-                  LinearBarPointer(
-                    value: internalBatteryInfo.temp,
-                    color: SailyBlue,
-                  )
+                  // LinearBarPointer(
+                  //   value: internalBatteryInfo.temp,
+                  //   color: SailyBlue,
+                  // )
                 ],
                 markerPointers: <LinearMarkerPointer>[
                   LinearShapePointer(value: internalBatteryInfo.temp)
