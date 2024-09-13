@@ -171,10 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // main menu
           Positioned(
               bottom: scaleH(context, 0.01),
-              left: scaleW(context, 0.05),
+              left: scaleW(context, 0.01),
               child: OrientationBuilder(builder: (context, orientation) {
                 //print("scaleW: ${scaleW(context, 0.90)}");
-                var w = scaleW(context, 0.90);
+                var w = scaleW(context, 0.99);
                 var h = scaleH(context, 0.40);
                 return ExpandableTile(
                     collapsed: SizedBox(
