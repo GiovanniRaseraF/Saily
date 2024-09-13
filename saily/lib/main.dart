@@ -52,10 +52,11 @@ FakeData fakeData = FakeData();
 late FakeServer fakeServer;
 
 void createDebug() async {
-  fakeData.load_parse(cannesTrip);
+  fakeData.load_parse(civoloTrip);
   double SOG = 0;
+  double SOC = 0;
   // debug send gps
-  send = Timer.periodic(Duration(milliseconds: 500), (t) {
+  send = Timer.periodic(Duration(milliseconds: (200)), (t) {
     // gps positioning
     settingsController.updateCurrentBoatPosition(fakeData.getNext());
 
@@ -68,10 +69,10 @@ void createDebug() async {
     SOG += 10;
     // battery info
     BatteryInfo batteryInfo = BatteryInfo(
-        SOC: Random().nextInt(100),
+        SOC: (SOC++ % 100).toInt(),
         voltage: Random().nextDouble() * 80,
-        power: Random().nextDouble(),
-        temp: Random().nextDouble() * 80);
+        power: SOG,
+        temp: 80);
     settingsController.updateBatteryInfo(batteryInfo);
   });
 }
@@ -226,20 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ),
                                   ),
-                                  Divider(
-                                    color: Colors.transparent,
-                                  ),
-                                  Center(
-                                    child: Card(
-                                    elevation: 10,
-                                    color: SailyWhite,
-                                      child: Center(
-                                        child: SOGGauge(
-                                            settingsController: settingsController,
-                                            small: false),
-                                      ),
-                                    ),
-                                  ),
+                                  
                                   Divider(
                                     color: Colors.transparent,
                                   ),

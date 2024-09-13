@@ -14,6 +14,7 @@ import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:saily/widgets/sog_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SOCGauge extends StatefulWidget {
@@ -69,33 +70,52 @@ class _SOCGaugeState extends State<SOCGauge> {
             if (internalBatteryInfo.SOC < 10) spacer = "0";
           }
 
-          return Column(
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Divider(color: Colors.transparent,),
-              Text("SOC"),
-                Text(
-                  "${spacer}${internalBatteryInfo.SOC} %",
-                  style: TextStyle(fontSize: 25)),
-              AnimatedBatteryGauge(
-                drawBarForExtraValue: true,
-                duration: Duration(seconds: 1),
-                value: internalBatteryInfo.SOC.toDouble(),
-                size: Size(150, 70),
-                borderColor: CupertinoColors.systemGrey,
-                valueColor: SailyLightGreen,
-                mode: BatteryGaugePaintMode.gauge,
-                hasText: false,
-                textStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: (internalBatteryInfo.SOC > 100
-                        ? SailyWhite
-                        : SailyBlack)),
+              Column(
+                children: [
+                  SOGGauge(settingsController: settingsController, small: small)
+                ],
               ),
-              Divider(color: Colors.transparent,)
+              Column(
+                children: [
+                  Divider(
+                    color: Colors.transparent,
+                  ),
+                  Text("SOC",
+                      style: TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.bold)),
+                  Text("${spacer}${internalBatteryInfo.SOC} %",
+                      style: TextStyle(fontSize: 25)),
+                  AnimatedBatteryGauge(
+                    drawBarForExtraValue: true,
+                    duration: Duration(seconds: 1),
+                    value: internalBatteryInfo.SOC.toDouble(),
+                    size: Size(100, 70),
+                    borderColor: CupertinoColors.systemGrey,
+                    valueColor: colorFromValue(internalBatteryInfo.SOC.toDouble()),
+                    mode: BatteryGaugePaintMode.gauge,
+                    hasText: false,
+                    textStyle: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.transparent,
+                  )
+                ],
+              ),
             ],
           );
         });
+  }
+
+  Color colorFromValue(double SOC) {
+    if (SOC > 0 && SOC < 30) return Colors.redAccent;
+    if (SOC > 30 && SOC < 50) return SailyOrange;
+    return SailyBlue;
   }
 
   @override
