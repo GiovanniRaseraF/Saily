@@ -83,21 +83,29 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
               child: Center(
                   child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children : [
-                  Text('Motor Temperature', style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
-                  Text('${internalBatteryInfo.temp.toStringAsFixed(1)}', style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
-                  StreamBuilder(
-                        stream: settingsController.getMotorTempStream(),
-                        builder: (c, sn) {
-                          if (sn.data != null) {
-                            unit = sn.data!;
-                          }
-                          return Text(unit);
-                        },
-                      )
-                  ]),
+                Row(children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text('Motor Temp',
+                      style: TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.bold)),
+                ),
+                MicrodividerWidgetd(height: 0),
+                StreamBuilder(
+                    stream: settingsController.getMotorTempStream(),
+                    builder: (c, sn) {
+                      if (sn.data != null) {
+                        unit = sn.data!;
+                      }
+                      return Text(unit);
+                    },
+                  )
+                ]),
+                Row(children: [
+                  Text('${internalBatteryInfo.temp.toStringAsFixed(1)}',
+                      style: TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.bold)),
+                ]),
               SfLinearGauge(
                 minimum: 0,
                 maximum: 150,
@@ -106,24 +114,25 @@ class _MotorTempGaugeState extends State<MotorTempGauge> {
                 useRangeColorForAxis: true,
                 ranges: <LinearGaugeRange>[
                   // low
-                  LinearGaugeRange(startValue: 0, endValue: 150, color: SailyBlue,
-                  shaderCallback: (bounds) => LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [SailyBlue, Colors.redAccent])
-                    .createShader(bounds)),
+                  LinearGaugeRange(
+                      startValue: 0,
+                      endValue: 150,
+                      color: SailyBlue,
+                      shaderCallback: (bounds) => LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [SailyBlue, Colors.redAccent])
+                          .createShader(bounds)),
                 ],
                 barPointers: <LinearBarPointer>[
                   LinearBarPointer(
                     value: internalBatteryInfo.temp,
                     color: SailyBlue,
-                    
                   )
                 ],
                 markerPointers: <LinearMarkerPointer>[
                   LinearShapePointer(value: internalBatteryInfo.temp)
                 ],
-
               ),
             ],
           )));

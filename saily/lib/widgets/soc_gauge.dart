@@ -5,10 +5,14 @@ author: Giovanni Rasera
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:animated_battery_gauge/animated_battery_gauge.dart';
+import 'package:animated_battery_gauge/battery_gauge.dart';
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -65,16 +69,31 @@ class _SOCGaugeState extends State<SOCGauge> {
             if (internalBatteryInfo.SOC < 10) spacer = "0";
           }
 
-          return Container(
-            child: Column(
-              children: [
-                Text("SOC"),
+          return Column(
+            children: [
+              Divider(color: Colors.transparent,),
+              Text("SOC"),
                 Text(
                   "${spacer}${internalBatteryInfo.SOC} %",
-                  style: TextStyle(fontSize: 38),
-                )
-              ],
-            ),
+                  style: TextStyle(fontSize: 25)),
+              AnimatedBatteryGauge(
+                drawBarForExtraValue: true,
+                duration: Duration(seconds: 1),
+                value: internalBatteryInfo.SOC.toDouble(),
+                size: Size(150, 70),
+                borderColor: CupertinoColors.systemGrey,
+                valueColor: SailyLightGreen,
+                mode: BatteryGaugePaintMode.gauge,
+                hasText: false,
+                textStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: (internalBatteryInfo.SOC > 100
+                        ? SailyWhite
+                        : SailyBlack)),
+              ),
+              Divider(color: Colors.transparent,)
+            ],
           );
         });
   }

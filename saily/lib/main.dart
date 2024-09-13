@@ -24,6 +24,7 @@ import 'package:saily/tracks/fake_data.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/fuel_gauge.dart';
+import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:saily/widgets/power_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
@@ -61,12 +62,10 @@ void createDebug() async {
     // gps count
     bool isFixed = Random().nextBool();
     int count = Random().nextInt(10);
-    final gpsCount = GpsInfo(
-        isFixed: isFixed,
-        satellitesCount: count,
-        SOG: SOG % 150);
+    final gpsCount =
+        GpsInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
     settingsController.updateCurrentGpsCounter(gpsCount);
-    SOG+=10;
+    SOG += 10;
     // battery info
     BatteryInfo batteryInfo = BatteryInfo(
         SOC: Random().nextInt(100),
@@ -96,7 +95,6 @@ void main() async {
       SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
-
   recordController = RecordController(settingsController: settingsController);
 
   await Settings.init(
@@ -149,6 +147,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState(
       settingsController: settingsController, onLogout: onLogout);
 }
+//
 
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState({required this.settingsController, required this.onLogout});
@@ -181,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: w,
                         height: h / 3.5,
                         child: Card(
-                          color: SailyWhite,
+                          color: Colors.white,
                           elevation: 10,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -213,6 +212,68 @@ class _MyHomePageState extends State<MyHomePage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  Divider(
+                                    color: Colors.transparent,
+                                  ),
+                                  Center(
+                                    child: Card(
+                                    elevation: 10,
+                                    color: SailyWhite,
+                                      child: Center(
+                                        child: SOCGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: Colors.transparent,
+                                  ),
+                                  Center(
+                                    child: Card(
+                                    elevation: 10,
+                                    color: SailyWhite,
+                                      child: Center(
+                                        child: SOGGauge(
+                                            settingsController: settingsController,
+                                            small: false),
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: Colors.transparent,
+                                  ),
+                                  Card(
+                                    elevation: 10,
+                                    color: SailyWhite,
+                                    child: Column(
+                                      children: [
+                                        MotorTempGauge(
+                                            settingsController:
+                                                settingsController,
+                                            small: false),
+                                        Divider(
+                                          color: Colors.transparent,
+                                        ),
+                                        MotorTempGauge(
+                                            settingsController:
+                                                settingsController,
+                                            small: false),
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: Colors.transparent,
+                                  ),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        VoltageGauge(
+                                            settingsController:
+                                                settingsController,
+                                            small: false),
+                                      ]),
                                   Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -225,31 +286,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                             settingsController:
                                                 settingsController,
                                             small: false),
-                                      ]),
-                                  Divider(),
-                                        SOGGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
-                                  Divider(),
-                                  Column(
-                                    children: [
-                                      MotorTempGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
-                                    ],
-                                  ),
-                                  Divider(),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        VoltageGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
-                                        
                                       ]),
                                 ]),
                           ),

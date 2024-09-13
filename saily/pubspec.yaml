@@ -23,6 +23,7 @@ dependencies:
   camera: ^0.10.0+2
   share: ^2.0.4
   syncfusion_flutter_gauges: ^26.2.14
+  animated_battery_gauge: ^0.2.0
 
 dev_dependencies:
   flutter_test:
