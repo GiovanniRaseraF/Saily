@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:saily/datatypes/battery_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
@@ -27,20 +27,20 @@ class _PowerTempGaugeState extends State<PowerTempGauge> {
   _PowerTempGaugeState(
       {required this.settingsController, required this.small}) {}
 
-  BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
+  HighpowerbatteryInfo internalBatteryInfo = HighpowerbatteryInfo();
   SettingsController settingsController;
   bool small = true;
   String unit = "";
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getBatteryInfoStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if (internalBatteryInfo.temp < 10) spacer = "0";
+            if (internalBatteryInfo.batteryTemperature < 10) spacer = "0";
           }
 
           return Container(
@@ -59,7 +59,7 @@ class _PowerTempGaugeState extends State<PowerTempGauge> {
                   )
                 ]),
                 Text(
-                  "${spacer}${internalBatteryInfo.temp.toStringAsFixed(1)}",
+                  "${spacer}${internalBatteryInfo.batteryTemperature.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 25),
                 )
               ],
@@ -70,13 +70,13 @@ class _PowerTempGaugeState extends State<PowerTempGauge> {
 
   Widget buildBig(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getBatteryInfoStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if (internalBatteryInfo.temp < 10) spacer = "0";
+            if (internalBatteryInfo.batteryTemperature< 10) spacer = "0";
           }
 
           return FittedBox(
@@ -102,7 +102,7 @@ class _PowerTempGaugeState extends State<PowerTempGauge> {
                   )
                 ]),
                 Row(children: [
-                  Text('${internalBatteryInfo.temp.toStringAsFixed(1)}',
+                  Text('${internalBatteryInfo.batteryTemperature.toStringAsFixed(1)}',
                       style: TextStyle(
                           fontSize: 15.0, fontWeight: FontWeight.bold)),
                 ]),
@@ -128,7 +128,7 @@ class _PowerTempGaugeState extends State<PowerTempGauge> {
                   
                 ],
                 markerPointers: <LinearMarkerPointer>[
-                  LinearShapePointer( value: internalBatteryInfo.temp),
+                  LinearShapePointer( value: internalBatteryInfo.power),
                   LinearShapePointer( value: 50, color: SailyBlue),
                   LinearShapePointer( value: 100, color: SailyOrange)
                 ],

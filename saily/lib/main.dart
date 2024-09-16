@@ -6,6 +6,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/datatypes/boat_info.dart';
+import 'package:saily/datatypes/electricmotor_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/login/login_view.dart';
 import 'package:saily/record/record_controller.dart';
@@ -14,7 +16,6 @@ import 'package:saily/routes/routes_view.dart';
 import 'package:saily/settings/fake_server.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
-import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/env.dart';
 import 'package:saily/settings/settings_controller.dart';
@@ -30,7 +31,7 @@ import 'package:saily/widgets/powertemp_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
 import 'package:saily/widgets/gps_counter.dart';
-import 'package:saily/widgets/motortemp_gauge.dart';
+import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
@@ -69,12 +70,21 @@ void createDebug() async {
     settingsController.updateCurrentGpsCounter(gpsCount);
     SOG += 10;
     // battery info
-    BatteryInfo batteryInfo = BatteryInfo(
-        SOC: (SOC++ % 100).toInt(),
-        voltage: Random().nextDouble() * 80,
-        power: SOG,
-        temp: 80);
-    settingsController.updateBatteryInfo(batteryInfo);
+    HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
+    batteryInfo.SOC = (SOC++ % 100);
+    batteryInfo.totalVoltage = Random().nextDouble() * 80;
+    batteryInfo.power = SOG % 100;
+    batteryInfo.batteryTemperature = SOC % 100;
+    batteryInfo.bmsTemperature = (SOC + 10) % 100;
+    settingsController.sendHighPowerBatteryInfo(batteryInfo);
+    // electric motor info
+    ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
+    electricmotorInfo.motorRPM = SOG;
+    electricmotorInfo.motorTemperature = Random().nextDouble() * 80;
+    electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
+    settingsController.sendElectricMotorInfo(electricmotorInfo);
+    // electric motor info
+
   });
 }
 
@@ -194,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           elevation: 10,
                                           color: SailyWhite,
                                           child: Center(
-                                            child: SOCGauge(
+                                            child: SOGGauge(
                                                 settingsController:
                                                     settingsController,
                                                 small: false),
@@ -222,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       elevation: 10,
                                       color: SailyWhite,
                                       child: Center(
-                                        child: SOCGauge(
+                                        child: SOGGauge(
                                             settingsController:
                                                 settingsController,
                                             small: false),
@@ -244,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Divider(
                                           color: Colors.transparent,
                                         ),
-                                        MotorTempGauge(
+                                        ElectricMotorTempGauge(
                                             settingsController:
                                                 settingsController,
                                             small: false),

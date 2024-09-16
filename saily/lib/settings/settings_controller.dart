@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/boat_info.dart';
+import 'package:saily/datatypes/electricmotor_info.dart';
+import 'package:saily/datatypes/endotermicmotor_info.dart';
+import 'package:saily/datatypes/general_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
+import 'package:saily/datatypes/vehicle_info.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:camera/camera.dart';
@@ -16,7 +20,6 @@ class SettingsController extends ChangeNotifier {
     // create a broadcast stream
     currentBoatPositionStream = StreamController<LatLng>.broadcast();
     currentGpsCounterStream = StreamController<GpsInfo>.broadcast();
-    currentBatteryInfoStream = StreamController<BatteryInfo>.broadcast();
 
     // map
     followMapRotationStream = StreamController<bool>.broadcast();
@@ -36,6 +39,18 @@ class SettingsController extends ChangeNotifier {
     // load username
     username = settingsService.loadUsername();
     password = settingsService.loadPassword();
+
+    // Info Streams
+    generalInfoStream           = StreamController<GeneralInfo>.broadcast();
+    electricmotorInfoStream     = StreamController<ElectricmotorInfo>.broadcast();
+    highpowerbatteryInfoStream  = StreamController<HighpowerbatteryInfo>.broadcast();
+    endotermicmotorInfoStream   = StreamController<EndotermicmotorInfo>.broadcast();
+    vehicleInfoStream           = StreamController<VehicleInfo>.broadcast();
+    currentGeneralInfo          = GeneralInfo();
+    currentElectricMotorInfo    = ElectricmotorInfo();
+    currentHighpowerbatteryInfo = HighpowerbatteryInfo();
+    currentEndotermicmotorInfo  = EndotermicmotorInfo();
+    currentVehicleInfo          = VehicleInfo();
   }
 
   String username = "";
@@ -53,7 +68,6 @@ class SettingsController extends ChangeNotifier {
   late String selectedBoatdId;
   late StreamController<LatLng> currentBoatPositionStream;
   late StreamController<GpsInfo> currentGpsCounterStream;
-  late StreamController<BatteryInfo> currentBatteryInfoStream;
 
   // map
   late StreamController<bool> followMapRotationStream;
@@ -70,6 +84,82 @@ class SettingsController extends ChangeNotifier {
   late StreamController<String> sogUnitStream;
   late StreamController<String>  motorTempUnitStream;
 
+  // Info Stream
+  late GeneralInfo currentGeneralInfo;
+  late StreamController<GeneralInfo> generalInfoStream;
+
+  late ElectricmotorInfo currentElectricMotorInfo;
+  late StreamController<ElectricmotorInfo> electricmotorInfoStream;
+
+  late HighpowerbatteryInfo currentHighpowerbatteryInfo;
+  late StreamController<HighpowerbatteryInfo> highpowerbatteryInfoStream;
+
+  late EndotermicmotorInfo currentEndotermicmotorInfo;
+  late StreamController<EndotermicmotorInfo> endotermicmotorInfoStream;
+
+  late VehicleInfo currentVehicleInfo;
+  late StreamController<VehicleInfo> vehicleInfoStream;
+
+  // stream getters
+  Stream<GeneralInfo> getGeneralInfoStream() {
+    return generalInfoStream.stream;
+  }
+
+  Stream<ElectricmotorInfo> getElectricMotorInfoStream() {
+    return electricmotorInfoStream.stream;
+  }
+  
+  Stream<HighpowerbatteryInfo> getHighPowerBatteryInfoStream() {
+    return highpowerbatteryInfoStream.stream;
+  }
+
+  Stream<EndotermicmotorInfo> getEndotermicMotorInfoStream() {
+    return endotermicmotorInfoStream.stream;
+  }
+
+  Stream<VehicleInfo> getVehicleInfoStream() {
+    return vehicleInfoStream.stream;
+  }
+
+  // set value on stream  
+  void sendGeneralInfo(GeneralInfo? newG){
+    if(newG == null) return;
+
+    currentGeneralInfo = newG;
+    generalInfoStream.sink.add(newG);
+  }
+
+  void sendElectricMotorInfo(ElectricmotorInfo? newE){
+    if(newE == null) return;
+
+    currentElectricMotorInfo = newE;
+    electricmotorInfoStream.sink.add(newE);
+  }
+
+  void sendHighPowerBatteryInfo(HighpowerbatteryInfo? newH){
+    if(newH == null) return;
+
+    currentHighpowerbatteryInfo = newH;
+    highpowerbatteryInfoStream.sink.add(newH);
+  }
+
+  void sendEndotermicMotorInfo(EndotermicmotorInfo? newE){
+    if(newE == null) return;
+
+    currentEndotermicmotorInfo = newE;
+    endotermicmotorInfoStream.sink.add(newE);
+  }
+
+  void sendVehicleInfo(VehicleInfo? newV){
+    if(newV == null) return;
+
+    currentVehicleInfo = newV;
+    vehicleInfoStream.sink.add(newV);
+  }
+
+  // get current value
+
+  // Functions
   void addUser(UserInfo newUser){
     settingsService.saveUser(newUser);
   }
@@ -416,25 +506,6 @@ class SettingsController extends ChangeNotifier {
     settingsService.setBool("expand-tile", value);
 
     updateExpandTile(value);
-  }
-
-  ///
-  /// Send Battery Info
-  ///
-  void updateBatteryInfo(BatteryInfo? battInfo) {
-    if (battInfo == null) {
-      debugPrint("updateBatteryInfo: battInfo is null");
-      return;
-    } else {
-      currentBatteryInfoStream.sink.add(battInfo);
-    }
-  }
-
-  ///
-  /// Get
-  ///
-  Stream<BatteryInfo> getBatteryInfoStream() {
-    return currentBatteryInfoStream.stream;
   }
 
   ///

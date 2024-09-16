@@ -10,7 +10,7 @@ import 'package:animated_battery_gauge/battery_gauge.dart';
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saily/datatypes/battery_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
@@ -30,27 +30,24 @@ class SOCGauge extends StatefulWidget {
 class _SOCGaugeState extends State<SOCGauge> {
   _SOCGaugeState({required this.settingsController, required this.small}) {}
 
-  BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
+  HighpowerbatteryInfo highpowerbatteryInfo = HighpowerbatteryInfo();
+
   SettingsController settingsController;
   bool small = true;
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getBatteryInfoStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
-          String spacer = "";
           // read data
-          if (snapshot.data != null) {
-            internalBatteryInfo = snapshot.data!;
-            if (internalBatteryInfo.SOC < 10) spacer = "0";
-          }
+          if (snapshot.data != null) highpowerbatteryInfo = snapshot.data!;
 
           return Container(
             child: Column(
               children: [
                 Text("SOC"),
                 Text(
-                  "${spacer}${internalBatteryInfo.SOC} %",
+                  "${highpowerbatteryInfo.SOC} %",
                   style: TextStyle(fontSize: 25),
                 )
               ],
@@ -61,14 +58,11 @@ class _SOCGaugeState extends State<SOCGauge> {
 
   Widget buildBig(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getBatteryInfoStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
-          if (snapshot.data != null) {
-            internalBatteryInfo = snapshot.data!;
-            if (internalBatteryInfo.SOC < 10) spacer = "0";
-          }
+          if (snapshot.data != null) highpowerbatteryInfo = snapshot.data!;
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -86,15 +80,15 @@ class _SOCGaugeState extends State<SOCGauge> {
                   Text("SOC",
                       style: TextStyle(
                           fontSize: 15.0, fontWeight: FontWeight.bold)),
-                  Text("${spacer}${internalBatteryInfo.SOC} %",
+                  Text("${spacer}${highpowerbatteryInfo.SOC} %",
                       style: TextStyle(fontSize: 25)),
                   AnimatedBatteryGauge(
                     drawBarForExtraValue: true,
                     duration: Duration(seconds: 1),
-                    value: internalBatteryInfo.SOC.toDouble(),
+                    value: highpowerbatteryInfo.SOC,
                     size: Size(40, 30),
                     borderColor: CupertinoColors.systemGrey,
-                    valueColor: colorFromValue(internalBatteryInfo.SOC.toDouble()),
+                    valueColor: colorFromValue(highpowerbatteryInfo.SOC),
                     mode: BatteryGaugePaintMode.gauge,
                     hasText: false,
                     textStyle: TextStyle(

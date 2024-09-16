@@ -7,7 +7,6 @@ import 'dart:convert';
 
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:saily/datatypes/battery_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';

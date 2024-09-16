@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:saily/datatypes/battery_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 
@@ -24,19 +24,19 @@ class VoltageGauge extends StatefulWidget {
 class _VoltageGaugeState extends State<VoltageGauge> {
   _VoltageGaugeState({required this.settingsController, required this.small}) {}
 
-  BatteryInfo internalBatteryInfo = BatteryInfo(SOC: 0);
+  HighpowerbatteryInfo internalBatteryInfo = HighpowerbatteryInfo();
   SettingsController settingsController;
   bool small = true;
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getBatteryInfoStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.voltage < 10) spacer = "0";
+            if(internalBatteryInfo.totalVoltage < 10) spacer = "0";
           }
 
           return Container(
@@ -44,7 +44,7 @@ class _VoltageGaugeState extends State<VoltageGauge> {
               children: [
                 Text("Voltage"),
                 Text(
-                  "${spacer}${internalBatteryInfo.voltage.toStringAsFixed(1)}",
+                  "${spacer}${internalBatteryInfo.totalVoltage.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 25),
                 )
               ],
@@ -55,13 +55,13 @@ class _VoltageGaugeState extends State<VoltageGauge> {
 
   Widget buildBig(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getBatteryInfoStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.voltage < 10) spacer = "0";
+            if(internalBatteryInfo.totalVoltage< 10) spacer = "0";
         }
 
           return Container(
@@ -69,7 +69,7 @@ class _VoltageGaugeState extends State<VoltageGauge> {
               children: [
                 Text("Voltage"),
                 Text(
-                  "${spacer}${internalBatteryInfo.voltage.toStringAsFixed(1)}",
+                  "${spacer}${internalBatteryInfo.totalVoltage.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 38),
                 )
               ],
