@@ -26,6 +26,7 @@ import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/fuel_gauge.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:saily/widgets/power_gauge.dart';
+import 'package:saily/widgets/powertemp_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
 import 'package:saily/widgets/gps_counter.dart';
@@ -171,38 +172,41 @@ class _MyHomePageState extends State<MyHomePage> {
           // main menu
           Positioned(
               bottom: scaleH(context, 0.01),
-              left: scaleW(context, 0.01),
+              left: scaleW(context, 0.002),
               child: OrientationBuilder(builder: (context, orientation) {
-                //print("scaleW: ${scaleW(context, 0.90)}");
-                var w = scaleW(context, 0.99);
-                var h = scaleH(context, 0.40);
+                var w = scaleW(context, 0.999);
+                var h = scaleH(context, 0.45);
                 return ExpandableTile(
-                    collapsed: SizedBox(
-                        width: w,
-                        height: h / 3.5,
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 10,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SOGGauge(
-                                        settingsController: settingsController,
-                                        small: true),
-                                    PowerGauge(
-                                        settingsController: settingsController,
-                                        small: true),
-                                    FuelGauge(
-                                        settingsController: settingsController,
-                                        small: true),
-                                  ]),
-                            ],
+                    collapsed: Center(
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                          child: SizedBox(
+                            width: w,
+                            height: h / 2.3,
+                            child: Card(
+                              color: Colors.transparent,
+                              child:  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Center(
+                                        child: Card(
+                                          elevation: 10,
+                                          color: SailyWhite,
+                                          child: Center(
+                                            child: SOCGauge(
+                                                settingsController:
+                                                    settingsController,
+                                                small: false),
+                                          ),
+                                        ),
+                                      ),
+                                      ]),
+                                                  
+                              ),
                           ),
-                        )),
+                          ),
+                    ),
                     expanded: SizedBox(
                         width: w,
                         height: h,
@@ -233,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Divider(
                                           color: Colors.transparent,
                                         ),
-                                        MotorTempGauge(
+                                        PowerTempGauge(
                                             settingsController:
                                                 settingsController,
                                             small: false),
@@ -293,7 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: scaleH(context, 0.01),
+                    height: scaleH(context, 0.001),
                   ),
                   FloatingActionButton(
                     heroTag: "settings",
