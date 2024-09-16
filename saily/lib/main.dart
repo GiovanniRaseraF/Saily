@@ -35,7 +35,7 @@ import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
-import 'package:saily/widgets/sog_gauge.dart';
+import 'package:saily/widgets/rpmpower_gauge.dart';
 import 'package:saily/widgets/voltage_gauge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,7 +79,7 @@ void createDebug() async {
     settingsController.sendHighPowerBatteryInfo(batteryInfo);
     // electric motor info
     ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
-    electricmotorInfo.motorRPM = SOG;
+    electricmotorInfo.motorRPM = (SOG % 80) * 100 ;
     electricmotorInfo.motorTemperature = Random().nextDouble() * 80;
     electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
     settingsController.sendElectricMotorInfo(electricmotorInfo);
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: h / 2.3,
                             child: Card(
                               color: Colors.transparent,
-                              child:  Column(
+                              child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
@@ -203,15 +203,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: Card(
                                           elevation: 10,
                                           color: SailyWhite,
-                                          child: Center(
-                                            child: SOGGauge(
-                                                settingsController:
-                                                    settingsController,
-                                                small: false),
+                                          child: Row(
+                                            children:[
+                                              //SOGGauge( settingsController: settingsController, small: false),
+                                              SOCGauge( settingsController: settingsController, small: false),
+                                              RPMPowerGauge( settingsController: settingsController, small: false),
+                                              SOCGauge( settingsController: settingsController, small: false),
+                                            ]
                                           ),
                                         ),
                                       ),
-                                      ]),
+                                    ]),
                                                   
                               ),
                           ),
@@ -232,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       elevation: 10,
                                       color: SailyWhite,
                                       child: Center(
-                                        child: SOGGauge(
+                                        child: RPMPowerGauge(
                                             settingsController:
                                                 settingsController,
                                             small: false),

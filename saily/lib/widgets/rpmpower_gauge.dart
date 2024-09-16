@@ -7,61 +7,54 @@ import 'dart:convert';
 
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:saily/datatypes/electricmotor_info.dart';
 import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
+import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class SOGGauge extends StatefulWidget {
-  SOGGauge({required this.settingsController, required this.small});
+class RPMPowerGauge extends StatefulWidget {
+  RPMPowerGauge({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
   @override
-  State<SOGGauge> createState() =>
-      _SOGGaugeState(settingsController: settingsController, small: small);
+  State<RPMPowerGauge> createState() =>
+      _RPMPowerGaugeState(settingsController: settingsController, small: small);
 }
 
-class _SOGGaugeState extends State<SOGGauge> {
-  _SOGGaugeState({required this.settingsController, required this.small});
+class _RPMPowerGaugeState extends State<RPMPowerGauge> {
+  _RPMPowerGaugeState({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
   String unit = "";
 
-  GpsInfo gpsData = GpsInfo(isFixed: false, satellitesCount: 0, SOG: 0);
-
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getCurrentGpsCounterStream(),
+        stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
+          HighpowerbatteryInfo info = HighpowerbatteryInfo();
           // read data
           if (snapshot.data != null) {
-            gpsData = snapshot.data!;
+            info = snapshot.data!;
           }
 
           return Container(
             child: Column(
               children: [
                 Row(children: [
-                  Text("SOG: "),
-                  StreamBuilder(
-                    stream: settingsController.getSogUnitStream(),
-                    builder: (c, sn) {
-                      if (sn.data != null) {
-                        unit = sn.data!;
-                      }
-                      return Text(unit);
-                    },
-                  )
+                  Text("Power: KW"),
                 ]),
                 Row(
                   children: [
                     Text(
-                      "${gpsData.SOG.toStringAsFixed(1)}",
+                      "${info.power.toStringAsFixed(1)}",
                       style: TextStyle(fontSize: 25),
                     ),
                   ],
@@ -79,16 +72,17 @@ class _SOGGaugeState extends State<SOGGauge> {
           children: [
             // Power and RPM
             StreamBuilder(
-                stream: settingsController.getCurrentGpsCounterStream(),
+                stream: settingsController.getElectricMotorInfoStream(),
                 builder: (context, snapshot) {
+                  ElectricmotorInfo info = ElectricmotorInfo();
                   // read data
                   if (snapshot.data != null) {
-                    gpsData = snapshot.data!;
+                    info = snapshot.data!;
                   }
         
                   return SizedBox(
                     height: 140,
-                    width: 120,
+                    width: gCtxW() * 0.30,
                     child: Center(
                       child: SfRadialGauge(
                           title: GaugeTitle(
@@ -117,11 +111,11 @@ class _SOGGaugeState extends State<SOGGauge> {
                                       endWidth: 15),
                                   GaugeRange(
                                       startValue: 0,
-                                      endValue: gpsData.SOG * 50,
+                                      endValue: info.motorRPM,
                                       gradient:
                                           SweepGradient(colors: [SailyLightGreen]),
                                       startWidth: 5,
-                                      endWidth: (15 / 150) * gpsData.SOG),
+                                      endWidth: (15 / 8000) * info.motorRPM),
                                 ],
                                 pointers: [],
                                 annotations: <GaugeAnnotation>[
@@ -132,7 +126,7 @@ class _SOGGaugeState extends State<SOGGauge> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                  "${(gpsData.SOG * 50).toStringAsFixed(0)}",
+                                                  "${(info.motorRPM).toStringAsFixed(0)}",
                                                   style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.bold)),
@@ -146,21 +140,21 @@ class _SOGGaugeState extends State<SOGGauge> {
                   );
                 }),
             StreamBuilder(
-                stream: settingsController.getCurrentGpsCounterStream(),
+                stream: settingsController.getHighPowerBatteryInfoStream(),
                 builder: (context, snapshot) {
+                  HighpowerbatteryInfo info = HighpowerbatteryInfo();
                   // read data
                   if (snapshot.data != null) {
-                    gpsData = snapshot.data!;
+                    info = snapshot.data!;
                   }
-        
                   return SizedBox(
                     height: 140,
-                    width: 120,
+                    width: gCtxW() * 0.30,
                     child: Center(
                       child: SfRadialGauge(
                           animationDuration: 1000,
                           title: GaugeTitle(
-                              text: 'SOG',
+                              text: 'Power',
                               textStyle: TextStyle(
                                   fontSize: 15.0, fontWeight: FontWeight.bold)),
                           axes: <RadialAxis>[
@@ -186,14 +180,14 @@ class _SOGGaugeState extends State<SOGGauge> {
                                       endWidth: 15),
                                   GaugeRange(
                                       startValue: 0,
-                                      endValue: gpsData.SOG,
+                                      endValue: info.power,
                                       gradient: SweepGradient(colors: [
                                         SailyBlue,
                                         SailyOrange,
                                         Colors.red
                                       ]),
                                       startWidth: 5,
-                                      endWidth: (15 / 150) * gpsData.SOG),
+                                      endWidth: (15 / 150) * info.power),
                                 ],
                                 pointers: [],
                                 annotations: <GaugeAnnotation>[
@@ -202,20 +196,10 @@ class _SOGGaugeState extends State<SOGGauge> {
                                         child: Column(
                                             children: [
                                               Text(
-                                                  "${gpsData.SOG.toStringAsFixed(1)}",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold)),
-                                              StreamBuilder(
-                                                stream: settingsController
-                                                    .getSogUnitStream(),
-                                                builder: (c, sn) {
-                                                  if (sn.data != null) {
-                                                    unit = sn.data!;
-                                                  }
-                                                  return Text(unit);
-                                                },
-                                              )
+                                                  "${info.power.toStringAsFixed(1)}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+
+                                              Text(
+                                                  "KW",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
                                             ]),
                                       ),
                                       angle: 90,

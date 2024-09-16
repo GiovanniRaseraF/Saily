@@ -13,8 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
+import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
-import 'package:saily/widgets/sog_gauge.dart';
+import 'package:saily/widgets/rpmpower_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SOCGauge extends StatefulWidget {
@@ -64,45 +65,31 @@ class _SOCGaugeState extends State<SOCGauge> {
           // read data
           if (snapshot.data != null) highpowerbatteryInfo = snapshot.data!;
 
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  SOGGauge(settingsController: settingsController, small: small)
-                ],
-              ),
-              Column(
-                children: [
-                  Divider(
-                    color: Colors.transparent,
-                  ),
-                  Text("SOC",
-                      style: TextStyle(
-                          fontSize: 15.0, fontWeight: FontWeight.bold)),
-                  Text("${spacer}${highpowerbatteryInfo.SOC} %",
-                      style: TextStyle(fontSize: 25)),
-                  AnimatedBatteryGauge(
-                    drawBarForExtraValue: true,
-                    duration: Duration(seconds: 1),
-                    value: highpowerbatteryInfo.SOC,
-                    size: Size(40, 30),
-                    borderColor: CupertinoColors.systemGrey,
-                    valueColor: colorFromValue(highpowerbatteryInfo.SOC),
-                    mode: BatteryGaugePaintMode.gauge,
-                    hasText: false,
-                    textStyle: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+          return 
+              SizedBox(
+                width: gCtxW() * 0.17,
+                child: Column(
+                  children: [
+                    const Text("SOC", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
+                    Text("${spacer}${highpowerbatteryInfo.SOC} %", style: TextStyle(fontSize: 20)),
+                
+                    AnimatedBatteryGauge(
+                      drawBarForExtraValue: true,
+                      duration: Duration(seconds: 1),
+                      value: highpowerbatteryInfo.SOC,
+                      size: Size(40, 30),
+                      borderColor: CupertinoColors.systemGrey,
+                      valueColor: colorFromValue(highpowerbatteryInfo.SOC),
+                      mode: BatteryGaugePaintMode.gauge,
+                      hasText: false,
+                      textStyle: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Divider(
-                    color: Colors.transparent,
-                  )
-                ],
-              ),
-            ],
-          );
+                  ],
+                ),
+              );
         });
   }
 
