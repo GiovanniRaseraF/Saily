@@ -76,7 +76,6 @@ class _ExpandableTileState extends State<ExpandableTile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    
                     GestureDetector(
                         child: Card(
                             child: Icon(
@@ -108,7 +107,18 @@ class _ExpandableTileState extends State<ExpandableTile> {
                         }),
                   ],
                 ),
-                collapsed
+
+                // swipe
+                GestureDetector(
+                  child: collapsed,
+                  onVerticalDragUpdate: (details) {
+                    int sensitivity = 10;
+                    if (details.delta.dy < -sensitivity) {
+                        // Down Swipe
+                        settingsController.setExpandedTileValue(true);
+                    }                   
+                  }
+                )
               ],
             );
           }

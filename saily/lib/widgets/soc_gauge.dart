@@ -67,17 +67,16 @@ class _SOCGaugeState extends State<SOCGauge> {
 
           return 
               SizedBox(
-                width: gCtxW() * 0.17,
+                width: gCtxW() * 0.15,
                 child: Column(
                   children: [
-                    const Text("SOC", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
-                    Text("${spacer}${highpowerbatteryInfo.SOC} %", style: TextStyle(fontSize: 20)),
+                    Text("${spacer}${highpowerbatteryInfo.SOC.toStringAsFixed(0)} %", style: TextStyle(fontSize: 15)),
                 
                     AnimatedBatteryGauge(
                       drawBarForExtraValue: true,
                       duration: Duration(seconds: 1),
                       value: highpowerbatteryInfo.SOC,
-                      size: Size(40, 30),
+                      size: Size(20, 40),
                       borderColor: CupertinoColors.systemGrey,
                       valueColor: colorFromValue(highpowerbatteryInfo.SOC),
                       mode: BatteryGaugePaintMode.gauge,
@@ -96,7 +95,7 @@ class _SOCGaugeState extends State<SOCGauge> {
   Color colorFromValue(double SOC) {
     if (SOC > 0 && SOC < 30) return Colors.redAccent;
     if (SOC > 30 && SOC < 50) return SailyOrange;
-    return SailyBlue;
+    return SailyLightGreen;
   }
 
   @override

@@ -37,6 +37,7 @@ flutter:
     - images/boat.jpeg
     - images/map.png
     - images/water.png
+    - images/dashboard.png
 
     - sharable/cannes.gpx
 

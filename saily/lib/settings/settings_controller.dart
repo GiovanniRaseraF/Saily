@@ -6,7 +6,7 @@ import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/electricmotor_info.dart';
 import 'package:saily/datatypes/endotermicmotor_info.dart';
 import 'package:saily/datatypes/general_info.dart';
-import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
@@ -19,7 +19,6 @@ class SettingsController extends ChangeNotifier {
   SettingsController({required this.settingsService}) {
     // create a broadcast stream
     currentBoatPositionStream = StreamController<LatLng>.broadcast();
-    currentGpsCounterStream = StreamController<GpsInfo>.broadcast();
 
     // map
     followMapRotationStream = StreamController<bool>.broadcast();
@@ -41,11 +40,13 @@ class SettingsController extends ChangeNotifier {
     password = settingsService.loadPassword();
 
     // Info Streams
+    nVTGInfoStream              = StreamController<VTGInfo>.broadcast();
     generalInfoStream           = StreamController<GeneralInfo>.broadcast();
     electricmotorInfoStream     = StreamController<ElectricmotorInfo>.broadcast();
     highpowerbatteryInfoStream  = StreamController<HighpowerbatteryInfo>.broadcast();
     endotermicmotorInfoStream   = StreamController<EndotermicmotorInfo>.broadcast();
     vehicleInfoStream           = StreamController<VehicleInfo>.broadcast();
+    currentNVTGInfo             = VTGInfo(isFixed: true, satellitesCount: 0, SOG: 0);
     currentGeneralInfo          = GeneralInfo();
     currentElectricMotorInfo    = ElectricmotorInfo();
     currentHighpowerbatteryInfo = HighpowerbatteryInfo();
@@ -67,7 +68,6 @@ class SettingsController extends ChangeNotifier {
   ///
   late String selectedBoatdId;
   late StreamController<LatLng> currentBoatPositionStream;
-  late StreamController<GpsInfo> currentGpsCounterStream;
 
   // map
   late StreamController<bool> followMapRotationStream;
@@ -85,6 +85,9 @@ class SettingsController extends ChangeNotifier {
   late StreamController<String>  motorTempUnitStream;
 
   // Info Stream
+  late VTGInfo currentNVTGInfo;
+  late StreamController<VTGInfo> nVTGInfoStream;
+
   late GeneralInfo currentGeneralInfo;
   late StreamController<GeneralInfo> generalInfoStream;
 
@@ -101,6 +104,10 @@ class SettingsController extends ChangeNotifier {
   late StreamController<VehicleInfo> vehicleInfoStream;
 
   // stream getters
+  Stream<VTGInfo> getNVTGStream() {
+    return nVTGInfoStream.stream;
+  }
+
   Stream<GeneralInfo> getGeneralInfoStream() {
     return generalInfoStream.stream;
   }
@@ -121,7 +128,17 @@ class SettingsController extends ChangeNotifier {
     return vehicleInfoStream.stream;
   }
 
-  // set value on stream  
+  ///
+  /// Send values to streams
+  ///
+  ///
+  void sendNVTGInfo(VTGInfo? newN) {
+    if (newN == null) return;
+
+    currentNVTGInfo = newN;
+    nVTGInfoStream.sink.add(newN);
+  }
+
   void sendGeneralInfo(GeneralInfo? newG){
     if(newG == null) return;
 
@@ -217,10 +234,12 @@ class SettingsController extends ChangeNotifier {
     return motorTempUnitStream.stream;
   }
 
-  void setSogUnit(String? unit){
+  void sendSogUnit(String? unit){
     if(unit == null) return;
+
     settingsService.setString("sog-unit", unit);
     final send = settingsService.getString("sog-unit");
+
     sogUnitStream.add(send!);
   }
 
@@ -231,12 +250,14 @@ class SettingsController extends ChangeNotifier {
     motorTempUnitStream.add(send!);
   }
 
-  String getSogUnit(){
+  String getCurrentSogUnit(){
     final send = settingsService.getString("sog-unit");
+
     if(send == null){
       settingsService.setString("sog-unit", "km/h");
       return "km/h";
     }
+
     return send;
   }
 
@@ -407,28 +428,7 @@ class SettingsController extends ChangeNotifier {
   ///
   Stream<LatLng> getCurrentBoatPositionStream() {
     return currentBoatPositionStream.stream;
-  }
-
-  // Stream<>
-
-  ///
-  /// Send here the new gps counter
-  ///
-  void updateCurrentGpsCounter(GpsInfo? gps_counter) {
-    if (gps_counter == null) {
-      debugPrint("updateCurrentGpsCounter: gps_counter is null");
-      return;
-    } else {
-      currentGpsCounterStream.sink.add(gps_counter);
-    }
-  }
-
-  ///
-  /// Get the stream controller for gps counter
-  ///
-  Stream<GpsInfo> getCurrentGpsCounterStream() {
-    return currentGpsCounterStream.stream;
-  }
+  }  
 
   ///
   /// Send

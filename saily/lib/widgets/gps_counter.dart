@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 
@@ -44,10 +44,10 @@ class _GpsCounterState extends State<GpsCounter> {
         backgroundColor: SailyAlmostWhite,//Color.fromARGB(0, 255, 255, 255),
         elevation: 0,
         child: StreamBuilder(
-            stream: settingsController.getCurrentGpsCounterStream(),
+            stream: settingsController.getNVTGStream(),
             builder: (bc, snapshot) {
-              GpsInfo gpsCountType =
-                  GpsInfo(isFixed: false, satellitesCount: 0, SOG: 0);
+              VTGInfo gpsCountType =
+                  VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0);
 
               // read data
               if (snapshot.data != null) {

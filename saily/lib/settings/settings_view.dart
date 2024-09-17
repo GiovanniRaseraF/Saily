@@ -42,7 +42,7 @@ class _SettingsViewState extends State<SettingsView> {
             subtitle: "Speed over gournd calculated using gps",
             settingKey: "sog-unit", selected: "km/h", values: {"km/h": "km/h", "knt" : "knt"},
             onChange: (value){
-              settingsController.setSogUnit(value);
+              settingsController.sendSogUnit(value);
             },
             ),
           DropDownSettingsTile<String>(

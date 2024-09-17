@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/electricmotor_info.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/datatypes/user_info.dart';
@@ -16,7 +13,7 @@ import 'package:saily/routes/routes_view.dart';
 import 'package:saily/settings/fake_server.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
-import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/env.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/settings/settings_service.dart';
@@ -25,14 +22,12 @@ import 'package:saily/tracks/fake_data.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/fuel_gauge.dart';
-import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:saily/widgets/power_gauge.dart';
 import 'package:saily/widgets/powertemp_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
+import 'package:saily/widgets/sog_gauge.dart';
 import 'package:saily/widgets/expandable_tile.dart';
-import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/electricmotortemp_gauge.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
 import 'package:saily/widgets/rpmpower_gauge.dart';
@@ -66,8 +61,8 @@ void createDebug() async {
     bool isFixed = Random().nextBool();
     int count = Random().nextInt(10);
     final gpsCount =
-        GpsInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
-    settingsController.updateCurrentGpsCounter(gpsCount);
+        VTGInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
+    settingsController.sendNVTGInfo(gpsCount);
     SOG += 10;
     // battery info
     HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
@@ -79,12 +74,11 @@ void createDebug() async {
     settingsController.sendHighPowerBatteryInfo(batteryInfo);
     // electric motor info
     ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
-    electricmotorInfo.motorRPM = (SOG % 80) * 100 ;
+    electricmotorInfo.motorRPM = (SOG % 80) * 100;
     electricmotorInfo.motorTemperature = Random().nextDouble() * 80;
     electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
     settingsController.sendElectricMotorInfo(electricmotorInfo);
     // electric motor info
-
   });
 }
 
@@ -182,62 +176,68 @@ class _MyHomePageState extends State<MyHomePage> {
           // main menu
           Positioned(
               bottom: scaleH(context, 0.01),
-              left: scaleW(context, 0.002),
+              left: scaleW(context, 0.025),
               child: OrientationBuilder(builder: (context, orientation) {
-                var w = scaleW(context, 0.999);
+                var w = scaleW(context, 0.95);
                 var h = scaleH(context, 0.45);
                 return ExpandableTile(
-                    collapsed: Center(
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                          child: SizedBox(
-                            width: w,
-                            height: h / 2.3,
-                            child: Card(
-                              color: Colors.transparent,
-                              child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Center(
-                                        child: Card(
-                                          elevation: 10,
-                                          color: SailyWhite,
-                                          child: Row(
-                                            children:[
-                                              //SOGGauge( settingsController: settingsController, small: false),
-                                              SOCGauge( settingsController: settingsController, small: false),
-                                              RPMPowerGauge( settingsController: settingsController, small: false),
-                                              SOCGauge( settingsController: settingsController, small: false),
-                                            ]
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                                  
-                              ),
-                          ),
-                          ),
-                    ),
-                    expanded: SizedBox(
+                    collapsed: Hero(
+                      transitionOnUserGestures: true,
+                      tag: "expandable-main",
+                      child: SizedBox(
                         width: w,
-                        height: h,
-                        child: Card(
-                          color: Colors.transparent,
+                        height: h / 2.5,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Card(
+                                elevation: 10,
+                                color: SailyWhite,
+                                child: Row(children: [
+                                  SOGGauge(
+                                      settingsController: settingsController,
+                                      small: false),
+                                  RPMPowerGauge(
+                                      settingsController: settingsController,
+                                      small: false),
+                                  SOCGauge(
+                                      settingsController: settingsController,
+                                      small: false),
+                                ]),
+                              ),
+                            ]),
+                      ),
+                    ),
+                    expanded: Hero(
+                        transitionOnUserGestures: true,
+                        tag: "expandable-main",
+                        child: SizedBox(
+                          width: w,
+                          height: h,
                           child: SingleChildScrollView(
                             child: Column(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Center(
                                     child: Card(
                                       elevation: 10,
                                       color: SailyWhite,
                                       child: Center(
-                                        child: RPMPowerGauge(
-                                            settingsController:
-                                                settingsController,
-                                            small: false),
+                                        child: Row(children: [
+                                          SOGGauge(
+                                              settingsController:
+                                                  settingsController,
+                                              small: false),
+                                          RPMPowerGauge(
+                                              settingsController:
+                                                  settingsController,
+                                              small: false),
+                                          SOCGauge(
+                                              settingsController:
+                                                  settingsController,
+                                              small: false),
+                                        ]),
                                       ),
                                     ),
                                   ),

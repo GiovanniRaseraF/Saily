@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/electricmotor_info.dart';
-import 'package:saily/datatypes/gps_info.dart';
+import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
@@ -217,7 +217,7 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
 
   @override
   Widget build(BuildContext c) {
-    unit = settingsController.getSogUnit();
+    unit = settingsController.getCurrentSogUnit();
     if (small) {
       return buildSmall(c);
     } else {
