@@ -15,7 +15,7 @@ import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
-import 'package:saily/widgets/rpmpower_gauge.dart';
+import 'package:saily/widgets/main_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SOCGauge extends StatefulWidget {

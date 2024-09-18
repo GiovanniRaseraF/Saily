@@ -16,20 +16,21 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:saily/widgets/speed_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class RPMPowerGauge extends StatefulWidget {
-  RPMPowerGauge({required this.settingsController, required this.small});
+class MainGauge extends StatefulWidget {
+  MainGauge({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
   @override
-  State<RPMPowerGauge> createState() =>
-      _RPMPowerGaugeState(settingsController: settingsController, small: small);
+  State<MainGauge> createState() =>
+      _MainGaugeState(settingsController: settingsController, small: small);
 }
 
-class _RPMPowerGaugeState extends State<RPMPowerGauge> {
-  _RPMPowerGaugeState({required this.settingsController, required this.small});
+class _MainGaugeState extends State<MainGauge> {
+  _MainGaugeState({required this.settingsController, required this.small});
 
   SettingsController settingsController;
   bool small;
@@ -69,6 +70,7 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
     return FittedBox(
       child: Center(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             // Power and RPM
             StreamBuilder(
@@ -82,7 +84,7 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
         
                   return SizedBox(
                     height: 140,
-                    width: gCtxW() * 0.30,
+                    width: gCtxW() * 0.33,
                     child: Center(
                       child: SfRadialGauge(
                           title: GaugeTitle(
@@ -133,12 +135,14 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
                                             ]),
                                       ),
                                       angle: 0,
-                                      positionFactor: 1)
+                                      positionFactor: 0.5)
                                 ])
                           ]),
                     ),
                   );
                 }),
+
+            SpeedGauge(settingsController: settingsController),
             StreamBuilder(
                 stream: settingsController.getHighPowerBatteryInfoStream(),
                 builder: (context, snapshot) {
@@ -149,7 +153,7 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
                   }
                   return SizedBox(
                     height: 140,
-                    width: gCtxW() * 0.30,
+                    width: gCtxW() * 0.33,
                     child: Center(
                       child: SfRadialGauge(
                           animationDuration: 1000,
@@ -192,8 +196,7 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
                                 pointers: [],
                                 annotations: <GaugeAnnotation>[
                                   GaugeAnnotation(
-                                      widget: Container(
-                                        child: Column(
+                                      widget: Column(
                                             children: [
                                               Text(
                                                   "${info.power.toStringAsFixed(1)}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
@@ -201,9 +204,9 @@ class _RPMPowerGaugeState extends State<RPMPowerGauge> {
                                               Text(
                                                   "KW",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
                                             ]),
-                                      ),
+                                      
                                       angle: 90,
-                                      positionFactor: 0.6)
+                                      positionFactor: 0.5)
                                 ])
                           ]),
                     ),

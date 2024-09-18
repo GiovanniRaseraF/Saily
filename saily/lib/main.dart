@@ -30,7 +30,8 @@ import 'package:saily/widgets/expandable_tile.dart';
 import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/map/map_view.dart';
-import 'package:saily/widgets/rpmpower_gauge.dart';
+import 'package:saily/widgets/main_gauge.dart';
+import 'package:saily/widgets/speed_gauge.dart';
 import 'package:saily/widgets/voltage_gauge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -176,9 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // main menu
           Positioned(
               bottom: scaleH(context, 0.01),
-              left: scaleW(context, 0.025),
+              left: scaleW(context, 0.001),
               child: OrientationBuilder(builder: (context, orientation) {
-                var w = scaleW(context, 0.95);
+                var w = scaleW(context, 0.998);
                 var h = scaleH(context, 0.45);
                 return ExpandableTile(
                     collapsed: Hero(
@@ -186,26 +187,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       tag: "expandable-main",
                       child: SizedBox(
                         width: w,
-                        height: h / 2.5,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Card(
-                                elevation: 10,
-                                color: SailyWhite,
-                                child: Row(children: [
-                                  SOGGauge(
-                                      settingsController: settingsController,
-                                      small: false),
-                                  RPMPowerGauge(
-                                      settingsController: settingsController,
-                                      small: false),
-                                  SOCGauge(
-                                      settingsController: settingsController,
-                                      small: false),
+                        child: FittedBox(
+                          child: Card(
+                            elevation: 10,
+                            color: SailyWhite,
+                            child: Center(
+                              child: Stack(
+                                children: [
+                                  MainGauge(settingsController: settingsController, small: false),
+                                  Positioned(left: w/3, top: 25, child: SOCGauge(settingsController: settingsController, small: false))
                                 ]),
-                              ),
-                            ]),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     expanded: Hero(
@@ -216,31 +210,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: h,
                           child: SingleChildScrollView(
                             child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
                                 children: [
-                                  Center(
-                                    child: Card(
-                                      elevation: 10,
-                                      color: SailyWhite,
-                                      child: Center(
-                                        child: Row(children: [
-                                          SOGGauge(
-                                              settingsController:
-                                                  settingsController,
-                                              small: false),
-                                          RPMPowerGauge(
-                                              settingsController:
-                                                  settingsController,
-                                              small: false),
-                                          SOCGauge(
-                                              settingsController:
-                                                  settingsController,
-                                              small: false),
-                                        ]),
+                                  FittedBox(
+                                      child: Card(
+                                        elevation: 10,
+                                        color: SailyWhite,
+                                        child: Stack(
+                                          children: [
+                                            MainGauge(settingsController: settingsController, small: false),
+                                            Positioned(left: w/3, top: 25, child: SOCGauge(settingsController: settingsController, small: false))
+                                          ]),
                                       ),
                                     ),
-                                  ),
                                   Card(
                                     elevation: 10,
                                     color: SailyWhite,
