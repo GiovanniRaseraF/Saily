@@ -67,18 +67,16 @@ class _SOCGaugeState extends State<SOCGauge> {
 
           return 
               SizedBox(
-                width: gCtxW() * 0.15,
                 child: Column(
                   children: [
                     Text("${spacer}${highpowerbatteryInfo.SOC.toStringAsFixed(0)} %", style: TextStyle(
                       color: SailyWhite,
-                      fontSize: 15, fontWeight: FontWeight.bold)),
-                
+                      fontSize: 20, fontWeight: FontWeight.bold)),
                     AnimatedBatteryGauge(
                       drawBarForExtraValue: true,
                       duration: Duration(seconds: 1),
                       value: highpowerbatteryInfo.SOC,
-                      size: Size(20, 40),
+                      size: Size(60, 30),
                       borderColor: CupertinoColors.systemGrey,
                       valueColor: colorFromValue(highpowerbatteryInfo.SOC),
                       mode: BatteryGaugePaintMode.gauge,
