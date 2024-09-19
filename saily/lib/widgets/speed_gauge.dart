@@ -86,7 +86,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                   sizeUnit: GaugeSizeUnit.factor,
                                   startWidth: 0.1,
                                   endWidth: 0.1,
-                                  gradient: SweepGradient(colors: <Color>[
+                                  gradient: SweepGradient(colors: [
                                     SailyWhite,
                                     Colors.yellow,
                                     SailyLightGreen

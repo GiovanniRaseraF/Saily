@@ -101,7 +101,7 @@ class _MainGaugeState extends State<MainGauge> {
                                   showLabels: false,
                                   axisLineStyle: AxisLineStyle(
                                       gradient: SweepGradient(
-                                          colors: [SailyBlue, Colors.red], 
+                                          colors: [SailyBlue, SailySuperRed], 
                                           stops: [0.0, 1]
                                         ),
                                     thicknessUnit: GaugeSizeUnit.factor, thickness: 0.05),

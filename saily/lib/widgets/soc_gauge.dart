@@ -93,8 +93,8 @@ class _SOCGaugeState extends State<SOCGauge> {
   }
 
   Color colorFromValue(double SOC) {
-    if (SOC > 0 && SOC < 30) return Colors.redAccent;
-    if (SOC > 30 && SOC < 50) return SailyOrange;
+    if (SOC > 0 && SOC < 30) return SailySuperRed;
+    if (SOC > 30 && SOC < 100) return SailySuperGreen;
     return SailyLightGreen;
   }
 

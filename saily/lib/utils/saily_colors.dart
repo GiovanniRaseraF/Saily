@@ -16,3 +16,6 @@ final Color SailyGrey = Color.fromARGB(255, 133, 130, 128);
 final Color SailyLightGrey = Color.fromARGB(255, 210, 210, 210);
 
 final Color SailyLightGreen = Color.fromARGB(255, 153, 181, 100);
+
+final Color SailySuperRed = Color.fromARGB(255, 255, 0, 0);
+final Color SailySuperGreen = Color.fromARGB(255, 0, 255, 0);
