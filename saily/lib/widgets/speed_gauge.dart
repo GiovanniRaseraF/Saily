@@ -6,6 +6,7 @@ import 'package:saily/main.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
+import 'package:saily/widgets/soc_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SpeedGauge extends StatefulWidget {
@@ -37,102 +38,60 @@ class _SpeedGaugeState extends State<SpeedGauge> {
               stream: settingsController.getNVTGStream(),
               builder: (context, snapshot) {
                 if (snapshot.data != null) info = snapshot.data!;
-                return FittedBox(
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    child: SizedBox(
-                      height: 200,
-                      width: gCtxW() * 0.65,
-                      child: SfRadialGauge(axes: <RadialAxis>[
-                        RadialAxis(
-                            startAngle: 270,
-                            endAngle: 270,
-                            minimum: 0,
-                            maximum: 80,
-                            interval: 10,
-                            radiusFactor: 0.4,
-                            showAxisLine: false,
-                            showLabels: true,
-                            showLastLabel: true,
-                            minorTicksPerInterval: 4,
-                            majorTickStyle: MajorTickStyle(
-                                length: 8, thickness: 3, color: Colors.white),
-                            minorTickStyle: MinorTickStyle(
-                                length: 3, thickness: 1.5, color: Colors.grey),
-                            axisLabelStyle: GaugeTextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14),
-                            onLabelCreated: labelCreated),
-                        RadialAxis(
-                            minimum: 0,
-                            maximum: 200,
-                            labelOffset: 30,
-                            axisLineStyle: AxisLineStyle(
-                                thicknessUnit: GaugeSizeUnit.factor,
-                                thickness: 0.03),
-                            majorTickStyle: MajorTickStyle(
-                                length: 6, thickness: 4, color: Colors.white),
-                            minorTickStyle: MinorTickStyle(
-                                length: 3, thickness: 3, color: Colors.white),
-                            axisLabelStyle: GaugeTextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14),
-                            ranges: <GaugeRange>[
-                              GaugeRange(
-                                  startValue: 0,
-                                  endValue: 200,
-                                  sizeUnit: GaugeSizeUnit.factor,
-                                  startWidth: 0.1,
-                                  endWidth: 0.1,
-                                  gradient: SweepGradient(colors: [
-                                    SailyWhite,
-                                    Colors.yellow,
-                                    SailyLightGreen
-                                  ], stops: const <double>[
-                                    0.0,
-                                    0.5,
-                                    1
-                                  ]))
-                            ],
-                            pointers: <GaugePointer>[
-                              NeedlePointer(
-                                  value: info.SOG,
-                                  needleLength: 0.95,
-                                  enableAnimation: true,
-                                  animationType: AnimationType.ease,
-                                  needleStartWidth: 1.5,
-                                  needleEndWidth: 6,
-                                  needleColor: Colors.red,
-                                  knobStyle: KnobStyle(
-                                      knobRadius: 0.09,
-                                      sizeUnit: GaugeSizeUnit.factor))
-                            ],
-                            annotations: <GaugeAnnotation>[
-                              GaugeAnnotation(
-                                  widget: Container(
-                                      child: Column(children: [
-                                    Text(info.SOG.toStringAsFixed(0),
-                                        style: TextStyle(
-                                            color: SailyWhite,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(sogUnit,
-                                        style: TextStyle(
-                                            color: SailyWhite,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                  ])),
-                                  angle: 90,
-                                  positionFactor: 1.5)
-                            ])
-                      ]),
-                    ),
-                  ),
-                );
+                return
+                      FittedBox(
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: SfRadialGauge(axes: <RadialAxis>[
+                              RadialAxis(
+                                  minimum: 0,
+                                  maximum: 150,
+                                  showLabels: false,
+                                  axisLineStyle: AxisLineStyle(
+                                      gradient: SweepGradient(
+                                          colors: [SailyWhite, SailyBlue], 
+                                          stops: [0.0, 1]
+                                        ),
+                                    thicknessUnit: GaugeSizeUnit.factor, thickness: 0.05),
+                                  minorTicksPerInterval: 5,
+                                  majorTickStyle: MajorTickStyle(length: 25, thickness: 3,color: Colors.white),
+                                  minorTickStyle: MinorTickStyle(length: 15, thickness: 1,color: Colors.white),
+                                  ranges: <GaugeRange>[
+                                    GaugeRange(
+                                        startValue: 0,
+                                        rangeOffset: 0.05,
+                                        endValue: info.SOG,
+                                        sizeUnit: GaugeSizeUnit.factor,
+                                        startWidth: 0.1,
+                                        endWidth: 0.1,
+                                        gradient: SweepGradient(
+                                          colors: [Colors.white,SailySuperGreen], 
+                                          stops: [0.0, 1]
+                                        )
+                                      )
+                                  ],
+                                  pointers: <GaugePointer>[],
+                                  annotations: <GaugeAnnotation>[
+                                    GaugeAnnotation(
+                                        widget: Container(
+                                            child: Column(children: [
+                                          SOCGauge(settingsController: settingsController, small: false),
+                                          Divider(color: Colors.transparent,height: 25,),
+                                          Text(info.SOG.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
+                                          Text(sogUnit,style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
+                                        ])),
+                                        angle: 90,
+                                        positionFactor: 0.55)
+                                  ])
+                            ]),
+                          ),
+                        ),
+                      );
+                    });
               });
-        });
   }
 
   @override

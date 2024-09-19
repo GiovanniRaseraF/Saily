@@ -77,7 +77,7 @@ class _SOCGaugeState extends State<SOCGauge> {
                       duration: Duration(seconds: 1),
                       value: highpowerbatteryInfo.SOC,
                       size: Size(60, 30),
-                      borderColor: CupertinoColors.systemGrey,
+                      borderColor: SailyAlmostWhite,
                       valueColor: colorFromValue(highpowerbatteryInfo.SOC),
                       mode: BatteryGaugePaintMode.gauge,
                       hasText: false,
@@ -94,7 +94,7 @@ class _SOCGaugeState extends State<SOCGauge> {
 
   Color colorFromValue(double SOC) {
     if (SOC > 0 && SOC < 30) return SailySuperRed;
-    if (SOC > 30 && SOC < 100) return SailySuperGreen;
+    if (SOC > 30 && SOC <= 100) return SailySuperGreen;
     return SailyLightGreen;
   }
 

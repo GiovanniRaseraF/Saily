@@ -16,6 +16,7 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:saily/widgets/rpm_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/speed_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -73,79 +74,7 @@ class _MainGaugeState extends State<MainGauge> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Stack(
-              children: [
-                StreamBuilder(
-                    stream: settingsController.getElectricMotorInfoStream(),
-                    builder: (context, snapSogUnit) {
-                      ElectricmotorInfo info = ElectricmotorInfo();
-                      if (snapSogUnit.data != null) info = snapSogUnit.data!;
-                      return FittedBox(
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: SizedBox(
-                            height: 200,
-                            width: gCtxW() * 0.65,
-                            child: SfRadialGauge(axes: <RadialAxis>[
-                              RadialAxis(
-                                  minimum: 0,
-                                  maximum: 80,
-                                  interval: 10,
-                                  showAxisLine: false,
-                                  showLabels: false,
-                                  showLastLabel: false,
-                                  ),
-                              RadialAxis(
-                                  minimum: 0,
-                                  maximum: 8000,
-                                  showLabels: false,
-                                  axisLineStyle: AxisLineStyle(
-                                      gradient: SweepGradient(
-                                          colors: [SailyBlue, SailySuperRed], 
-                                          stops: [0.0, 1]
-                                        ),
-                                    thicknessUnit: GaugeSizeUnit.factor, thickness: 0.05),
-                                  minorTicksPerInterval: 5,
-                                  majorTickStyle: MajorTickStyle(length: 25, thickness: 6,color: Colors.white),
-                                  minorTickStyle: MinorTickStyle(length: 15, thickness: 3,color: Colors.white),
-                                  ranges: <GaugeRange>[
-                                    GaugeRange(
-                                        startValue: 0,
-                                        rangeOffset: 0.05,
-                                        endValue: info.motorRPM,
-                                        sizeUnit: GaugeSizeUnit.factor,
-                                        startWidth: 0.1,
-                                        endWidth: 0.1,
-                                        gradient: SweepGradient(
-                                          colors: [Colors.white,SailyBlue,], 
-                                          stops: [0.0, 1]
-                                        )
-                                      )
-                                  ],
-                                  pointers: <GaugePointer>[],
-                                  annotations: <GaugeAnnotation>[
-                                    GaugeAnnotation(
-                                        widget: Container(
-                                            child: Column(children: [
-                                          Text(info.motorRPM.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
-                                          Text("RPM",style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
-                                        ])),
-                                        angle: 90,
-                                        positionFactor: 1.5)
-                                  ])
-                            ]),
-                          ),
-                        ),
-                      );
-                    }),
-
-                    Positioned(
-                      top: ctxH(c) / 11,
-                      left: ctxW(c) / 3.30,
-                      child: SOCGauge(settingsController: settingsController, small: small))
-              ],
-            ),
-
+            RPMGauge(settingsController: settingsController, small: small),
             // Speed
             SpeedGauge(settingsController: settingsController),
           ],
