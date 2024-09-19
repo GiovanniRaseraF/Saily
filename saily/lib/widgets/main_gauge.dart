@@ -74,7 +74,16 @@ class _MainGaugeState extends State<MainGauge> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            // rpm
             RPMGauge(settingsController: settingsController, small: small),
+            Column(
+              children: [
+                ElectricMotorTempGauge(settingsController: settingsController, small: small),
+                ElectricMotorTempGauge(settingsController: settingsController, small: small),
+                Text("1 h - 10 min", style: TextStyle(color: SailyWhite),),
+                Text("    ", style: TextStyle(color: SailyWhite),),
+              ],
+            ),
             // Speed
             SpeedGauge(settingsController: settingsController),
           ],

@@ -16,6 +16,7 @@ import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/widgets/electricmotortemp_gauge.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
+import 'package:saily/widgets/power_gauge.dart';
 import 'package:saily/widgets/soc_gauge.dart';
 import 'package:saily/widgets/speed_gauge.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -82,7 +83,7 @@ class _RPMGaugeState extends State<RPMGauge> {
                       if (snapSogUnit.data != null) info = snapSogUnit.data!;
                       return FittedBox(
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
                           child: SizedBox(
                             height: 200,
                             width: 200,
@@ -128,13 +129,13 @@ class _RPMGaugeState extends State<RPMGauge> {
                                     GaugeAnnotation(
                                         widget: Container(
                                             child: Column(children: [
-                                              SOCGauge(settingsController: settingsController, small: small),
-                                              Divider(color: Colors.transparent,height: 25,),
+                                              PowerGauge(settingsController: settingsController, small: small),
+                                              Divider(color: Colors.transparent,height: 20,),
                                               Text(info.motorRPM.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
                                               Text("RPM",style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
                                         ])),
                                         angle: 90,
-                                        positionFactor: 0.55)
+                                        positionFactor: 0.50)
                                   ])
                             ]),
                           ),

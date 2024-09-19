@@ -9,6 +9,7 @@ import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 
 class PowerGauge extends StatefulWidget {
@@ -66,10 +67,10 @@ class _PowerGaugeState extends State<PowerGauge> {
           return Container(
             child: Column(
               children: [
-                Text("Power:kW"),
+                Text("KW", style: TextStyle(color: SailyWhite),),
                 Text(
                   "${spacer}${internalBatteryInfo.power.toStringAsFixed(1)}",
-                  style: TextStyle(fontSize: 38),
+                  style: TextStyle(fontSize: 38, color: SailyWhite),
                 )
               ],
             ),

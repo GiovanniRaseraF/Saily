@@ -41,7 +41,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                 return
                       FittedBox(
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.only(right: 10, left: 5, top: 20, bottom: 20),
                           child: SizedBox(
                             height: 200,
                             width: 200,
@@ -79,7 +79,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                         widget: Container(
                                             child: Column(children: [
                                           SOCGauge(settingsController: settingsController, small: false),
-                                          Divider(color: Colors.transparent,height: 25,),
+                                          Divider(color: Colors.transparent,height: 30,),
                                           Text(info.SOG.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
                                           Text(sogUnit,style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
                                         ])),

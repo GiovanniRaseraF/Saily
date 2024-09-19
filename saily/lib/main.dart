@@ -54,6 +54,7 @@ void createDebug() async {
   double SOG = 0;
   double SOC = 0;
   double RPM = 0;
+  double motorTemp = 0;
   // debug send gps
   send = Timer.periodic(Duration(milliseconds: (200)), (t) {
     // gps positioning
@@ -76,9 +77,10 @@ void createDebug() async {
     settingsController.sendHighPowerBatteryInfo(batteryInfo);
     // electric motor info
     RPM += 200;
+    motorTemp += 1;
     ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
     electricmotorInfo.motorRPM = RPM % 8000;
-    electricmotorInfo.motorTemperature = Random().nextDouble() * 80;
+    electricmotorInfo.motorTemperature = motorTemp % 150; 
     electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
     settingsController.sendElectricMotorInfo(electricmotorInfo);
     // electric motor info
