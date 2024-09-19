@@ -156,6 +156,11 @@ class MyHomePage extends StatefulWidget {
 }
 //
 
+// doppio della grandezza del menu principale
+// sootto batteria metter tte
+// mettere due temp nella prima pagina motore e inverter
+
+
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState({required this.settingsController, required this.onLogout});
   SettingsController settingsController;
@@ -187,15 +192,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       tag: "expandable-main",
                       child: SizedBox(
                         width: w,
+                        height: h/2,
                         child: FittedBox(
+                          fit: BoxFit.cover,
                           child: Card(
                             elevation: 10,
-                            color: SailyWhite,
+                            color: SailyBlack,
                             child: Center(
                               child: Stack(
                                 children: [
                                   MainGauge(settingsController: settingsController, small: false),
-                                  Positioned(left: w/3, top: 25, child: SOCGauge(settingsController: settingsController, small: false))
+                                  Positioned(left: w/3.5, top: 25, child: SOCGauge(settingsController: settingsController, small: false)),
+                                  Positioned(left: w/3.5, bottom:25 , child: SOCGauge(settingsController: settingsController, small: false))
                                 ]),
                             ),
                           ),

@@ -70,7 +70,9 @@ class _SOCGaugeState extends State<SOCGauge> {
                 width: gCtxW() * 0.15,
                 child: Column(
                   children: [
-                    Text("${spacer}${highpowerbatteryInfo.SOC.toStringAsFixed(0)} %", style: TextStyle(fontSize: 15)),
+                    Text("${spacer}${highpowerbatteryInfo.SOC.toStringAsFixed(0)} %", style: TextStyle(
+                      color: SailyWhite,
+                      fontSize: 15, fontWeight: FontWeight.bold)),
                 
                     AnimatedBatteryGauge(
                       drawBarForExtraValue: true,

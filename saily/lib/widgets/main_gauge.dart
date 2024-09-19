@@ -87,22 +87,18 @@ class _MainGaugeState extends State<MainGauge> {
                     width: gCtxW() * 0.33,
                     child: Center(
                       child: SfRadialGauge(
-                          title: GaugeTitle(
-                              text: 'RPM',
-                              textStyle: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold)),
+                          // title: GaugeTitle(
+                          //     text: 'RPM',
+                          //     textStyle: TextStyle(
+                          //         fontSize: 15.0, fontWeight: FontWeight.bold)),
                           axes: <RadialAxis>[
                             RadialAxis(
-                                canRotateLabels: false,
-                                showFirstLabel: false,
-                                showLastLabel: false,
                                 canScaleToFit: true,
                                 showLabels: false,
                                 showAxisLine: false,
-                                showTicks: false,
                                 minimum: 0,
                                 maximum: 8000,
-                                startAngle: 180,
+                                startAngle: 90,
                                 endAngle: -90,
                                 ranges: <GaugeRange>[
                                   GaugeRange(
@@ -115,27 +111,50 @@ class _MainGaugeState extends State<MainGauge> {
                                       startValue: 0,
                                       endValue: info.motorRPM,
                                       gradient:
-                                          SweepGradient(colors: [SailyLightGreen]),
+                                          SweepGradient(colors: [SailyBlue]),
                                       startWidth: 5,
-                                      endWidth: (15 / 8000) * info.motorRPM),
+                                      endWidth: 15 ),
                                 ],
-                                pointers: [],
+                                showTicks: true,
+                                axisLabelStyle: GaugeTextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10),
+                              pointers: <GaugePointer>[
+                              NeedlePointer(
+                                  value: info.motorRPM,
+                                  needleLength: 0.95,
+                                  enableAnimation: true,
+                                  animationType: AnimationType.linear,
+                                  needleStartWidth: 1.5,
+                                  needleEndWidth: 6,
+                                  needleColor: Colors.red,
+                                  knobStyle: KnobStyle(
+                                      knobRadius: 0.09,
+                                      sizeUnit: GaugeSizeUnit.factor))
+                              ],
+                              
                                 annotations: <GaugeAnnotation>[
                                   GaugeAnnotation(
                                       widget: Container(
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                        child: Column(
                                             children: [
                                               Text(
                                                   "${(info.motorRPM).toStringAsFixed(0)}",
                                                   style: TextStyle(
                                                       fontSize: 15,
+                                                      color: SailyWhite,
+                                                      fontWeight: FontWeight.bold)),
+                                            Text(
+                                                  "RPM",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: SailyWhite,
                                                       fontWeight: FontWeight.bold)),
                                             ]),
                                       ),
-                                      angle: 0,
-                                      positionFactor: 0.5)
+                                      angle: 90,
+                                      positionFactor: 1)
                                 ])
                           ]),
                     ),
@@ -157,10 +176,10 @@ class _MainGaugeState extends State<MainGauge> {
                     child: Center(
                       child: SfRadialGauge(
                           animationDuration: 1000,
-                          title: GaugeTitle(
-                              text: 'Power',
-                              textStyle: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold)),
+                          // title: GaugeTitle(
+                          //     text: 'Powe',
+                          //     textStyle: TextStyle(
+                          //         fontSize: 15.0, fontWeight: FontWeight.bold)),
                           axes: <RadialAxis>[
                             RadialAxis(
                                 canRotateLabels: false,
@@ -173,7 +192,7 @@ class _MainGaugeState extends State<MainGauge> {
                                 minimum: 0,
                                 maximum: 150,
                                 startAngle: -90,
-                                endAngle: 0,
+                                endAngle: 90,
                                 isInversed: true,
                                 ranges: <GaugeRange>[
                                   GaugeRange(
@@ -184,14 +203,14 @@ class _MainGaugeState extends State<MainGauge> {
                                       endWidth: 15),
                                   GaugeRange(
                                       startValue: 0,
-                                      endValue: info.power,
+                                      endValue: 150,
                                       gradient: SweepGradient(colors: [
                                         SailyBlue,
                                         SailyOrange,
                                         Colors.red
                                       ]),
                                       startWidth: 5,
-                                      endWidth: (15 / 150) * info.power),
+                                      endWidth: 15),
                                 ],
                                 pointers: [],
                                 annotations: <GaugeAnnotation>[
@@ -199,14 +218,19 @@ class _MainGaugeState extends State<MainGauge> {
                                       widget: Column(
                                             children: [
                                               Text(
-                                                  "${info.power.toStringAsFixed(1)}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                                                  "${info.power.toStringAsFixed(1)}",style: TextStyle(
+
+                                                    color: SailyWhite,
+                                                    fontSize: 15,fontWeight: FontWeight.bold)),
 
                                               Text(
-                                                  "KW",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)),
+                                                  "KW",style: TextStyle(
+                                                      color: SailyWhite,
+                                                    fontSize: 15,fontWeight: FontWeight.bold)),
                                             ]),
                                       
                                       angle: 90,
-                                      positionFactor: 0.5)
+                                      positionFactor: 1)
                                 ])
                           ]),
                     ),
