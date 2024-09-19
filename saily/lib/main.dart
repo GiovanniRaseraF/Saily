@@ -53,6 +53,7 @@ void createDebug() async {
   fakeData.load_parse(cannesTrip);
   double SOG = 0;
   double SOC = 0;
+  double RPM = 0;
   // debug send gps
   send = Timer.periodic(Duration(milliseconds: (200)), (t) {
     // gps positioning
@@ -74,8 +75,9 @@ void createDebug() async {
     batteryInfo.bmsTemperature = (SOC + 10) % 100;
     settingsController.sendHighPowerBatteryInfo(batteryInfo);
     // electric motor info
+    RPM += 200;
     ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
-    electricmotorInfo.motorRPM = (SOG % 80) * 100;
+    electricmotorInfo.motorRPM = RPM % 8000;
     electricmotorInfo.motorTemperature = Random().nextDouble() * 80;
     electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
     settingsController.sendElectricMotorInfo(electricmotorInfo);
@@ -194,7 +196,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: w,
                         height: h/2,
                         child: FittedBox(
-                          fit: BoxFit.cover,
                           child: Card(
                             elevation: 10,
                             color: SailyBlack,
@@ -202,8 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Stack(
                                 children: [
                                   MainGauge(settingsController: settingsController, small: false),
-                                  Positioned(left: w/3.5, top: 25, child: SOCGauge(settingsController: settingsController, small: false)),
-                                  Positioned(left: w/3.5, bottom:25 , child: SOCGauge(settingsController: settingsController, small: false))
+                                  //Positioned(left: w/1.8, top: 25, child: SOCGauge(settingsController: settingsController, small: false)),
+                                  //Positioned(left: w/1.8, bottom:25 , child: SOCGauge(settingsController: settingsController, small: false))
                                 ]),
                             ),
                           ),

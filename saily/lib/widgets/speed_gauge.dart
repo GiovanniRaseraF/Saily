@@ -41,8 +41,8 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                   child: Container(
                     padding: EdgeInsets.all(20),
                     child: SizedBox(
-                      height: 180,
-                      width: gCtxW() * 0.55,
+                      height: 200,
+                      width: gCtxW() * 0.65,
                       child: SfRadialGauge(axes: <RadialAxis>[
                         RadialAxis(
                             startAngle: 270,
@@ -86,10 +86,10 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                   sizeUnit: GaugeSizeUnit.factor,
                                   startWidth: 0.1,
                                   endWidth: 0.1,
-                                  gradient: SweepGradient(colors: const <Color>[
-                                    Colors.green,
+                                  gradient: SweepGradient(colors: <Color>[
+                                    SailyWhite,
                                     Colors.yellow,
-                                    Colors.red
+                                    SailyLightGreen
                                   ], stops: const <double>[
                                     0.0,
                                     0.5,
@@ -121,7 +121,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                     Text(sogUnit,
                                         style: TextStyle(
                                             color: SailyWhite,
-                                            fontSize: 25,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.bold)),
                                   ])),
                                   angle: 90,
