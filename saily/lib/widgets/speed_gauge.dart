@@ -41,7 +41,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                 return
                       FittedBox(
                         child: Container(
-                          padding: EdgeInsets.only(right: 10, left: 5, top: 20, bottom: 20),
+                          padding: EdgeInsets.only(right: 40, left: 10, top: 40, bottom: 20),
                           child: SizedBox(
                             height: 200,
                             width: 200,
@@ -71,9 +71,27 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                           colors: [Colors.white,SailySuperGreen], 
                                           stops: [0.0, 1]
                                         )
+                                      ),
+
+                                      // motor temperature value
+                                      GaugeRange(
+                                        endValue: 120,
+                                        rangeOffset: -0.2,
+                                        startValue: 80,
+                                        sizeUnit: GaugeSizeUnit.factor,
+                                        startWidth: 0.08,
+                                        endWidth: 0.08,
+                                        gradient: SweepGradient(
+                                          colors: [SailySuperRed, Colors.white,], stops: [0.0, 1]
+                                        )
                                       )
                                   ],
-                                  pointers: <GaugePointer>[],
+                                  pointers: <GaugePointer>[
+                                      // motor temperature 
+                                      MarkerPointer(value: 100, markerOffset: -20,),
+                                      WidgetPointer(child: Icon(Icons.thermostat, color: SailySuperRed), offset: -60, value: 100),
+                                      WidgetPointer(child: Text("Motor", style: TextStyle(color: SailyWhite),), offset: -74,value: 97),
+                                  ],
                                   annotations: <GaugeAnnotation>[
                                     GaugeAnnotation(
                                         widget: Container(

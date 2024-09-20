@@ -78,10 +78,15 @@ class _MainGaugeState extends State<MainGauge> {
             RPMGauge(settingsController: settingsController, small: small),
             Column(
               children: [
-                ElectricMotorTempGauge(settingsController: settingsController, small: small),
-                ElectricMotorTempGauge(settingsController: settingsController, small: small),
-                Text("1 h - 10 min", style: TextStyle(color: SailyWhite),),
-                Text("    ", style: TextStyle(color: SailyWhite),),
+                //ElectricMotorTempGauge(settingsController: settingsController, small: small),
+                //ElectricMotorTempGauge(settingsController: settingsController, small: small),
+                // Divider(color: Colors.transparent, height: 200,),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //   Icon(Icons.alarm, color: SailyWhite,), Text(" 1 : 10", style: TextStyle(color: SailyWhite, fontSize: 10),)
+                // ] )
+                //Text("    ", style: TextStyle(color: SailyWhite),),
               ],
             ),
             // Speed

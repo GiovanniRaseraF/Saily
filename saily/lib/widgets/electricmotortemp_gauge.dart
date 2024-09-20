@@ -26,10 +26,11 @@ class ElectricMotorTempGauge extends StatefulWidget {
 }
 
 class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
-  _ElectricMotorTempGaugeState(
-      {required this.settingsController, required this.small}) {}
+  _ElectricMotorTempGaugeState({required this.settingsController, required this.small}) {
+    unit = settingsController.getMotorTempUnit();
+  }
 
-  ElectricmotorInfo internalElectricMotorInfo = ElectricmotorInfo();
+  ElectricmotorInfo info = ElectricmotorInfo();
   SettingsController settingsController;
   bool small = true;
   String unit = "";
@@ -41,8 +42,8 @@ class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
-            internalElectricMotorInfo = snapshot.data!;
-            if (internalElectricMotorInfo.motorTemperature < 10) spacer = "0";
+            info = snapshot.data!;
+            if (info.motorTemperature < 10) spacer = "0";
           }
 
           return Container(
@@ -61,7 +62,7 @@ class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
                   )
                 ]),
                 Text(
-                  "${spacer}${internalElectricMotorInfo.motorTemperature.toStringAsFixed(1)}",
+                  "${spacer}${info.motorTemperature.toStringAsFixed(1)}",
                   style: TextStyle(fontSize: 25),
                 )
               ],
@@ -77,25 +78,23 @@ class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
-            internalElectricMotorInfo = snapshot.data!;
-            if (internalElectricMotorInfo.motorTemperature < 10) spacer = "0";
+            info = snapshot.data!;
+            if (info.motorTemperature < 10) spacer = "0";
           }
 
           return Column(
             children: [
               FittedBox(
                   child: SizedBox(
-                width: 100,
+                    width: 100,
                 child: Center(
                     child: Column(
                   children: [
                     Row(children: [
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('',
-                            style: TextStyle(
-                              color: SailyWhite,
-                                fontSize: 15.0, fontWeight: FontWeight.bold)),
+                        child: Text('Motor T.',
+                            style: TextStyle(color: SailyWhite,fontSize: 15.0, fontWeight: FontWeight.bold)),
                       ),
                       MicrodividerWidgetd(height: 0),
                       StreamBuilder(
@@ -109,10 +108,7 @@ class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
                       )
                     ]),
                     Row(children: [
-                      Text(
-                          '${internalElectricMotorInfo.motorTemperature.toStringAsFixed(1)}',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold)),
+                      Text('${info.motorTemperature.toStringAsFixed(0)}',style: TextStyle(color: SailyWhite, fontSize: 15.0, fontWeight: FontWeight.bold)),
                     ]),
                     SfLinearGauge(
                       minimum: 0,
@@ -120,12 +116,12 @@ class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
                       minorTicksPerInterval: 0,
                       showLabels: true,
                       useRangeColorForAxis: true,
+                      showAxisTrack: false,
                       ranges: <LinearGaugeRange>[
                         // low
                         LinearGaugeRange(
                             startValue: 0,
-                            endValue:
-                                internalElectricMotorInfo.motorTemperature,
+                            endValue: info.motorTemperature,
                             color: SailyBlue,
                             shaderCallback: (bounds) => LinearGradient(
                                     begin: Alignment.centerLeft,
@@ -136,59 +132,6 @@ class _ElectricMotorTempGaugeState extends State<ElectricMotorTempGauge> {
                       barPointers: [],
                       markerPointers: [],
                     ),
-
-                    // Inverter Temperature
-                  //   Row(children: [
-                  //     Align(
-                  //       alignment: Alignment.topLeft,
-                  //       child: Text('Inverter Temperature',
-                  //           style: TextStyle(
-                  //               fontSize: 15.0, fontWeight: FontWeight.bold)),
-                  //     ),
-                  //     MicrodividerWidgetd(height: 0),
-                  //     StreamBuilder(
-                  //       stream: settingsController.getMotorTempStream(),
-                  //       builder: (c, sn) {
-                  //         if (sn.data != null) {
-                  //           unit = sn.data!;
-                  //         }
-                  //         return Text(unit);
-                  //       },
-                  //     )
-                  //   ]),
-                  //   Row(children: [
-                  //     Text(
-                  //         '${internalElectricMotorInfo.inverterTemperature.toStringAsFixed(1)}',
-                  //         style: TextStyle(
-                  //             fontSize: 15.0, fontWeight: FontWeight.bold)),
-                  //   ]),
-                  //   SfLinearGauge(
-                  //     minimum: 0,
-                  //     maximum: 150,
-                  //     minorTicksPerInterval: 0,
-                  //     showLabels: true,
-                  //     useRangeColorForAxis: true,
-                  //     ranges: <LinearGaugeRange>[
-                  //       // low
-                  //       LinearGaugeRange(
-                  //           startValue: 0,
-                  //           endValue: 150,
-                  //           color: SailyBlue,
-                  //           shaderCallback: (bounds) => LinearGradient(
-                  //                   begin: Alignment.centerLeft,
-                  //                   end: Alignment.centerRight,
-                  //                   colors: [SailyBlue, Colors.redAccent])
-                  //               .createShader(bounds)),
-                  //     ],
-                  //     barPointers: <LinearBarPointer>[],
-                  //     markerPointers: <LinearMarkerPointer>[
-                  //       LinearShapePointer(
-                  //           value:
-                  //               internalElectricMotorInfo.inverterTemperature),
-                  //       LinearShapePointer(value: 50, color: SailyBlue),
-                  //       LinearShapePointer(value: 100, color: SailyOrange)
-                  //     ],
-                  //   ),
                    ],
 
                   // Inverter

@@ -83,7 +83,7 @@ class _RPMGaugeState extends State<RPMGauge> {
                       if (snapSogUnit.data != null) info = snapSogUnit.data!;
                       return FittedBox(
                         child: Container(
-                          padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                          padding: EdgeInsets.only(left: 40, top: 40, bottom: 20, right: 10),
                           child: SizedBox(
                             height: 200,
                             width: 200,
@@ -121,6 +121,19 @@ class _RPMGaugeState extends State<RPMGauge> {
                                         gradient: SweepGradient(
                                           colors: [Colors.white,SailyBlue,], 
                                           stops: [0.0, 1]
+                                        )
+                                      ),
+
+                                      // temperature range
+                                      GaugeRange(
+                                        endValue: 3800,
+                                        rangeOffset: -0.2,
+                                        startValue: 1800,
+                                        sizeUnit: GaugeSizeUnit.factor,
+                                        startWidth: 0.08,
+                                        endWidth: 0.08,
+                                        gradient: SweepGradient(
+                                          colors: [ Colors.white,SailySuperRed], stops: [0.0, 1]
                                         )
                                       )
                                   ],

@@ -58,7 +58,7 @@ void createDebug() async {
   // debug send gps
   send = Timer.periodic(Duration(milliseconds: (200)), (t) {
     // gps positioning
-    settingsController.updateCurrentBoatPosition(fakeData.getNext());
+    //settingsController.updateCurrentBoatPosition(fakeData.getNext());
 
     // gps count
     bool isFixed = Random().nextBool();
@@ -185,10 +185,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // main menu
           Positioned(
-              bottom: scaleH(context, 0.01),
-              left: scaleW(context, 0.001),
+              bottom: scaleH(context, 0.0),
+              left: scaleW(context, 0.0),
               child: OrientationBuilder(builder: (context, orientation) {
-                var w = scaleW(context, 0.998);
+                var w = scaleW(context, 1);
                 var h = scaleH(context, 0.45);
                 return ExpandableTile(
                     collapsed: Hero(
@@ -196,8 +196,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       tag: "expandable-main",
                       child: SizedBox(
                         width: w,
-                        height: h/2,
-                        child: FittedBox(
                           child: Card(
                             elevation: 10,
                             color: SailyBlack,
@@ -205,11 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Stack(
                                 children: [
                                   MainGauge(settingsController: settingsController, small: false),
-                                  //Positioned(left: w/1.8, top: 25, child: SOCGauge(settingsController: settingsController, small: false)),
-                                  //Positioned(left: w/1.8, bottom:25 , child: SOCGauge(settingsController: settingsController, small: false))
                                 ]),
                             ),
-                          ),
                         ),
                       ),
                     ),
@@ -222,17 +217,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: SingleChildScrollView(
                             child: Column(
                                 children: [
-                                  FittedBox(
+                                  SizedBox(
+                                    width: w,
                                       child: Card(
                                         elevation: 10,
-                                        color: SailyWhite,
-                                        child: Stack(
-                                          children: [
-                                            MainGauge(settingsController: settingsController, small: false),
-                                            Positioned(left: w/3, top: 25, child: SOCGauge(settingsController: settingsController, small: false))
-                                          ]),
-                                      ),
+                                        color: SailyBlack,
+                                        child: Center(
+                                          child: Stack(
+                                            children: [
+                                              MainGauge(settingsController: settingsController, small: false),
+                                            ]),
+                                        ),
                                     ),
+                                  ),           
                                   Card(
                                     elevation: 10,
                                     color: SailyWhite,
