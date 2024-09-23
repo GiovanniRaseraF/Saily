@@ -94,12 +94,14 @@ void main() async {
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
   fakeServer.loadUsers();
-  fakeServer.updateUser(UserInfo(
+  fakeServer.updateUser(
+    UserInfo(
       email: "ciao@hello.com",
       username: "admin2",
       password: "admin2",
       boats: [],
-      routes: []));
+      routes: [])
+  );
 
   // setting service
   settingsService =

@@ -137,7 +137,11 @@ class _RPMGaugeState extends State<RPMGauge> {
                                         )
                                       )
                                   ],
-                                  pointers: <GaugePointer>[],
+                                  pointers: <GaugePointer>[
+                                      MarkerPointer(value: 2500, markerOffset: -20,),
+                                      WidgetPointer(child: Icon(Icons.thermostat, color: SailySuperRed), offset: -60, value: 2600),
+                                      WidgetPointer(child: Text("Power", style: TextStyle(color: SailyWhite),), offset: -74,value: 2800),
+                                  ],
                                   annotations: <GaugeAnnotation>[
                                     GaugeAnnotation(
                                         widget: Container(
