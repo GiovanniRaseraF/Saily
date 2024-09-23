@@ -19,3 +19,15 @@ class MicrodividerWidgetd extends StatelessWidget {
     );
   }
 }
+
+class Div extends Divider{
+  Div(this.color, this.height) : super(color : color, height : height){
+  }
+  Color color = Colors.transparent;
+  double height = 10;
+
+  @override
+  Widget build(BuildContext c) {
+    return super.build(c);
+  }
+}

@@ -13,7 +13,7 @@ import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
-import 'package:saily/widgets/electricmotortemp_gauge.dart';
+import 'package:saily/widgets/temps/batterytemp_gauge.dart';
 import 'package:saily/widgets/gps_counter.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:saily/widgets/rpm_gauge.dart';
