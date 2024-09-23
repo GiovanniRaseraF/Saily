@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // main menu
             Positioned(
               bottom: scaleH(c, 0.0),
-              left: scaleW(c, 0.03),
+              left: 0,
               child: Hero(
                   transitionOnUserGestures: true,
                   tag: "expandable-main",
@@ -335,7 +335,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Positioned(
                 top: scaleH(context, 0.05),
-                left: scaleW(context, 0.04),
+                left: scaleW(context, 0.005),
                 child: RecordView(
                   settingsController: settingsController,
                   recordController: recordController,
