@@ -62,18 +62,25 @@ class _PowerGaugeState extends State<PowerGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
+            
         }
 
-          return Container(
-            child: Column(
-              children: [
-                Text("KW", style: TextStyle(color: SailyWhite),),
-                Text(
-                  "${spacer}${internalBatteryInfo.power.toStringAsFixed(1)}",
-                  style: TextStyle(fontSize: 38, color: SailyWhite),
-                )
-              ],
-            ),
+          return 
+          FittedBox(
+            child: Container(
+            padding: EdgeInsets.all(10),
+            width: 100,
+            height: 100,
+              child: Column(
+                children: [
+                  Row(children: [Icon(Icons.power, color: SailyBlack), Text("Power")], mainAxisAlignment: MainAxisAlignment.spaceAround,),
+                  FittedBox( 
+                    child: Text(
+                    "${spacer}${internalBatteryInfo.power.toStringAsFixed(1)} kw",
+                    style: TextStyle(fontSize: 38, color: SailyBlack),
+                  ))
+                ],
+              ),)
           );
         });
   }

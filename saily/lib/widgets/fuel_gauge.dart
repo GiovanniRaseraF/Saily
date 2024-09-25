@@ -9,6 +9,7 @@ import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 
 class FuelGauge extends StatefulWidget {
@@ -42,7 +43,7 @@ class _FuelGaugeState extends State<FuelGauge> {
           return Container(
             child: Column(
               children: [
-                Text("Fuel"),
+                Row(children: [Icon(Icons.oil_barrel, color: SailyBlack), Text("Fuel")] ),
                 Text(
                   "${spacer}${internalBatteryInfo.SOC} %",
                   style: TextStyle(fontSize: 25),
@@ -61,18 +62,22 @@ class _FuelGaugeState extends State<FuelGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.SOC < 10) spacer = "0";
         }
 
-          return Container(
-            child: Column(
-              children: [
-                Text("Fuel"),
-                Text(
-                  "${spacer}${internalBatteryInfo.SOC} %",
-                  style: TextStyle(fontSize: 38),
-                )
-              ],
+          return FittedBox(
+            child: Container(
+            padding: EdgeInsets.all(10),
+            width: 100,
+            height: 100,
+              child: Column(
+                children: [
+                  Center(child: Row(children: [Icon(Icons.oil_barrel, color: SailyBlack), Text("Fuel")] , mainAxisAlignment: MainAxisAlignment.spaceAround,)),
+                  FittedBox(child: Text(
+                    "${spacer}${internalBatteryInfo.SOC} %",
+                    style: TextStyle(fontSize: 38),
+                  ))
+                ],
+              ),
             ),
           );
         });

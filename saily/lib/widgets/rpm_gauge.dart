@@ -146,7 +146,7 @@ class _RPMGaugeState extends State<RPMGauge> {
                                     GaugeAnnotation(
                                         widget: Container(
                                             child: Column(children: [
-                                              PowerGauge(settingsController: settingsController, small: small),
+                                              InternalPowerGauge(settingsController: settingsController, small: small),
                                               Divider(color: Colors.transparent,height: 20,),
                                               Text(info.motorRPM.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
                                               Text("RPM",style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
@@ -171,6 +171,83 @@ class _RPMGaugeState extends State<RPMGauge> {
   @override
   Widget build(BuildContext c) {
     unit = settingsController.getCurrentSogUnit();
+    if (small) {
+      return buildSmall(c);
+    } else {
+      return buildBig(c);
+    }
+  }
+}
+
+
+class InternalPowerGauge extends StatefulWidget {
+  InternalPowerGauge({required this.settingsController, required this.small});
+
+  SettingsController settingsController;
+  bool small;
+  @override
+  State<InternalPowerGauge> createState() =>
+      _InternalPowerGaugeState(settingsController: settingsController, small: small);
+}
+
+class _InternalPowerGaugeState extends State<InternalPowerGauge> {
+  _InternalPowerGaugeState({required this.settingsController, required this.small}) {}
+
+  HighpowerbatteryInfo internalBatteryInfo = HighpowerbatteryInfo();
+  SettingsController settingsController;
+  bool small = true;
+
+  Widget buildSmall(BuildContext c) {
+    return StreamBuilder(
+        stream: settingsController.getHighPowerBatteryInfoStream(),
+        builder: (bc, snapshot) {
+          String spacer = "";
+          // read data
+          if (snapshot.data != null) {
+            internalBatteryInfo = snapshot.data!;
+            if(internalBatteryInfo.power < 10) spacer = "0";
+          }
+
+          return Container(
+            child: Column(
+              children: [
+                Text("Power: kW"),
+                Text(
+                  "${spacer}${internalBatteryInfo.power.toStringAsFixed(1)}",
+                  style: TextStyle(fontSize: 25),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget buildBig(BuildContext c) {
+    return StreamBuilder(
+        stream: settingsController.getHighPowerBatteryInfoStream(),
+        builder: (bc, snapshot) {
+          String spacer = "";
+          // read data
+          if (snapshot.data != null) {
+            internalBatteryInfo = snapshot.data!;
+        }
+
+          return Container(
+            child: Column(
+              children: [
+                Text("KW", style: TextStyle(color: SailyWhite),),
+                Text(
+                  "${spacer}${internalBatteryInfo.power.toStringAsFixed(1)}",
+                  style: TextStyle(fontSize: 38, color: SailyWhite),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext c) {
     if (small) {
       return buildSmall(c);
     } else {

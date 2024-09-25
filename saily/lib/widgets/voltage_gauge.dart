@@ -9,6 +9,8 @@ import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
+import 'package:saily/utils/saily_colors.dart';
+import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 
 class VoltageGauge extends StatefulWidget {
@@ -61,18 +63,22 @@ class _VoltageGaugeState extends State<VoltageGauge> {
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.totalVoltage< 10) spacer = "0";
         }
 
           return Container(
-            child: Column(
-              children: [
-                Text("Voltage"),
-                Text(
-                  "${spacer}${internalBatteryInfo.totalVoltage.toStringAsFixed(1)}",
-                  style: TextStyle(fontSize: 38),
-                )
-              ],
+            padding: EdgeInsets.all(10),
+            width: 100,
+            height: 80,
+            child: FittedBox(
+              child: Column(
+                children: [
+                  Row(children: [Icon(Icons.power, color: SailyLightOrange), Text("Voltage")] ),
+                  FittedBox(child: Text(
+                    "${internalBatteryInfo.totalVoltage.toStringAsFixed(1)}",
+                    style: TextStyle(fontSize: 38),)
+                  )
+                ],
+              ),
             ),
           );
         });

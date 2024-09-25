@@ -20,7 +20,7 @@ double scaleH(BuildContext c, double scale){
 String read_file({required String path}) => File("$path").readAsStringSync();
 
 class Saily{
-  final homePosition = LatLng(45.9034078,12.1159257);
+  final homePosition = LatLng(45.437260, 12.334447);
 }
 
 class Styles{
