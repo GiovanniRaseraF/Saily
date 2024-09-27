@@ -61,7 +61,7 @@ void createDebug() async {
   // debug send gps
   send = Timer.periodic(Duration(milliseconds: (200)), (t) {
     // gps positioning
-    //settingsController.updateCurrentBoatPosition(fakeData.getNext());
+    settingsController.updateCurrentBoatPosition(Saily().homePosition);
 
     // gps count
     bool isFixed = Random().nextBool();
