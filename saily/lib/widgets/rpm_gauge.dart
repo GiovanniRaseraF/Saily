@@ -32,11 +32,33 @@ class RPMGauge extends StatefulWidget {
 }
 
 class _RPMGaugeState extends State<RPMGauge> {
-  _RPMGaugeState({required this.settingsController, required this.small});
+  _RPMGaugeState({required this.settingsController, required this.small}){
+    // sub to electric motor
+    electricMotorInfoSubscription = settingsController.getElectricMotorInfoStream().listen((ElectricmotorInfo info){
+      double diff = maxEndValueTemp - minStartValueTemp;
+      setState(() {
+        simulatedValueTemp = minStartValueTemp + ((diff / 180) * info.inverterTemperature);
+        actualValueTemp = info.inverterTemperature;
+      });
+    });
+  }
 
+  @override
+  void dispose(){
+    super.dispose();
+    electricMotorInfoSubscription.cancel();
+  }
+
+  late StreamSubscription<ElectricmotorInfo> electricMotorInfoSubscription;
   SettingsController settingsController;
   bool small;
   String unit = "";
+  
+  double maxEndValueTemp = 3800;
+  double minStartValueTemp = 1800;
+  double simulatedValueTemp = 0;
+  double actualValueTemp = 0;
+  
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
@@ -81,6 +103,8 @@ class _RPMGaugeState extends State<RPMGauge> {
                     builder: (context, snapSogUnit) {
                       ElectricmotorInfo info = ElectricmotorInfo();
                       if (snapSogUnit.data != null) info = snapSogUnit.data!;
+                      
+
                       return FittedBox(
                         child: Container(
                           padding: EdgeInsets.only(left: 40, top: 40, bottom: 20, right: 10),
@@ -138,9 +162,11 @@ class _RPMGaugeState extends State<RPMGauge> {
                                       )
                                   ],
                                   pointers: <GaugePointer>[
-                                      MarkerPointer(value: 2500, markerOffset: -20,),
+                                      // power temperature
+                                      MarkerPointer(value: simulatedValueTemp, markerOffset: -20,),
+                                      WidgetPointer(child: Text("${actualValueTemp.toStringAsFixed(0)}",  style: TextStyle(color: SailyWhite)), offset: -37, value: simulatedValueTemp),
                                       WidgetPointer(child: Icon(Icons.thermostat, color: SailySuperRed), offset: -60, value: 2600),
-                                      WidgetPointer(child: Text("Power", style: TextStyle(color: SailyWhite),), offset: -74,value: 2800),
+                                      WidgetPointer(child: Text("T. Power", style: TextStyle(color: SailyWhite),), offset: -74,value: 2800),
                                   ],
                                   annotations: <GaugeAnnotation>[
                                     GaugeAnnotation(

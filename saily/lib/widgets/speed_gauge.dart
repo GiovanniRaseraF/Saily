@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:saily/datatypes/electricmotor_info.dart';
 import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/main.dart';
 import 'package:saily/settings/settings_controller.dart';
@@ -22,11 +23,27 @@ class SpeedGauge extends StatefulWidget {
 class _SpeedGaugeState extends State<SpeedGauge> {
   _SpeedGaugeState({required this.settingsController}) {
     sogUnit = settingsController.getCurrentSogUnit();
+
+
+    // sub to electric motor
+    electricMotorInfoSubscription = settingsController.getElectricMotorInfoStream().listen((ElectricmotorInfo motorInfo){
+      double diff = (minStartValueTemp - maxEndValueTemp);
+      setState(() {
+        simulatedValueTemp = minStartValueTemp - ((diff/ 180) * motorInfo.motorTemperature);
+        actualValueTemp = motorInfo.motorTemperature;
+      });
+    });
   }
 
+  late StreamSubscription<ElectricmotorInfo> electricMotorInfoSubscription;
   SettingsController settingsController;
   VTGInfo info = VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0);
   String sogUnit = "km/h";
+
+  double maxEndValueTemp = 80;
+  double minStartValueTemp = 120;
+  double simulatedValueTemp = 0;
+  double actualValueTemp = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +105,8 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                   ],
                                   pointers: <GaugePointer>[
                                       // motor temperature 
-                                      MarkerPointer(value: 100, markerOffset: -20,),
+                                      MarkerPointer(value: simulatedValueTemp, markerOffset: -20,),
+                                      WidgetPointer(child: Text("${actualValueTemp.toStringAsFixed(0)}",  style: TextStyle(color: SailyWhite)), offset: -37, value: simulatedValueTemp),
                                       WidgetPointer(child: Icon(Icons.thermostat, color: SailySuperRed), offset: -60, value: 100),
                                       WidgetPointer(child: Text("Motor", style: TextStyle(color: SailyWhite),), offset: -74,value: 97),
                                   ],
@@ -115,6 +133,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
   @override
   void dispose() {
     super.dispose();
+    electricMotorInfoSubscription.cancel();
   }
 
   void labelCreated(AxisLabelCreatedArgs args) {

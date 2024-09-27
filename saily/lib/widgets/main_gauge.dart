@@ -71,28 +71,20 @@ class _MainGaugeState extends State<MainGauge> {
   Widget buildBig(BuildContext c) {
     return FittedBox(
       child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // rpm
-            RPMGauge(settingsController: settingsController, small: small),
-            Column(
-              children: [
-                //ElectricMotorTempGauge(settingsController: settingsController, small: small),
-                //ElectricMotorTempGauge(settingsController: settingsController, small: small),
-                // Divider(color: Colors.transparent, height: 200,),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //   Icon(Icons.alarm, color: SailyWhite,), Text(" 1 : 10", style: TextStyle(color: SailyWhite, fontSize: 10),)
-                // ] )
-                //Text("    ", style: TextStyle(color: SailyWhite),),
-              ],
-            ),
-            // Speed
-            SpeedGauge(settingsController: settingsController),
-          ],
-        ),
+        child: Stack(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              // rpm
+              RPMGauge(settingsController: settingsController, small: small),
+              // Speed
+              SpeedGauge(settingsController: settingsController),
+            ],
+          ),
+          Positioned(top: 0, left: 0, child: SizedBox(width: double.infinity, height: 50, child: Card(color: SailySuperRed,),)
+          //Image.asset("images/huracan.png", fit: BoxFit.contain,)
+          )
+        ]),
       ),
     );
   }
