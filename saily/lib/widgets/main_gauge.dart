@@ -81,8 +81,9 @@ class _MainGaugeState extends State<MainGauge> {
               SpeedGauge(settingsController: settingsController),
             ],
           ),
-          Positioned(top: 0, left: 0, child: SizedBox(width: double.infinity, height: 50, child: Card(color: SailySuperRed,),)
-          //Image.asset("images/huracan.png", fit: BoxFit.contain,)
+          Positioned(top: 0, left: 185,
+            //child: SizedBox(width: 200, child: Card(color: SailyLightOrange,),),
+            child: Image.asset("images/huracan.png", scale: 15, fit: BoxFit.contain)
           )
         ]),
       ),
