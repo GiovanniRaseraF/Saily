@@ -24,6 +24,7 @@ dependencies:
   share: ^2.0.4
   syncfusion_flutter_gauges: ^26.2.14
   animated_battery_gauge: ^0.2.0
+  dart_either: ^2.0.0
 
 dev_dependencies:
   flutter_test:

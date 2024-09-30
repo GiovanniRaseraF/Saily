@@ -14,6 +14,8 @@ import 'package:saily/login/login_view.dart';
 import 'package:saily/record/record_controller.dart';
 import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
+import 'package:saily/server/fake_server.dart';
+import 'package:saily/server/server.dart';
 import 'package:saily/settings/fake_server.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
@@ -56,43 +58,8 @@ FakeData fakeData = FakeData();
 // login
 late FakeServer fakeServer;
 
-void createDebug() async {
-  fakeData.load_parse(cannesTrip);
-  double SOG = 0;
-  double SOC = 0;
-  double RPM = 0;
-  double motorTemp = 0;
-  // debug send gps
-  send = Timer.periodic(Duration(milliseconds: (200)), (t) {
-    // gps positioning
-    settingsController.updateCurrentBoatPosition(Saily().homePosition);
-
-    // gps count
-    bool isFixed = Random().nextBool();
-    int count = Random().nextInt(10);
-    final gpsCount =
-        VTGInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
-    settingsController.sendNVTGInfo(gpsCount);
-    SOG += 10;
-    // battery info
-    HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
-    batteryInfo.SOC = (SOC++ % 100);
-    batteryInfo.totalVoltage = Random().nextDouble() * 80;
-    batteryInfo.power = SOG % 100;
-    batteryInfo.batteryTemperature = SOC % 100;
-    batteryInfo.bmsTemperature = (SOC + 10) % 100;
-    settingsController.sendHighPowerBatteryInfo(batteryInfo);
-    // electric motor info
-    RPM += 200;
-    motorTemp += 1;
-    ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
-    electricmotorInfo.motorRPM = RPM % 8000;
-    electricmotorInfo.motorTemperature = motorTemp % 150;
-    electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
-    settingsController.sendElectricMotorInfo(electricmotorInfo);
-    // electric motor info
-  });
-}
+// info
+late Server serverInfo;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
@@ -119,7 +86,10 @@ void main() async {
     cacheProvider: settingsService,
   );
 
-  createDebug();
+  // Just for debug
+  serverInfo = FakeServerInfo(settingsController: settingsController);
+  await serverInfo.initServer();
+
   debugPrint(settingsService.getKeys().toString());
   debugPrint(Env.str());
 
