@@ -41,61 +41,97 @@ class _UserViewState extends State<UserView> {
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-                height: gCtxH() * 0.2,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("${currentUser!.username}"),
-                      Text("${currentUser!.email}"),
-                      SizedBox(
-                          width: gCtxW() * 0.9,
-                          child: FloatingActionButton(
-                              heroTag: "logout",
-                              child: Text(
-                                "Logout",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              backgroundColor: SailyBlue,
-                              elevation: 10,
-                              onPressed: () {
-                                settingsController.logout();
-                                Navigator.pop(context);
-                                onLogout();
-                                print("Log out from account");
-                              }))
-                    ],
-                  ),
-                )),
-            Divider(),
-            SizedBox(
-              //height: gCtxH() * 0.1,
-              child: Text("Boats"),
-            ),
-            SizedBox(
-              height: gCtxH() * 0.5,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children : currentUser!.boats.map((b){
-                      return BoatWidget(info: b, settingsController: settingsController, onDelete: (){setState(() {});},);
-                    }).toList()
+        body: 
+        // Column(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+            // FractionallySizedBox(
+            //     alignment: Alignment.topCenter,
+            //     child: Center(
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           Text("${currentUser!.username}"),
+            //           Text("${currentUser!.email}"),
+
+            //           FittedBox(
+            //               child: SizedBox(
+            //                 width: 200,
+            //                 child: FloatingActionButton(
+            //                     heroTag: "logout",
+            //                     child: Text(
+            //                       "Logout",
+            //                       style: TextStyle(color: Colors.white),
+            //                     ),
+            //                     backgroundColor: SailyBlue,
+            //                     elevation: 10,
+            //                     onPressed: () {
+            //                       settingsController.logout();
+            //                       Navigator.pop(context);
+            //                       onLogout();
+            //                       print("Log out from account");
+            //                     }),
+            //               ))
+            //         ],
+            //       ),
+            //     )),
+            // Divider(),
+            // SizedBox( child: Text("Boats"),),
+            Column(
+              children: [
+                SizedBox.expand(
+                  child: FractionallySizedBox(
+                    widthFactor: 1,
+                    heightFactor: 0.2,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.red,
+                          width: 4,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                // SizedBox.expand(
+                //   child: FractionallySizedBox(
+                //     widthFactor: 1,
+                //     heightFactor: 0.6,
+                //     child: DecoratedBox(
+                //       decoration: BoxDecoration(
+                //         border: Border.all(
+                //           color: Colors.blue,
+                //           width: 4,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+              ]
             ),
-            SizedBox(
-                width: gCtxW() * 0.9,
+            // FittedBox(
+            //   fit: BoxFit.contain,
+            //   child:SizedBox(
+            //     child: SizedBox(
+            //       child: Center(
+            //         child: SingleChildScrollView(
+            //           child: Column(
+            //             children : currentUser!.boats.map((b){
+            //               return BoatWidget(info: b, settingsController: settingsController, onDelete: (){setState(() {});},);
+            //             }).toList()
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            
+        //   ],
+        // ),
+        floatingActionButton: SizedBox(
                 child: FloatingActionButton(
                     heroTag: "add_new_boat",
-                    child: Text(
-                      "Add New Boat",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    child: Icon(Icons.add, color: SailyAlmostWhite,),
                     backgroundColor: SailyBlue,
                     elevation: 10,
                     onPressed: () {
@@ -118,9 +154,6 @@ class _UserViewState extends State<UserView> {
                           );
                       }));
                     })),
-          ],
-        ));
+        );
   }
-
-
 }

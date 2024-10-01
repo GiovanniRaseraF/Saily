@@ -63,21 +63,17 @@ late Server serverInfo;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
+
   // setting init
   sharedPreferences = await SharedPreferences.getInstance();
+
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
   fakeServer.loadUsers();
-  fakeServer.updateUser(UserInfo(
-      email: "ciao@hello.com",
-      username: "admin2",
-      password: "admin2",
-      boats: [],
-      routes: []));
+  fakeServer.updateUser(UserInfo(email: "ciao@hello.com", username: "admin2", password: "admin2", boats: [], routes: []));
 
   // setting service
-  settingsService =
-      SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
+  settingsService = SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
   recordController = RecordController(settingsController: settingsController);
@@ -96,7 +92,7 @@ void main() async {
   // load settings
   expandedatstart = false;
 
-  debugPrint("$expandedatstart");
+  //debugPrint("$expandedatstart");
 
   runApp(MyApp());
 }

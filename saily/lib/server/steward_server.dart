@@ -31,6 +31,7 @@ class StewardServerInfo extends Server{
   }
 
   Future<Either<InitError, String>> initServer() async {
+    throw UnimplementedError();
     return Either.left(InitError(why: "initServer is abstract"));
   } 
 
