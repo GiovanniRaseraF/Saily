@@ -31,33 +31,28 @@ class FakeServerInfo extends Server{
   double RPM = 0;
   double motorTemp = 0;
 
-  void fetchProcess(Timer t){
+  Future<void> fetchProcess(Timer t) async {
     print("Running fetch..");
+    
     // gps positioning
     settingsController.updateCurrentBoatPosition(Saily().homePosition);
 
     // gps count
-    bool isFixed = Random().nextBool();
-    int count = Random().nextInt(10);
-    final gpsCount =
-        VTGInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
+    VTGInfo gpsCount = (await fetchVTGInfo()).getOrElse((){
+      return VTGInfo(isFixed: false, SOG: 0, satellitesCount: 0);
+    });
     settingsController.sendNVTGInfo(gpsCount);
-    SOG += 1;
+
     // battery info
-    HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
-    batteryInfo.SOC = (SOC++ % 100);
-    batteryInfo.totalVoltage = Random().nextDouble() * 80;
-    batteryInfo.power = SOG % 100;
-    batteryInfo.batteryTemperature = SOC % 100;
-    batteryInfo.bmsTemperature = (SOC + 10) % 100;
+    HighpowerbatteryInfo batteryInfo = (await fetchHighpowerbatteryInfo()).getOrElse((){
+      return HighpowerbatteryInfo();
+    });
     settingsController.sendHighPowerBatteryInfo(batteryInfo);
+
     // electric motor info
-    RPM += 200;
-    motorTemp += 1;
-    ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
-    electricmotorInfo.motorRPM = RPM % 8000;
-    electricmotorInfo.motorTemperature = motorTemp % 150;
-    electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
+    ElectricmotorInfo electricmotorInfo = (await fetchElectricmotorInfo()).getOrElse((){
+      return ElectricmotorInfo();
+    });
     settingsController.sendElectricMotorInfo(electricmotorInfo);
   }
 
@@ -66,45 +61,64 @@ class FakeServerInfo extends Server{
   } 
 
   @override
-  Future<Either<FetchError, ActuatorInfo>> fetchAcuatorInfo() {
+  Future<Either<FetchError, ActuatorInfo>> fetchAcuatorInfo() async {
     // TODO: implement fetchAcuatorInfo
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<FetchError, BoatInfo>> fetchBoatInfo() {
+  Future<Either<FetchError, BoatInfo>> fetchBoatInfo() async {
     // TODO: implement fetchBoatInfo
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() {
-    // TODO: implement fetchElectricmotorInfo
-    throw UnimplementedError();
+  Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() async {
+    ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
+    electricmotorInfo.motorRPM = RPM % 8000;
+    electricmotorInfo.motorTemperature = motorTemp % 150;
+    electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
+
+    RPM += 200;
+    motorTemp += 1;
+
+    return Either.right(electricmotorInfo);
   }
 
   @override
-  Future<Either<FetchError, EndotermicmotorInfo>> fetchEndotermicmotorInfo() {
+  Future<Either<FetchError, EndotermicmotorInfo>> fetchEndotermicmotorInfo() async {
     // TODO: implement fetchEndotermicmotorInfo
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<FetchError, GeneralInfo>> fetchGeneralInfo() {
+  Future<Either<FetchError, GeneralInfo>> fetchGeneralInfo() async {
     // TODO: implement fetchGeneralInfo
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<FetchError, HighpowerbatteryInfo>> fetchHighpowerbatteryInfo() {
-    // TODO: implement fetchHighpowerbatteryInfo
-    throw UnimplementedError();
+  Future<Either<FetchError, HighpowerbatteryInfo>> fetchHighpowerbatteryInfo() async {
+    // battery info
+    HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
+    batteryInfo.SOC = (SOC++ % 100);
+    batteryInfo.totalVoltage = Random().nextDouble() * 80;
+    batteryInfo.power = SOG % 100;
+    batteryInfo.batteryTemperature = SOC % 100;
+    batteryInfo.bmsTemperature = (SOC + 10) % 100;
+
+    SOG += 1;
+
+    return Either.right(batteryInfo);
   }
 
   @override
-  Future<Either<FetchError, VTGInfo>> fetchVTGInfo() {
-    // TODO: implement fetchVTGInfo
-    throw UnimplementedError();
+  Future<Either<FetchError, VTGInfo>> fetchVTGInfo() async {
+    bool isFixed = Random().nextBool();
+    int count = Random().nextInt(10);
+    final gpsCount = VTGInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
+
+    return Either.right(gpsCount);
   }
 
 

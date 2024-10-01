@@ -22,6 +22,8 @@ class StewardServerInfo extends Server{
     runFetchProcess(interval: Duration(seconds: 10), callback: fetchProcess);
   }
 
+  String serverIp = "89.36.209.139";
+
   SettingsController settingsController;
 
   void fetchProcess(Timer t){
