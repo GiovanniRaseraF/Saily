@@ -70,10 +70,16 @@ void main() async {
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
   fakeServer.loadUsers();
-  fakeServer.updateUser(UserInfo(email: "ciao@hello.com", username: "admin2", password: "admin2", boats: [], routes: []));
+  fakeServer.updateUser(UserInfo(
+      email: "ciao@hello.com",
+      username: "admin2",
+      password: "admin2",
+      boats: [],
+      routes: []));
 
   // setting service
-  settingsService = SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
+  settingsService =
+      SettingsService(sharePreferences: sharedPreferences, server: fakeServer);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
   recordController = RecordController(settingsController: settingsController);
@@ -140,10 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(builder: (c, or) {
-      var w = scaleW(c, 1);
-      var h = scaleH(c, 0.45);
-
       if (or == Orientation.landscape) {
+        var w = scaleW(c, 1);
+        var h = scaleH(c, 0.45);
         return Scaffold(
           body: Stack(children: [
             // Map
@@ -159,8 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   transitionOnUserGestures: true,
                   tag: "expandable-main",
                   child: SizedBox(
-                    width: w/2.4,
-                    height: h*1.7,
+                    width: w / 2.4,
+                    height: h * 1.7,
                     child: SingleChildScrollView(
                       child: Column(children: [
                         SizedBox(
@@ -314,6 +319,9 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       }
 
+      // portrait
+      var w = scaleW(c, 1);
+      var h = scaleH(c, 0.55);
       return Scaffold(
         body: Stack(children: [
           // Map
@@ -323,7 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // main menu
           Positioned(
-              bottom: scaleH(context, 0.0),
+              bottom: scaleH(context, 0.02),
               left: scaleW(context, 0.0),
               child: ExpandableTile(
                   collapsed: Hero(
