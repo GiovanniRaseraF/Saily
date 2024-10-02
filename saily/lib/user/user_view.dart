@@ -7,8 +7,11 @@ import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/user/boat_widget.dart';
 import 'package:saily/user/user_controller.dart';
+import 'package:saily/user/user_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
+import 'package:saily/utils/utils.dart';
+import 'package:saily/widgets/fract_box.dart';
 
 class UserView extends StatefulWidget {
   UserView(
@@ -34,6 +37,34 @@ class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
     UserInfo? currentUser = settingsController.getLoggedUser();
+
+    return OrientationBuilder(builder: (c, or) {
+      var w = scaleW(c, 1);
+      var h = scaleH(c, 0.45);
+
+      if (or == Orientation.portrait || true) {
+        return Scaffold(
+        appBar: AppBar(
+          title: Text("User"),
+          backgroundColor: Colors.white,
+        ),
+        backgroundColor: Colors.white,
+          body: Center(
+            child: Column(
+              children: [
+                // Card(
+                //   elevation: 10,
+                //   child: TravelDestinationContent(destination: destinations[0])),
+              ],
+            ),
+          )
+        );
+      }else{
+        return Scaffold(
+          body: Row(
+            children: [],
+          ));
+      }});
 
     return Scaffold(
         appBar: AppBar(

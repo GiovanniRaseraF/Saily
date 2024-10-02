@@ -21,7 +21,7 @@ class FakeServerInfo extends Server{
   FakeServerInfo({required this.settingsController}){
     fakeData = FakeData();
     fakeData.load_parse(cannesTrip);
-    runFetchProcess(interval: Duration(milliseconds: 200), callback: fetchProcess);
+    runFetchProcess(interval: Duration(milliseconds: 1000), callback: fetchProcess);
   }
 
   SettingsController settingsController;
@@ -77,10 +77,10 @@ class FakeServerInfo extends Server{
     ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
     electricmotorInfo.motorRPM = RPM % 8000;
     electricmotorInfo.motorTemperature = motorTemp % 150;
-    electricmotorInfo.inverterTemperature = Random().nextDouble() * 80;
+    electricmotorInfo.inverterTemperature = RPM;
 
-    RPM += 200;
-    motorTemp += 1;
+    RPM += 1;
+    motorTemp += 0.1;
 
     return Either.right(electricmotorInfo);
   }
@@ -102,12 +102,12 @@ class FakeServerInfo extends Server{
     // battery info
     HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
     batteryInfo.SOC = (SOC++ % 100);
-    batteryInfo.totalVoltage = Random().nextDouble() * 80;
+    batteryInfo.totalVoltage = SOC / 80;
     batteryInfo.power = SOG % 100;
     batteryInfo.batteryTemperature = SOC % 100;
     batteryInfo.bmsTemperature = (SOC + 10) % 100;
 
-    SOG += 1;
+    SOG += 0.1;
 
     return Either.right(batteryInfo);
   }
