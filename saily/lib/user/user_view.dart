@@ -65,7 +65,45 @@ class _UserViewState extends State<UserView> {
                               onLogout();
                               print("Log out from account");
                             })),
-                  )
+                  ),
+                  // logout
+                  SizedBox(
+                      width: 200,
+                      child: Card(
+                        child: FloatingActionButton(
+                            heroTag: "logout",
+                            child: Text(
+                              "Logout",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: SailyBlue,
+                            elevation: 10,
+                            onPressed: () {
+                              settingsController.logout();
+                              Navigator.pop(context);
+                              onLogout();
+                              print("Log out from account");
+                            }),
+                      )),
+
+                  // List of boats
+
+                    SizedBox(
+                      child: Center(
+                        child: SingleChildScrollView(
+                          child: Column(
+                              children: currentUser!.boats.map((b) {
+                            return BoatWidget(
+                              info: b,
+                              settingsController: settingsController,
+                              onDelete: () {
+                                setState(() {});
+                              },
+                            );
+                          }).toList()),
+                        ),
+                    ),
+                  ),
                 ],
               ),
             ),

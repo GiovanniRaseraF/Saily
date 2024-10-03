@@ -30,6 +30,7 @@ class FakeServerInfo extends Server{
   double SOC = 0;
   double RPM = 0;
   double motorTemp = 0;
+  double inverterTemp = 0;
 
   Future<void> fetchProcess(Timer t) async {
     print("Running fetch..");
@@ -77,10 +78,11 @@ class FakeServerInfo extends Server{
     ElectricmotorInfo electricmotorInfo = ElectricmotorInfo();
     electricmotorInfo.motorRPM = RPM % 8000;
     electricmotorInfo.motorTemperature = motorTemp % 150;
-    electricmotorInfo.inverterTemperature = RPM;
+    electricmotorInfo.inverterTemperature = inverterTemp % 150;
 
     RPM += 1;
     motorTemp += 0.1;
+    inverterTemp += 0.3;
 
     return Either.right(electricmotorInfo);
   }
