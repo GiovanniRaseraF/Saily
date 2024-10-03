@@ -277,8 +277,12 @@ class SettingsController extends ChangeNotifier {
   }
 
   Future<void> loadDependeces() async {
-    var cam = await availableCameras();
-    camera = cam.first;
+    try{
+      var cam = await availableCameras();
+      camera = cam.first;
+    }on Exception{
+      print("No camera available :) ");
+    }
   }
 
   void addNewBoat(BoatInfo newboat){

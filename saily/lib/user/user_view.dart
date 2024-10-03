@@ -89,6 +89,7 @@ class _UserViewState extends State<UserView> {
                   // List of boats
 
                     SizedBox(
+                      height: 200,
                       child: Center(
                         child: SingleChildScrollView(
                           child: Column(

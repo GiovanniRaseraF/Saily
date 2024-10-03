@@ -33,22 +33,30 @@ class _RoutesViewState extends State<RoutesView> {
     // Create the view with the sorted routes
     return Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Routes"), 
-              FloatingActionButton(
-                elevation: 0,
-                backgroundColor: Colors.white,
-                mini: true, onPressed: (){
-                  print("Import route");
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (c){
-                      return ImportView(settingsController: settingsController, onDone: (){setState(() {});},);
-                    }
-                  ));
-                  }, 
-                  child: Icon(Icons.import_contacts, color: SailyBlue,),)]),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("Routes"),
+            FloatingActionButton(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              mini: true,
+              onPressed: () {
+                print("Import route");
+                Navigator.push(context, MaterialPageRoute(builder: (c) {
+                  return ImportView(
+                    settingsController: settingsController,
+                    onDone: () {
+                      setState(() {});
+                    },
+                  );
+                }));
+              },
+              child: Icon(
+                Icons.import_contacts,
+                color: SailyBlue,
+              ),
+            )
+          ]),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
