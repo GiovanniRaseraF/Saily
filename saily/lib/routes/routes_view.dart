@@ -38,6 +38,7 @@ class _RoutesViewState extends State<RoutesView> {
             Text("Routes"),
             FloatingActionButton(
               elevation: 0,
+              heroTag: "import_route_view",
               backgroundColor: Colors.white,
               mini: true,
               onPressed: () {
