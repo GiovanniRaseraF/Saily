@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/addnewboat/addnewboat_view.dart';
 import 'package:saily/boats/boats_view.dart';
+import 'package:saily/boats/selected_boat_view.dart';
 import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
@@ -110,6 +111,8 @@ class _UserViewState extends State<UserView> {
                         )),
                   ]),
                   Divider(),
+
+                  SelectedBoatWidget(info:BoatInfo(name: "NoBoat", id: "0x0"))
                 ],
               ),
             ));
