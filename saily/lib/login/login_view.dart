@@ -40,17 +40,12 @@ class _LoginViewState extends State<LoginView> {
   void Function() onLogin;
   @override
   Widget build(BuildContext context) {
-    //print(settingsController.getUsername());
-    //print(settingsController.getPassword());
     // check login
-
     if(settingsController.canUserLogin(settingsController.getUsername(), settingsController.getPassword())){
       return homePage;
     }
 
-    //print("You Need to login");
     // return login page
-    
     return Scaffold(
         body: Stack(
       children: [
