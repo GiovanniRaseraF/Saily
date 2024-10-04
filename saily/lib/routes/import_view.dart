@@ -6,7 +6,7 @@ import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/routes/import_widget.dart';
 import 'package:saily/routes/route_widget.dart';
 import 'package:saily/settings/settings_controller.dart';
-import 'package:saily/user/boat_widget.dart';
+import 'package:saily/boats/boat_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 

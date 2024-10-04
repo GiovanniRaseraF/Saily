@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/addnewboat/addnewboat_view.dart';
+import 'package:saily/boats/boats_view.dart';
 import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/settings/settings_controller.dart';
-import 'package:saily/user/boat_widget.dart';
+import 'package:saily/boats/boat_widget.dart';
 import 'package:saily/user/user_controller.dart';
 import 'package:saily/user/user_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
@@ -66,79 +67,51 @@ class _UserViewState extends State<UserView> {
                               print("Log out from account");
                             })),
                   ),
-                  // logout
-                  SizedBox(
-                      width: 200,
-                      child: Card(
-                        child: FloatingActionButton(
-                            heroTag: "logout",
-                            child: Text(
-                              "Logout",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: SailyBlue,
-                            elevation: 10,
-                            onPressed: () {
-                              settingsController.logout();
-                              Navigator.pop(context);
-                              onLogout();
-                              print("Log out from account");
-                            }),
-                      )),
-
-                  // List of boats
-
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    // boats
                     SizedBox(
-                      height: 200,
-                      child: Center(
-                        child: SingleChildScrollView(
-                          child: Column(
-                              children: currentUser!.boats.map((b) {
-                            return BoatWidget(
-                              info: b,
-                              settingsController: settingsController,
-                              onDelete: () {
-                                setState(() {});
-                              },
-                            );
-                          }).toList()),
-                        ),
-                    ),
-                  ),
+                        width: 100,
+                        child: Card(
+                          child: FloatingActionButton(
+                              heroTag: "boats",
+                              child: Text(
+                                "Boats",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: SailyBlue,
+                              elevation: 10,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BoatsView(
+                                            settingsController:
+                                                settingsController)));
+                              }),
+                        )),
+                    // logout
+                    SizedBox(
+                        width: 100,
+                        child: Card(
+                          child: FloatingActionButton(
+                              heroTag: "logout",
+                              child: Text(
+                                "Logout",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: SailyBlue,
+                              elevation: 10,
+                              onPressed: () {
+                                settingsController.logout();
+                                Navigator.pop(context);
+                                onLogout();
+                                print("Log out from account");
+                              }),
+                        )),
+                  ]),
+                  Divider(),
                 ],
               ),
-            ),
-            floatingActionButton: SizedBox(
-              child: FloatingActionButton(
-                  heroTag: "add_new_boat",
-                  child: Icon(
-                    Icons.add,
-                    color: SailyAlmostWhite,
-                  ),
-                  backgroundColor: SailyBlue,
-                  elevation: 10,
-                  onPressed: () {
-                    String name = "DefaultBoat";
-                    print("Add New Boat");
-                    Navigator.push(context, MaterialPageRoute(builder: (c) {
-                      return TakePictureScreen(
-                        settingsController: settingsController,
-                        onQRCodeTaken: (scannedId) {
-                          UserController.dialogCreator(context, scannedId, (v) {
-                            name = v;
-                          }, () {
-                            BoatInfo newboat =
-                                BoatInfo(name: name, id: "0x" + name);
-                            settingsController.addNewBoat(newboat);
-                            Navigator.pop(context);
-                            setState(() {});
-                          }, () {
-                            Navigator.pop(context);
-                          });
-                        },
-                      );
-                    }));
-                  }),
             ));
       } else {
         return Scaffold(
@@ -147,25 +120,5 @@ class _UserViewState extends State<UserView> {
         ));
       }
     });
-
-    // FittedBox(
-    //   fit: BoxFit.contain,
-    //   child:SizedBox(
-    //     child: SizedBox(
-    //       child: Center(
-    //         child: SingleChildScrollView(
-    //           child: Column(
-    //             children : currentUser!.boats.map((b){
-    //               return BoatWidget(info: b, settingsController: settingsController, onDelete: (){setState(() {});},);
-    //             }).toList()
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // ),
-
-    //   ],
-    // ),
   }
 }

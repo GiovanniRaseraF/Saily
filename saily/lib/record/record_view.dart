@@ -6,7 +6,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/record/record_controller.dart';
 import 'package:saily/routes/route_widget.dart';
 import 'package:saily/settings/settings_controller.dart';
-import 'package:saily/user/boat_widget.dart';
+import 'package:saily/boats/boat_widget.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
