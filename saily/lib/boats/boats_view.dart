@@ -1,4 +1,6 @@
 // Actual app
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/addnewboat/addnewboat_view.dart';
@@ -81,14 +83,19 @@ class _BoatsViewState extends State<BoatsView> {
                       return TakePictureScreen(
                         settingsController: settingsController,
                         onQRCodeTaken: (scannedId) {
-                          UserController.dialogCreator(context, scannedId, (v) {
-                            name = v;
-                          }, () {
-                            BoatInfo newboat =
-                                BoatInfo(name: name, id: "0x" + name);
-                            settingsController.addNewBoat(newboat);
-                            Navigator.pop(context);
-                            setState(() {});
+                          UserController.dialogCreator(
+                            context, 
+                            scannedId, 
+                            (v) {
+                              name = v;
+                            }, 
+                            () {
+                              
+                              BoatInfo newboat =
+                                  BoatInfo(name: name, id: "0x" + scannedId);
+                              settingsController.addNewBoat(newboat);
+                              Navigator.pop(context);
+                              setState(() {});
                           }, () {
                             Navigator.pop(context);
                           });

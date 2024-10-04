@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             Navigator.pop(context);
 
-            onQRCodeTaken("0XAABBCCDD");
+            // generate a random id
+            Random m = Random();
+            String newId = "";
+            for(int i = 0; i < 10; i++) newId+="${(m.nextInt(9))}";
+            onQRCodeTaken(newId);
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);
