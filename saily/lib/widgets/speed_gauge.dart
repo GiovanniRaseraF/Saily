@@ -69,13 +69,13 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                   showLabels: false,
                                   axisLineStyle: AxisLineStyle(
                                       gradient: SweepGradient(
-                                          colors: [SailyWhite, SailyBlue], 
+                                          colors: [SailySuperGreen, SailyBlue], 
                                           stops: [0.0, 1]
                                         ),
                                     thicknessUnit: GaugeSizeUnit.factor, thickness: 0.05),
                                   minorTicksPerInterval: 5,
-                                  majorTickStyle: MajorTickStyle(length: 25, thickness: 3,color: Colors.white),
-                                  minorTickStyle: MinorTickStyle(length: 15, thickness: 1,color: Colors.white),
+                                  majorTickStyle: MajorTickStyle(length: 25, thickness: 3,color: Colors.black),
+                                  minorTickStyle: MinorTickStyle(length: 15, thickness: 1,color: Colors.black),
                                   ranges: <GaugeRange>[
                                     GaugeRange(
                                         startValue: 0,
@@ -85,7 +85,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                         startWidth: 0.1,
                                         endWidth: 0.1,
                                         gradient: SweepGradient(
-                                          colors: [Colors.white,SailySuperGreen], 
+                                          colors: [SailyBlue,SailySuperGreen], 
                                           stops: [0.0, 1]
                                         )
                                       ),
@@ -99,16 +99,16 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                         startWidth: 0.08,
                                         endWidth: 0.08,
                                         gradient: SweepGradient(
-                                          colors: [SailySuperRed, Colors.white,], stops: [0.0, 1]
+                                          colors: [SailySuperRed, SailyBlue,], stops: [0.0, 1]
                                         )
                                       )
                                   ],
                                   pointers: <GaugePointer>[
                                       // motor temperature 
                                       MarkerPointer(value: simulatedValueTemp, markerOffset: -20,),
-                                      WidgetPointer(child: Text("${actualValueTemp.toStringAsFixed(0)}",  style: TextStyle(color: SailyWhite)), offset: -37, value: simulatedValueTemp),
+                                      WidgetPointer(child: Text("${actualValueTemp.toStringAsFixed(0)}",  style: TextStyle(color: SailyBlack)), offset: -37, value: simulatedValueTemp),
                                       WidgetPointer(child: Icon(Icons.thermostat, color: SailySuperRed), offset: -60, value: 100),
-                                      WidgetPointer(child: Text("Motor", style: TextStyle(color: SailyWhite),), offset: -74,value: 97),
+                                      WidgetPointer(child: Text("Motor", style: TextStyle(color: SailyBlack),), offset: -74,value: 97),
                                   ],
                                   annotations: <GaugeAnnotation>[
                                     GaugeAnnotation(
@@ -116,8 +116,8 @@ class _SpeedGaugeState extends State<SpeedGauge> {
                                             child: Column(children: [
                                           SOCGauge(settingsController: settingsController, small: false),
                                           Divider(color: Colors.transparent,height: 30,),
-                                          Text(info.SOG.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
-                                          Text(sogUnit,style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
+                                          Text(info.SOG.toStringAsFixed(0),  style: TextStyle(color: SailyBlack,fontSize: 25,fontWeight: FontWeight.bold)),
+                                          Text(sogUnit,style: TextStyle(color: SailyBlack,fontSize: 15,fontWeight: FontWeight.bold)),
                                         ])),
                                         angle: 90,
                                         positionFactor: 0.55)

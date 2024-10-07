@@ -132,8 +132,8 @@ class _RPMGaugeState extends State<RPMGauge> {
                                     thicknessUnit: GaugeSizeUnit.factor, thickness: 0.05
                                   ),
                                   minorTicksPerInterval: 5,
-                                  majorTickStyle: MajorTickStyle(length: 25, thickness: 6,color: Colors.white),
-                                  minorTickStyle: MinorTickStyle(length: 15, thickness: 3,color: Colors.white),
+                                  majorTickStyle: MajorTickStyle(length: 25, thickness: 6,color: SailyBlack),
+                                  minorTickStyle: MinorTickStyle(length: 15, thickness: 3,color: SailyBlack),
                                   ranges: <GaugeRange>[
                                     GaugeRange(
                                         startValue: 0,
@@ -143,7 +143,7 @@ class _RPMGaugeState extends State<RPMGauge> {
                                         startWidth: 0.1,
                                         endWidth: 0.1,
                                         gradient: SweepGradient(
-                                          colors: [Colors.white,SailyBlue,], 
+                                          colors: [SailyBlack,SailyBlue,], 
                                           stops: [0.0, 1]
                                         )
                                       ),
@@ -157,16 +157,16 @@ class _RPMGaugeState extends State<RPMGauge> {
                                         startWidth: 0.08,
                                         endWidth: 0.08,
                                         gradient: SweepGradient(
-                                          colors: [ Colors.white,SailySuperRed], stops: [0.0, 1]
+                                          colors: [ SailyBlue,SailySuperRed], stops: [0.0, 1]
                                         )
                                       )
                                   ],
                                   pointers: <GaugePointer>[
                                       // power temperature
                                       MarkerPointer(value: simulatedValueTemp, markerOffset: -20,),
-                                      WidgetPointer(child: Text("${actualValueTemp.toStringAsFixed(0)}",  style: TextStyle(color: SailyWhite)), offset: -37, value: simulatedValueTemp),
+                                      WidgetPointer(child: Text("${actualValueTemp.toStringAsFixed(0)}",  style: TextStyle(color: SailyBlack)), offset: -37, value: simulatedValueTemp),
                                       WidgetPointer(child: Icon(Icons.thermostat, color: SailySuperRed), offset: -60, value: 2600),
-                                      WidgetPointer(child: Text("T. Power", style: TextStyle(color: SailyWhite),), offset: -74,value: 2800),
+                                      WidgetPointer(child: Text("T. Power", style: TextStyle(color: SailyBlack),), offset: -74,value: 2800),
                                   ],
                                   annotations: <GaugeAnnotation>[
                                     GaugeAnnotation(
@@ -174,8 +174,8 @@ class _RPMGaugeState extends State<RPMGauge> {
                                             child: Column(children: [
                                               InternalPowerGauge(settingsController: settingsController, small: small),
                                               Divider(color: Colors.transparent,height: 20,),
-                                              Text(info.motorRPM.toStringAsFixed(0),  style: TextStyle(color: SailyWhite,fontSize: 25,fontWeight: FontWeight.bold)),
-                                              Text("RPM",style: TextStyle(color: SailyWhite,fontSize: 15,fontWeight: FontWeight.bold)),
+                                              Text(info.motorRPM.toStringAsFixed(0),  style: TextStyle(color: SailyBlack,fontSize: 25,fontWeight: FontWeight.bold)),
+                                              Text("RPM",style: TextStyle(color: SailyBlack,fontSize: 15,fontWeight: FontWeight.bold)),
                                         ])),
                                         angle: 90,
                                         positionFactor: 0.50)
@@ -261,10 +261,10 @@ class _InternalPowerGaugeState extends State<InternalPowerGauge> {
           return Container(
             child: Column(
               children: [
-                Text("KW", style: TextStyle(color: SailyWhite),),
+                Text("KW", style: TextStyle(color: SailyBlack),),
                 Text(
                   "${spacer}${internalBatteryInfo.power.toStringAsFixed(1)}",
-                  style: TextStyle(fontSize: 38, color: SailyWhite),
+                  style: TextStyle(fontSize: 38, color: SailyBlack),
                 )
               ],
             ),

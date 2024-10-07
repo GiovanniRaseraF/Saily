@@ -89,7 +89,7 @@ void main() async {
   );
 
   // Just for debug
-  serverInfo = FakeServerInfo(settingsController: settingsController);
+  serverInfo = FakeServerFetcherInfo(settingsController: settingsController);
   await serverInfo.initServer();
 
   debugPrint(settingsService.getKeys().toString());
@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           width: w,
                           child: Card(
                             elevation: 10,
-                            color: SailyBlack,
+                            color: SailyWhite,
                             child: Center(
                               child: Stack(children: [
                                 MainGauge(
@@ -341,7 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: w,
                       child: Card(
                         elevation: 10,
-                        color: SailyBlack,
+                        color: SailyWhite,
                         child: Center(
                           child: Stack(children: [
                             MainGauge(
@@ -364,7 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               width: w,
                               child: Card(
                                 elevation: 10,
-                                color: SailyBlack,
+                                color: SailyWhite,
                                 child: Center(
                                   child: Stack(children: [
                                     MainGauge(

@@ -21,8 +21,8 @@ import 'package:saily/tracks/fake_data.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/utils/utils.dart';
 
-class FakeServerInfo extends Server{
-  FakeServerInfo({required this.settingsController}){
+class FakeServerFetcherInfo extends Server{
+  FakeServerFetcherInfo({required this.settingsController}){
     fakeData = FakeData();
     fakeData.load_parse(cannesTrip);
     runFetchProcess(interval: Duration(milliseconds: 1000), callback: fetchProcess);
