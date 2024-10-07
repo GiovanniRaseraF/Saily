@@ -24,186 +24,6 @@ class LoginView extends StatefulWidget {
       _LoginViewState(settingsController: settingsController, onLogin: onLogin);
 }
 
-// class _LoginViewState extends State<LoginView> {
-//   _LoginViewState({required this.settingsController, required this.onLogin}) {
-//     homePage = MyHomePage(
-//         title: "Home Page",
-//         settingsController: this.settingsController,
-//         onLogout: () {
-//           setState(() {});
-//         });
-//   }
-//   late Widget homePage;
-//   SettingsController settingsController;
-
-//   void Function() onLogin;
-//   @override
-//   Widget build(BuildContext context) {
-//     // check login
-//     if (settingsController.canUserLogin(
-//         settingsController.getUsername(), settingsController.getPassword())) {
-//       return homePage;
-//     }
-
-//     // return login page
-//     return Scaffold(
-//         body: Stack(
-//       children: [
-//         Positioned.fill(
-//             child: Image.asset(
-//           "images/water.png",
-//           fit: BoxFit.cover,
-//         )),
-//         Column(
-//           mainAxisAlignment: MainAxisAlignment.spaceAround,
-//           children: [
-//             Card(
-//               elevation: 10,
-//               color: Colors.white,
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Padding(
-//                     padding: EdgeInsets.all(8),
-//                     child: Column(
-//                       children: [
-//                         Divider(color: Colors.transparent),
-//                         Text("Welcome to", style: TextStyle(fontSize: 20)),
-//                         Text("Saily", style: TextStyle(fontSize: 50))
-//                       ],
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding: EdgeInsets.all(8),
-//                     child: Column(
-//                       children: [
-//                         SizedBox(
-//                           child: TextField(
-//                             decoration: InputDecoration(
-//                               border: OutlineInputBorder(),
-//                               hintText: 'Username',
-//                             ),
-//                             onChanged: (value) {
-//                               settingsController.setUsername(value);
-//                               //print(settingsController.getUsername());
-//                             },
-//                           ),
-//                         ),
-//                         Divider(
-//                           color: Colors.transparent,
-//                         ),
-//                         SizedBox(
-//                           child: TextField(
-//                             decoration: InputDecoration(
-//                               border: OutlineInputBorder(),
-//                               hintText: 'Password',
-//                             ),
-//                             obscureText: true,
-//                             enableSuggestions: false,
-//                             autocorrect: false,
-//                             onChanged: (value) {
-//                               settingsController.setPassword(value);
-//                               //print(settingsController.getPassword());
-//                             },
-//                           ),
-//                         ),
-//                         Divider(
-//                           color: Colors.transparent,
-//                         ),
-//                         // SizedBox(
-//                         //     width: gCtxW() * 0.9,
-//                         //     child: FloatingActionButton(
-//                         //         heroTag: "login",
-//                         //         child: Text(
-//                         //           "Login",
-//                         //           style: TextStyle(color: Colors.white),
-//                         //         ),
-//                         //         backgroundColor: SailyBlue,
-//                         //         elevation: 10,
-//                         //         onPressed: () {
-//                         //           UserInfo? user = settingsController.getUser(
-//                         //               settingsController.getUsername(),
-//                         //               settingsController.getPassword());
-//                         //           if (user == null) {
-//                         //             print(
-//                         //                 "User ${settingsController.getUsername()}, ${settingsController.getPassword()} does not exist");
-//                         //           } else {
-//                         //             settingsController.login(
-//                         //                 settingsController.getUsername(),
-//                         //                 settingsController.getPassword());
-//                         //             setState(() {});
-//                         //           }
-//                         //         }))
-//                       ],
-//                     ),
-//                   )
-//                 ],
-//               ),
-//             ),
-//             // Container(
-//             //   height: gCtxH() * 0.01,
-//             //   width: gCtxW() * 0.9,
-//             // ),
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Container(
-//                // height: gCtxH() * 0.23,
-//                 //width: gCtxW() * 0.9,
-//                 child: Center(
-//                   child: Card(
-//                       elevation: 10,
-//                       color: Colors.white,
-//                       child: Column(
-//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                           children: [
-//                             Padding(
-//                               padding: EdgeInsets.all(8),
-//                               child: Column(
-//                                 children: [
-//                                   Divider(
-//                                     color: Colors.transparent,
-//                                   ),
-//                                   Text(
-//                                     "New Here ?",
-//                                     style: TextStyle(fontSize: 15),
-//                                   ),
-//                                   SizedBox(
-//                                       width: gCtxW() * 0.9,
-//                                       child: FloatingActionButton(
-//                                           heroTag: "register",
-//                                           child: Text(
-//                                             "Register",
-//                                             style: TextStyle(color: Colors.white),
-//                                           ),
-//                                           backgroundColor: SailyBlue,
-//                                           elevation: 10,
-//                                           onPressed: () {
-//                                             print("Register");
-//                                             Navigator.push(
-//                                               context,
-//                                               MaterialPageRoute(
-//                                                   builder: (context) =>
-//                                                       RegisterView(
-//                                                           settingsController:
-//                                                               settingsController)),
-//                                             );
-//                                           }))
-//                                 ],
-//                               ),
-//                             ),
-//                           ])),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ],
-//     ));
-//   }
-
-//   // try to login
-// }
-
 class _LoginViewState extends State<LoginView> {
   _LoginViewState({required this.settingsController, required this.onLogin}) {
     homePage = MyHomePage(
@@ -229,6 +49,7 @@ class _LoginViewState extends State<LoginView> {
       debugShowCheckedModeBanner: false,
       color: SailyBlue,
       home: Scaffold(
+        backgroundColor: Colors.white,
         body: Container(
           margin: const EdgeInsets.all(24),
           child: Column(
@@ -316,7 +137,6 @@ class _LoginViewState extends State<LoginView> {
       ],
     );
   }
-
 
   _signup(context) {
     return Row(
