@@ -111,8 +111,7 @@ class _UserViewState extends State<UserView> {
                         )),
                   ]),
                   Divider(),
-
-                  SelectedBoatWidget(info:BoatInfo(name: "NoBoat", id: "0x0"))
+                  SelectedBoatWidget(info: BoatInfo(name: "NoBoat", id: "0x0"))
                 ],
               ),
             ));
