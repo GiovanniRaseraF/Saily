@@ -40,7 +40,8 @@ class FakeServerFetcherInfo extends Server{
     print("Running fetch..");
     
     // gps positioning
-    settingsController.updateCurrentBoatPosition(Saily().homePosition);
+    //settingsController.updateCurrentBoatPosition(Saily().homePosition);
+    settingsController.updateCurrentBoatPosition(fakeData.getNext());
 
     // gps count
     VTGInfo gpsCount = (await fetchVTGInfo()).getOrElse((){
