@@ -1,18 +1,19 @@
+// Author: Giovanni Rasera
 /*
 NAME: ping
 INPUT: {}
 OUTPUT:{
     "date" : "2024-.....",
-    "server_version" : "1.0"
+    "version" : "1.0"
 }
 */
 function createResponse(){
     const date = Date(Date.now());
-    const server_ip = "1.1";
+    const version = "1.1";
 
     const response = {
         date,
-        server_ip
+        version 
     };
 
     return response;
@@ -20,10 +21,9 @@ function createResponse(){
 
 module.exports = function (app) {
     // ping
-    app.get('/ping', function (req, res) {
+    app.post('/ping', function (req, res) {
         const response = createResponse();
         const jsonResponse = JSON.stringify(response);
-
         res.end(jsonResponse);
     });
 }

@@ -2,4 +2,4 @@ run:
 	npm start
 
 test:
-	echo "testing"
+	cd tests && ./run.sh
