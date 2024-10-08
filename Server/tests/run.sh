@@ -7,6 +7,8 @@ node test_ping.js
 
 node test_fetchmyboats.js
 
+node test_fetch_emi.js
+
 # node test3.js
 
 # node test4.js

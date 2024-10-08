@@ -7,6 +7,7 @@ OUTPUT:{
     "version" : "1.0"
 }
 */
+
 function createResponse(){
     const date = Date(Date.now());
     const version = "1.1";

@@ -17,6 +17,7 @@ const database = {}
 // list of fuctions
 require("./api/ping")(app)
 require("./api/fetchmyboats")(app, database)
+require("./api/fetch_electric_motor_info")(app, database)
 
 // Start Listening
 app.listen(port, () => {
