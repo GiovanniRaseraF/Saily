@@ -10,8 +10,13 @@ const path = require('path')
 const app = express()
 const port = 8567
 
+// Database
+// TODO: define the database
+const database = {}
+
 // list of fuctions
 require("./ping")(app)
+require("./fetchmyboats")(app, database)
 
 // Start Listening
 app.listen(port, () => {

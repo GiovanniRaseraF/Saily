@@ -5,7 +5,7 @@
 
 node test_ping.js
 
-# node test2.js
+node test_fetchmyboats.js
 
 # node test3.js
 
