@@ -69,10 +69,10 @@ class _LoginViewState extends State<LoginView> {
     return const Column(
       children: [
         Text(
-          "Welcome Back :)",
+          "Saily",
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
-        Text("login to Saily from here"),
+        Text("Welcome back Sailyer :)"),
       ],
     );
   }
@@ -83,7 +83,6 @@ class _LoginViewState extends State<LoginView> {
       children: [
         TextField(
           decoration: InputDecoration(
-              hoverColor: SailyBlue,
               hintText: "Username",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -142,7 +141,7 @@ class _LoginViewState extends State<LoginView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Dont have an account? "),
+        Text("Want to be a Sailyer ? "),
         TextButton(
             onPressed: () {
               Navigator.push(

@@ -321,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // portrait
       var w = scaleW(c, 1);
-      var h = scaleH(c, 0.55);
+      var h = scaleH(c, 0.45);
       return Scaffold(
         body: Stack(children: [
           // Map
@@ -331,7 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // main menu
           Positioned(
-              bottom: scaleH(context, 0.02),
+              bottom: scaleH(context, 0.0),
               left: scaleW(context, 0.0),
               child: ExpandableTile(
                   collapsed: Hero(

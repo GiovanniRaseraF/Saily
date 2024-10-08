@@ -162,7 +162,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text("Already have an account?"),
+                    const Text("Already a Sailyer ?"),
                     TextButton(
                         onPressed: () {
                           Navigator.pop(context);

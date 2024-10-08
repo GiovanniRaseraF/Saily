@@ -39,6 +39,7 @@ class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
     UserInfo? currentUser = settingsController.getLoggedUser();
+    int numOfBoats = currentUser!.boats.length;
 
     return OrientationBuilder(builder: (c, or) {
       var w = scaleW(c, 1);
@@ -100,7 +101,7 @@ class _UserViewState extends State<UserView> {
                                 "Logout",
                                 style: TextStyle(color: Colors.white),
                               ),
-                              backgroundColor: SailyBlue,
+                              backgroundColor: Colors.red,
                               elevation: 10,
                               onPressed: () {
                                 settingsController.logout();
@@ -109,9 +110,14 @@ class _UserViewState extends State<UserView> {
                                 print("Log out from account");
                               }),
                         )),
+                    
                   ]),
                   Divider(),
-                  SelectedBoatWidget(info: BoatInfo(name: "NoBoat", id: "0x0"))
+                  Text("Selected Boat:"),
+                  numOfBoats == 0
+                    ? Center(child: Text("No boats, click Boats and add a boat ;)"))
+                    :
+                    SelectedBoatWidget(info: BoatInfo(name: "NoBoat", id: "0x0"))
                 ],
               ),
             ));
