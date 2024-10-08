@@ -1,0 +1,15 @@
+{
+  "name": "saily_server",
+  "version": "1.0.0",
+  "description": "This server handles requests from the application and call the mqtt server to fetch latest boat data",
+  "main": "index.js",
+  "scripts": {
+    "test": "TODO: testing in development",
+    "start" : "node index.js"
+  },
+  "author": "GiovanniRasera",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
