@@ -15,8 +15,8 @@ const port = 8567
 const database = {}
 
 // list of fuctions
-require("./ping")(app)
-require("./fetchmyboats")(app, database)
+require("./api/ping")(app)
+require("./api/fetchmyboats")(app, database)
 
 // Start Listening
 app.listen(port, () => {
