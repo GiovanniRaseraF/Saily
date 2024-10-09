@@ -20,6 +20,7 @@ require("./api/fetchmyboats")(app, database)
 require("./api/fetch_emi")(app, database)
 require("./api/fetch_acti")(app, database)
 require("./api/fetch_endoi")(app, database)
+require("./api/fetch_hpbi")(app, database)
 
 // default route
 require("./api/default")(app)
