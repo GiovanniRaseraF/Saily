@@ -22,6 +22,7 @@ require("./api/fetch_acti")(app, database)
 require("./api/fetch_endoi")(app, database)
 require("./api/fetch_hpbi")(app, database)
 require("./api/fetch_gi")(app, database)
+require("./api/fetch_vi")(app, database)
 require("./api/fetch_nmea2000")(app, database)
 
 // default route
