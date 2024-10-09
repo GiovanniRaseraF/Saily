@@ -10,3 +10,4 @@ node test_fetch_acti.js
 node test_fetch_endoi.js
 node test_fetch_hpbi.js
 node test_fetch_gi.js
+node test_fetch_nmea2000.js
