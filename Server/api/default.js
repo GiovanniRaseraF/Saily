@@ -7,13 +7,13 @@ OUTPUT:{
 }
 */
 
-function createResponse(){
+function createResponse() {
     const date = Date(Date.now());
     const version = "1.1";
 
     const response = {
         date,
-        version 
+        version
     };
 
     return response;

@@ -1,13 +1,13 @@
 // Author: Giovanni Rasera
 // arrange
-const testName = "should responde with boats";
+const testName = "should fetch general info";
 const http = require('http');
 const data = "";
 
 const options = {
   hostname: 'localhost',
   port : 8567,
-  path: '/fetchmyboats',
+  path: '/fetch_gi',
   method: 'POST',
   headers: {
     'Content-Type': '',
@@ -26,8 +26,16 @@ const req = http.request(options, (res) => {
   res.on('end', () => {
     try {
     const response = JSON.parse(responseData);
-    if(response.boats != undefined){
-        console.log("OK :)" + `${responseData}`)
+    if(
+        response.isHybrid != undefined &&
+        response.isDualMotor != undefined &&
+        response.versionProtocol != undefined &&
+        response.versionFWControlUnit != undefined &&
+        response.versionFWDrive != undefined &&
+        response.dieselMotorModel != undefined &&
+        response.electricMotorModel != undefined
+    ){
+        console.log("OK :) " + `${responseData}`)
     }else{
         console.log(" !! FAIL: response malformed " + `${responseData}`)
     }
@@ -46,6 +54,3 @@ req.on('error', (error) => {
 console.log(testName);
 req.write(data);
 req.end();
-
-
-

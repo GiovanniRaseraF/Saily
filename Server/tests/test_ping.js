@@ -6,7 +6,7 @@ const data = "";
 
 const options = {
   hostname: 'localhost',
-  port : 8567,
+  port: 8567,
   path: '/ping',
   method: 'POST',
   headers: {
@@ -25,14 +25,14 @@ const req = http.request(options, (res) => {
 
   res.on('end', () => {
     try {
-    const response = JSON.parse(responseData);
-    if(response.date == undefined || response.version == undefined){
+      const response = JSON.parse(responseData);
+      if (response.date == undefined || response.version == undefined) {
         console.log(" !! FAIL: response malformed " + `${responseData}`)
-    }else{
-        console.log("OK :)")
-    }
-    }catch{
-        console.log(" !! FAIL: cannot parse data " +  responseData);
+      } else {
+        console.log("OK :)" + `${responseData}`)
+      }
+    } catch {
+      console.log(" !! FAIL: cannot parse data " + responseData);
     }
     console.log("\n");
   });

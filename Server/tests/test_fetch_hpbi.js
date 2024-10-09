@@ -27,18 +27,18 @@ const req = http.request(options, (res) => {
     try {
     const response = JSON.parse(responseData);
     if(
-      response.totalVoltage &&
-      response.totalCurrent &&
-      response.batteryTemperature &&
-      response.bmsTemperature &&
-      response.SOC &&
-      response.power &&
-      response.tte &&
-      response.auxBatteryVoltage
+      response.totalVoltage != undefined &&
+      response.totalCurrent != undefined &&
+      response.batteryTemperature != undefined &&
+      response.bmsTemperature != undefined &&
+      response.SOC != undefined &&
+      response.power != undefined &&
+      response.tte != undefined &&
+      response.auxBatteryVoltage != undefined
     ){
-        console.log(" !! FAIL: response malformed " + `${responseData}`)
+        console.log("OK :) "+ `${responseData}`)
     }else{
-        console.log("OK :) ")
+        console.log(" !! FAIL: response malformed " + `${responseData}`)
     }
     }catch{
         console.log(" !! FAIL: cannot parse data " +  responseData);

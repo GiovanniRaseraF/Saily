@@ -6,7 +6,7 @@ const data = "";
 
 const options = {
   hostname: 'localhost',
-  port : 8567,
+  port: 8567,
   path: '/fetch_emi',
   method: 'POST',
   headers: {
@@ -25,20 +25,20 @@ const req = http.request(options, (res) => {
 
   res.on('end', () => {
     try {
-    const response = JSON.parse(responseData);
-    if(
-        response.busVoltage && 
-        response.motorCurrent &&
-        response.inverterTemperature &&
-        response.motorTemperature &&
-        response.motorRPM
-    ){
+      const response = JSON.parse(responseData);
+      if (
+        response.busVoltage != undefined &&
+        response.motorCurrent != undefined &&
+        response.inverterTemperature != undefined &&
+        response.motorTemperature != undefined &&
+        response.motorRPM != undefined
+      ) {
+        console.log("OK :) " + `${responseData}`)
+      } else {
         console.log(" !! FAIL: response malformed " + `${responseData}`)
-    }else{
-        console.log("OK :) ")
-    }
-    }catch{
-        console.log(" !! FAIL: cannot parse data " +  responseData);
+      }
+    } catch {
+      console.log(" !! FAIL: cannot parse data " + responseData);
     }
     console.log("\n");
   });

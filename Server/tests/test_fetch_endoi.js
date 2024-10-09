@@ -6,7 +6,7 @@ const data = "";
 
 const options = {
   hostname: 'localhost',
-  port : 8567,
+  port: 8567,
   path: '/fetch_endoi',
   method: 'POST',
   headers: {
@@ -25,23 +25,23 @@ const req = http.request(options, (res) => {
 
   res.on('end', () => {
     try {
-    const response = JSON.parse(responseData);
-    if(
-        response.motorRPM &&
-        response.refrigerationTemperature &&
-        response.batteryVoltage &&
-        response.throttlePedalPosition && 
-        response.glowStatus && 
-        response.dieselStatus && 
-        response.fuelLevel1 && 
-        response.fuelLevel2
-    ){
+      const response = JSON.parse(responseData);
+      if (
+        response.motorRPM != undefined &&
+        response.refrigerationTemperature != undefined &&
+        response.batteryVoltage != undefined &&
+        response.throttlePedalPosition != undefined &&
+        response.glowStatus != undefined &&
+        response.dieselStatus != undefined &&
+        response.fuelLevel1 != undefined &&
+        response.fuelLevel2 != undefined
+      ) {
+        console.log("OK :) " + `${responseData}`)
+      } else {
         console.log(" !! FAIL: response malformed " + `${responseData}`)
-    }else{
-        console.log("OK :) ")
-    }
-    }catch{
-        console.log(" !! FAIL: cannot parse data " +  responseData);
+      }
+    } catch {
+      console.log(" !! FAIL: cannot parse data " + responseData);
     }
     console.log("\n");
   });

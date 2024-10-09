@@ -30,8 +30,8 @@ function createResponse(database) {
 
     const response = {
         pedal,
-        requestedGear ,
-        validatedGear ,
+        requestedGear,
+        validatedGear,
         pedalTrim
     };
 

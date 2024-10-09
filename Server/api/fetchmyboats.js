@@ -20,7 +20,7 @@ error_authentication
 
 // TODO: define a boat
 
-function createResponse(database){
+function createResponse(database) {
     boats = []; // load from database
 
     const response = {
