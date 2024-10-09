@@ -46,7 +46,7 @@ class SettingsController extends ChangeNotifier {
     highpowerbatteryInfoStream  = StreamController<HighpowerbatteryInfo>.broadcast();
     endotermicmotorInfoStream   = StreamController<EndotermicmotorInfo>.broadcast();
     vehicleInfoStream           = StreamController<VehicleInfo>.broadcast();
-    currentNVTGInfo             = VTGInfo(isFixed: true, satellitesCount: 0, SOG: 0);
+    currentNVTGInfo             = VTGInfo(isFixed: true, satellitesCount: 0, SOG: 0, lat:0, lng:0);
     currentGeneralInfo          = GeneralInfo();
     currentElectricMotorInfo    = ElectricmotorInfo();
     currentHighpowerbatteryInfo = HighpowerbatteryInfo();

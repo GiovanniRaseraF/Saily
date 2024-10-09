@@ -47,7 +47,7 @@ class _GpsCounterState extends State<GpsCounter> {
             stream: settingsController.getNVTGStream(),
             builder: (bc, snapshot) {
               VTGInfo gpsCountType =
-                  VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0);
+                  VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0, lat:0, lng:0);
 
               // read data
               if (snapshot.data != null) {

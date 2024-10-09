@@ -37,7 +37,7 @@ class _SpeedGaugeState extends State<SpeedGauge> {
 
   late StreamSubscription<ElectricmotorInfo> electricMotorInfoSubscription;
   SettingsController settingsController;
-  VTGInfo info = VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0);
+  VTGInfo info = VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0, lat:0, lng:0);
   String sogUnit = "km/h";
 
   double maxEndValueTemp = 80;

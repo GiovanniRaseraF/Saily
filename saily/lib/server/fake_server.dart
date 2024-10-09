@@ -45,7 +45,7 @@ class FakeServerFetcherInfo extends Server{
 
     // gps count
     VTGInfo gpsCount = (await fetchVTGInfo()).getOrElse((){
-      return VTGInfo(isFixed: false, SOG: 0, satellitesCount: 0);
+      return VTGInfo(isFixed: false, SOG: 0, satellitesCount: 0, lat: 0, lng: 0);
     });
     settingsController.sendNVTGInfo(gpsCount);
 

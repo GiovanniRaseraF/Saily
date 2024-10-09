@@ -35,7 +35,7 @@ class _SOGGaugeState extends State<SOGGauge> {
     unit = settingsController.getCurrentSogUnit();
   }
 
-  VTGInfo info = VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0);
+  VTGInfo info = VTGInfo(isFixed: false, satellitesCount: 0, SOG: 0, lat:0, lng:0);
 
   String unit = "";
   SettingsController settingsController;
