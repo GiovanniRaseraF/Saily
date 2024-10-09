@@ -17,7 +17,12 @@ const database = {}
 // list of fuctions
 require("./api/ping")(app)
 require("./api/fetchmyboats")(app, database)
-require("./api/fetch_electric_motor_info")(app, database)
+require("./api/fetch_emi")(app, database)
+require("./api/fetch_acti")(app, database)
+require("./api/fetch_endoi")(app, database)
+
+// default route
+require("./api/default")(app)
 
 // Start Listening
 app.listen(port, () => {

@@ -1,6 +1,6 @@
 // Author: Giovanni Rasera
 /*
-NAME: fetch_electric_motor_info
+NAME: fetch_emi
 INPUT: {
     "user_id" : "12345",
     "user_auth" : "fdsa"
@@ -13,6 +13,14 @@ OUTPUT:{
   "motorTemperature" : 0.0,   // C
   "motorRPM" : 0.0            // RPM 
 }
+
+or 
+
+error_authentication
+
+or 
+
+error_boat_id
 */
 
 function createResponse(database) {
@@ -34,8 +42,8 @@ function createResponse(database) {
 }
 
 module.exports = function (app, database) {
-    // fetchmyboats
-    app.post('/fetch_electric_motor_info', function (req, res) {
+    // fetch_electric_motor_info
+    app.post('/fetch_emi', function (req, res) {
         const response = createResponse(database);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);

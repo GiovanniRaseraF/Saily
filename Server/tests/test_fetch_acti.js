@@ -1,13 +1,13 @@
 // Author: Giovanni Rasera
 // arrange
-const testName = "ping should responde with date and version";
+const testName = "should fetch actuator info";
 const http = require('http');
 const data = "";
 
 const options = {
   hostname: 'localhost',
   port : 8567,
-  path: '/ping',
+  path: '/fetch_acti',
   method: 'POST',
   headers: {
     'Content-Type': '',
@@ -26,10 +26,15 @@ const req = http.request(options, (res) => {
   res.on('end', () => {
     try {
     const response = JSON.parse(responseData);
-    if(response.date == undefined || response.version == undefined){
+    if(
+        response.pedal &&
+        response.requestedGear &&
+        response.validatedGear &&
+        response.pedalTrim 
+    ){
         console.log(" !! FAIL: response malformed " + `${responseData}`)
     }else{
-        console.log("OK :)")
+        console.log("OK :) ")
     }
     }catch{
         console.log(" !! FAIL: cannot parse data " +  responseData);
@@ -46,6 +51,3 @@ req.on('error', (error) => {
 console.log(testName);
 req.write(data);
 req.end();
-
-
-

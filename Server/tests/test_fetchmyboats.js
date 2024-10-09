@@ -1,6 +1,6 @@
 // Author: Giovanni Rasera
 // arrange
-const testName = "ping should responde with date and version";
+const testName = "should responde with boats";
 const http = require('http');
 const data = "";
 
@@ -26,15 +26,15 @@ const req = http.request(options, (res) => {
   res.on('end', () => {
     try {
     const response = JSON.parse(responseData);
-    if(true){
+    if(!(response.boats)){
         console.log(" !! FAIL: response malformed " + `${responseData}`)
     }else{
-        console.log("OK :) TODO: implement")
+        console.log("OK :)")
     }
     }catch{
         console.log(" !! FAIL: cannot parse data " +  responseData);
     }
-    console.log("\n\n\n");
+    console.log("\n");
   });
 });
 

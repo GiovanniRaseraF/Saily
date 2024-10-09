@@ -12,6 +12,10 @@ OUTPUT:{
         {}, // boat n
     ]
 }
+
+or
+
+error_authentication
 */
 
 // TODO: define a boat

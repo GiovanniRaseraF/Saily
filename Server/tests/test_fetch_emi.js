@@ -7,7 +7,7 @@ const data = "";
 const options = {
   hostname: 'localhost',
   port : 8567,
-  path: '/fetch_electric_motor_info',
+  path: '/fetch_emi',
   method: 'POST',
   headers: {
     'Content-Type': '',
@@ -40,7 +40,7 @@ const req = http.request(options, (res) => {
     }catch{
         console.log(" !! FAIL: cannot parse data " +  responseData);
     }
-    console.log("\n\n\n");
+    console.log("\n");
   });
 });
 
