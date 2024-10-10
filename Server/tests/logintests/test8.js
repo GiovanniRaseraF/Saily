@@ -7,7 +7,7 @@ const env = require("./envload")
 const data = "username=undefined&password=undefined";
 
 const options = {
- hostname: 'localhost',
+ hostname: env.HOST_NAME,
   port : env.SERVER_PORT,
   path: '/login',
   method: 'POST',

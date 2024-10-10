@@ -6,7 +6,7 @@ const env = require("./envload")
 const data = "username=g.rasera@huracanmarine.com&password=Sbagliata";
 
 const options = {
-  hostname: 'localhost',
+  hostname: env.HOST_NAME,
   port : env.SERVER_PORT,
   path: '/boats',
   method: 'POST',
