@@ -5,14 +5,15 @@
 
 const express = require('express')
 const path = require('path')
+const env = require("./envload")
+const database = require("./database/mysqldb")(env)
 
 // Server
 const app = express()
-const port = 8567
+const port = env.SERVER_PORT
 
 // Database
 // TODO: define the database
-const database = {}
 
 // list of fuctions
 require("./api/ping")(app)

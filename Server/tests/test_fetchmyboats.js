@@ -3,10 +3,11 @@
 const testName = "should responde with boats";
 const http = require('http');
 const data = "";
+const env = require("./envload")
 
 const options = {
   hostname: 'localhost',
-  port : 8567,
+  port : env.SERVER_PORT,
   path: '/fetchmyboats',
   method: 'POST',
   headers: {

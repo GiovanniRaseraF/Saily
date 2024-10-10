@@ -3,10 +3,11 @@
 const testName = "should fetch highpower battery info";
 const http = require('http');
 const data = "";
+const env = require("./envload")
 
 const options = {
   hostname: 'localhost',
-  port : 8567,
+  port : env.SERVER_PORT,
   path: '/fetch_hpbi',
   method: 'POST',
   headers: {

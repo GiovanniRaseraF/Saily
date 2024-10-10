@@ -4,9 +4,11 @@ const testName = "should fetch general info";
 const http = require('http');
 const data = "";
 
+const env = require("./envload")
+
 const options = {
   hostname: 'localhost',
-  port : 8567,
+  port : env.SERVER_PORT,
   path: '/fetch_gi',
   method: 'POST',
   headers: {

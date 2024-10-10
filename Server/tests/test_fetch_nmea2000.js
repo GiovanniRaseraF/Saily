@@ -3,10 +3,11 @@
 const testName = "should fetch all nmea2000 correctly";
 const http = require('http');
 const data = "";
+const env = require("./envload")
 
 const options = {
     hostname: 'localhost',
-    port: 8567,
+    port: env.SERVER_PORT,
     path: '/fetch_nmea2000/vtgi', // important to vtgi and nmea2000 prefix
     method: 'POST',
     headers: {

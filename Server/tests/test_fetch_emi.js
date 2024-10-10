@@ -3,10 +3,11 @@
 const testName = "should fetch electric motor info";
 const http = require('http');
 const data = "";
+const env = require("./envload")
 
 const options = {
   hostname: 'localhost',
-  port: 8567,
+  port: env.SERVER_PORT,
   path: '/fetch_emi',
   method: 'POST',
   headers: {

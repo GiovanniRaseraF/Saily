@@ -3,10 +3,11 @@
 const testName = "ping should responde with date and version";
 const http = require('http');
 const data = "";
+const env = require("./envload")
 
 const options = {
   hostname: 'localhost',
-  port: 8567,
+  port: env.SERVER_PORT,
   path: '/ping',
   method: 'POST',
   headers: {
