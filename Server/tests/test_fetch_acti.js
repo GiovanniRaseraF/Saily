@@ -3,7 +3,6 @@
 const testName = "should fetch actuator info";
 const http = require('http');
 const data = "";
-
 const env = require("./envload")
 
 const options = {

@@ -5,18 +5,25 @@
 
 const express = require('express')
 const path = require('path')
+const bodyParser = require('body-parser');
 const env = require("./envload")
-const database = require("./database/mysqldb")(env)
+const db = require("./database/mysqldb")(env)
 
 // Server
 const app = express()
+app.use(bodyParser.urlencoded({ extended: false }));
+
 const port = env.SERVER_PORT
 
 // Database
-// TODO: define the database
+database = new db();
+database.connect();
 
 // list of fuctions
 require("./api/ping")(app)
+
+require("./api/login")(app, database)
+
 require("./api/fetchmyboats")(app, database)
 require("./api/fetch_emi")(app, database)
 require("./api/fetch_acti")(app, database)
