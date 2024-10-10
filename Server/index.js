@@ -3,6 +3,7 @@
 // This server is designed to handle fetching 
 // requests form Saily Application
 
+const https = require("http")
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser');
@@ -44,6 +45,6 @@ app._router.stack.forEach(r => {
 });
 
 // Start Listening
-app.listen(port, () => {
-  console.log(`Saily server startd at port: ${port}`)
-})
+
+// HTTPS
+https.createServer(app).listen(port, () => {});
