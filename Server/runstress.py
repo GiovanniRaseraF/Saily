@@ -11,11 +11,13 @@ import random as rnd
 maxThreads = 100
 iterationsPerThread = 10
 
+folder = sys.argv[1]
+
 def runTests():
     start = time.time()
     for runCount in range(0, iterationsPerThread):
         # run
-        proc = subprocess.Popen(["./runtest.py", "tests", "1"], stdout=subprocess.PIPE, shell=False)
+        proc = subprocess.Popen(["./runtest.py", folder, "1"], stdout=subprocess.PIPE, shell=False)
         (out, err) = proc.communicate()
         result = False
 
