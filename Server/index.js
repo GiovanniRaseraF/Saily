@@ -23,8 +23,8 @@ database.connect();
 require("./api/ping")(app)
 
 require("./api/login")(app, database)
+require("./api/boats")(app, database)
 
-require("./api/fetchmyboats")(app, database)
 require("./api/fetch_emi")(app, database)
 require("./api/fetch_acti")(app, database)
 require("./api/fetch_endoi")(app, database)

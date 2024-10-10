@@ -27,7 +27,7 @@ const req = https.request(options, (res) => {
 
   res.on('end', () => {
     console.log('Response:', responseData);
-    if(JSON.parse(responseData).code == 0){
+    if(JSON.parse(responseData).boats != undefined){
         console.log("OK :)"); // MAI
     }else{
         console.log("test: FAIL"); // SEMPRE

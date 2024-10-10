@@ -23,6 +23,7 @@ def assertResult(file_input_text, expectToPass=True):
 
 # Running all tests
 for file in sorted(l_files_names):
+    if("test" not in file): continue
     print(f"Testing: {file}")
     
     # run

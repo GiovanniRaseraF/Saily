@@ -8,7 +8,7 @@ const env = require("./envload")
 const options = {
   hostname: 'localhost',
   port : env.SERVER_PORT,
-  path: '/fetchmyboats',
+  path: '/boats',
   method: 'POST',
   headers: {
     'Content-Type': '',
