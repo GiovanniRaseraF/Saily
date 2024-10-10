@@ -1,4 +1,4 @@
-// Author: Giovanni Rasera
+// Author: Giovanni Rasera and Lorenzo Mancini
 
 // This server is designed to handle fetching 
 // requests form Saily Application

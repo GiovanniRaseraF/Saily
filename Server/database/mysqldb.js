@@ -1,3 +1,5 @@
+// Author: Giovanni Rasera and Lorenzo Mancini
+
 const mysql = require("mysql");
 const fs = require("fs");
 const result = require('lodash');
