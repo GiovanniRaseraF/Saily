@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const fs = require("fs");
-const { result } = require('lodash');
-const {bcrypt} = require("bcrypt")
+const result = require('lodash');
+const bcrypt = require("bcrypt")
 
 const saltRounds = 10;
 
@@ -29,7 +29,7 @@ module.exports = function (env) {
         async get_account(username, password) {
             console.log(username);
             var sql = `SELECT * FROM user_account WHERE user_email = '${username}';`;
-            console.log(sql);
+            //console.log(sql);
 
             this.getAccount = function (pool) {
                 return new Promise(function (resolve, reject) {
@@ -48,7 +48,7 @@ module.exports = function (env) {
             }
 
             let ret = await this.getAccount(this.pool);
-            console.log(ret);
+            //console.log(ret);
             return (ret);
         }
 
@@ -56,9 +56,9 @@ module.exports = function (env) {
 
             var sql = `SELECT * FROM boats WHERE user_id = '${user_id}';`;
 
-            this.getBoats = function () {
+            this.getBoats = function (pool) {
                 return new Promise(function (resolve, reject) {
-                    this.pool.query(
+                    pool.query(
                         sql,
                         function (err, rows) {
                             if (rows === undefined) {
@@ -72,9 +72,9 @@ module.exports = function (env) {
                 )
             }
 
-            let ret = await this.getBoats();
+            let ret = await this.getBoats(this.pool);
 
-            console.log(ret);
+            //console.log(ret);
             return (ret);
         }
 
