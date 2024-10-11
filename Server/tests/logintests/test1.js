@@ -1,14 +1,14 @@
 // Test con username sbagliato,
 //  controllare che nel server non crashi !!
 const testName = "When user is wrong and password is correct SHOULD response with canuselogin false";
-const https = require('http');
 const env = require("./envload")
+const https = require(env.HTTP_PROTOCOL);
 
 const data = "username=g.rasera&password=MoroRacing2024";
 
 const options = {
   hostname: env.HOST_NAME,
-  port : env.SERVER_PORT,
+  //port : env.SERVER_PORT,
   path: '/login',
   method: 'POST',
   headers: {

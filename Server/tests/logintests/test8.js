@@ -1,9 +1,8 @@
 // Test con username giusto e password giusta
 
 const testName = "When both user and password are undefined SHOULD response with canuselogin false";
-const https = require('http');
-
 const env = require("./envload")
+const https = require(env.HTTP_PROTOCOL);
 const data = "username=undefined&password=undefined";
 
 const options = {

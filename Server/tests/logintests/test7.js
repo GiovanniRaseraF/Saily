@@ -1,9 +1,8 @@
 // Test con username giusto e password giusta
 
 const testName = "When both user and password are correct SHOULD response with canuselogin true and boats list";
-const https = require('http');
-
 const env = require("./envload")
+const https = require(env.HTTP_PROTOCOL);
 const data = "username=g.rasera@huracanmarine.com&password=MoroRacing2024";
 
 const options = {

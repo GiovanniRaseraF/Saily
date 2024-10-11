@@ -1,8 +1,7 @@
 // Test con username giusto e password sbagliata
 const testName = "When user is correct and password is wrong SHOULD response with canuselogin false";
-const https = require('http');
-
 const env = require("./envload")
+const https = require(env.HTTP_PROTOCOL);
 const data = "username=g.rasera@huracanmarine.com&password=Sbagliata";
 
 const options = {

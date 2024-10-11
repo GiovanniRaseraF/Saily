@@ -7,8 +7,10 @@ const DATABASE_USER = process.env.DATABASE_USER
 const DATABASE_HOST = process.env.DATABASE_HOST
 const DATABASE_NAME = process.env.DATABASE_NAME
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD
+const HTTP_PROTOCOL = process.env.HTTP_PROTOCOL
 
 module.exports = {
+    HTTP_PROTOCOL,
     HOST_NAME,
     SERVER_PORT,
     DATABASE_USER,
