@@ -1,12 +1,12 @@
 // Author: Giovanni Rasera
 // arrange
 const testName = "should fetch highpower battery info";
-const http = require('http');
-const data = "";
 const env = require("./envload")
+const https = require(env.HTTP_PROTOCOL);
+const data = "";
 
 const options = {
-  hostname: 'localhost',
+  hostname: env.HOST_NAME,
   port : env.SERVER_PORT,
   path: '/fetch_hpbi',
   method: 'POST',
@@ -17,7 +17,7 @@ const options = {
 };
 
 // act
-const req = http.request(options, (res) => {
+const req = https.request(options, (res) => {
   let responseData = '';
 
   res.on('data', (chunk) => {

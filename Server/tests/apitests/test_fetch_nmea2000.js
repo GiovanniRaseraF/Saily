@@ -1,12 +1,12 @@
 // Author: Giovanni Rasera
 // arrange
 const testName = "should fetch all nmea2000 correctly";
-const http = require('http');
-const data = "";
 const env = require("./envload")
+const https = require(env.HTTP_PROTOCOL);
+const data = "";
 
 const options = {
-    hostname: 'localhost',
+    hostname: env.HOST_NAME,
     port: env.SERVER_PORT,
     path: '/fetch_nmea2000/vtgi', // important to vtgi and nmea2000 prefix
     method: 'POST',
@@ -17,7 +17,7 @@ const options = {
 };
 
 // act
-const req = http.request(options, (res) => {
+const req = https.request(options, (res) => {
     let responseData = '';
 
     res.on('data', (chunk) => {
