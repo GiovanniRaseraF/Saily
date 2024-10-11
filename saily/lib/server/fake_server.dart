@@ -123,7 +123,7 @@ class FakeServerFetcherInfo extends Server{
   Future<Either<FetchError, VTGInfo>> fetchVTGInfo() async {
     bool isFixed = Random().nextBool();
     int count = Random().nextInt(10);
-    final gpsCount = VTGInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150);
+    final gpsCount = VTGInfo(isFixed: isFixed, satellitesCount: count, SOG: SOG % 150, lat:0, lng:0);
 
     return Either.right(gpsCount);
   }
