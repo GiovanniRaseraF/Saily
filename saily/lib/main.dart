@@ -15,6 +15,7 @@ import 'package:saily/record/record_controller.dart';
 import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
 import 'package:saily/server/fake_server.dart';
+import 'package:saily/server/huracan_server.dart';
 import 'package:saily/server/server.dart';
 import 'package:saily/settings/fake_server.dart';
 import 'package:saily/tracks/gpx_trips.dart';
@@ -89,7 +90,7 @@ void main() async {
   );
 
   // Just for debug
-  serverInfo = FakeServerFetcherInfo(settingsController: settingsController);
+  serverInfo = HuracanServer(settingsController: settingsController);
   await serverInfo.initServer();
 
   debugPrint(settingsService.getKeys().toString());

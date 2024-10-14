@@ -1,6 +1,8 @@
 // From: Messaggi_CAN_Per_Huracan_Naviop_v1_9
 // Author: Giovanni Rasera
 
+import 'dart:convert';
+
 enum GlowStatus{
   OFF, ON
 }
@@ -21,4 +23,41 @@ class EndotermicmotorInfo {
   DieselStatus dieselStatus = DieselStatus.WAIT;
   int fuelLevel1 = 0; // %
   int fuelLevel2 = 0; // %
+  
+  static EndotermicmotorInfo? fromJSONDynamic(dynamic json) {
+    try {
+      EndotermicmotorInfo ret  = EndotermicmotorInfo();
+
+      int motorRPM = json["motorRPM"]; // RPM
+      double refrigerationTemperature = json["refrigerationTemperature"]; // C
+      double batteryVoltage = json["batteryVoltage"]; // factor 0.1 V
+      int throttlePedalPosition = json["throttlePedalPosition"]; // %
+      GlowStatus glowStatus = GlowStatus.OFF;//json["glowStatus"];
+      DieselStatus dieselStatus = DieselStatus.WAIT;//json["dieselStatus"];
+      int fuelLevel1 = json["fuelLevel1"]; // %
+      int fuelLevel2 = json["fuelLevel2"]; // %
+
+      ret.motorRPM = motorRPM;
+      ret.refrigerationTemperature = refrigerationTemperature;
+      ret.batteryVoltage = batteryVoltage;
+      ret.throttlePedalPosition = throttlePedalPosition;
+      ret.glowStatus = glowStatus;
+      ret.dieselStatus = dieselStatus;
+      ret.fuelLevel1 = fuelLevel1;
+      ret.fuelLevel2 = fuelLevel2;
+
+      return ret;
+    } on Exception {
+      return null;
+    }
+  }
+
+  static EndotermicmotorInfo? fromJSONString(String json) {
+    try {
+      final parsed = jsonDecode(json);
+      return EndotermicmotorInfo.fromJSONDynamic(parsed);
+    } on Exception {
+      return null;
+    }
+  }
 }

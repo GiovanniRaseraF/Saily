@@ -47,9 +47,9 @@ class SettingsController extends ChangeNotifier {
     endotermicmotorInfoStream   = StreamController<EndotermicmotorInfo>.broadcast();
     vehicleInfoStream           = StreamController<VehicleInfo>.broadcast();
     currentNVTGInfo             = VTGInfo(isFixed: true, satellitesCount: 0, SOG: 0, lat:0, lng:0);
-    currentGeneralInfo          = GeneralInfo();
+    currentGeneralInfo          = GeneralInfo(dieselMotorModel: DieselMotorModel.None, electricMotorModel: ElectricMotorModel.None, isDualMotor: false, isHybrid: false, versionFWControlUnit: 0, versionFWDrive: 0, versionProtocol: 0);
     currentElectricMotorInfo    = ElectricmotorInfo();
-    currentHighpowerbatteryInfo = HighpowerbatteryInfo();
+    currentHighpowerbatteryInfo = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
     currentEndotermicmotorInfo  = EndotermicmotorInfo();
     currentVehicleInfo          = VehicleInfo();
   }

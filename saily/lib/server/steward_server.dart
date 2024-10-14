@@ -42,7 +42,7 @@ class StewardServerInfo extends Server{
   }
 
   @override
-  Future<Either<FetchError, BoatInfo>> fetchBoatInfo() {
+  Future<Either<FetchError, List<BoatInfo>>> fetchBoats() {
     // TODO: implement fetchBoatInfo
     throw UnimplementedError();
   }

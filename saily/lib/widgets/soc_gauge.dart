@@ -31,7 +31,7 @@ class SOCGauge extends StatefulWidget {
 class _SOCGaugeState extends State<SOCGauge> {
   _SOCGaugeState({required this.settingsController, required this.small}) {}
 
-  HighpowerbatteryInfo highpowerbatteryInfo = HighpowerbatteryInfo();
+  HighpowerbatteryInfo highpowerbatteryInfo = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
 
   SettingsController settingsController;
   bool small = true;

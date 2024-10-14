@@ -25,7 +25,7 @@ class FakeServerFetcherInfo extends Server{
   FakeServerFetcherInfo({required this.settingsController}){
     fakeData = FakeData();
     fakeData.load_parse(cannesTrip);
-    runFetchProcess(interval: Duration(milliseconds: 1000), callback: fetchProcess);
+    setFetchProcess(interval: Duration(milliseconds: 1000), callback: fetchProcess);
   }
 
   SettingsController settingsController;
@@ -51,7 +51,7 @@ class FakeServerFetcherInfo extends Server{
 
     // battery info
     HighpowerbatteryInfo batteryInfo = (await fetchHighpowerbatteryInfo()).getOrElse((){
-      return HighpowerbatteryInfo();
+      return HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
     });
     settingsController.sendHighPowerBatteryInfo(batteryInfo);
 
@@ -73,7 +73,7 @@ class FakeServerFetcherInfo extends Server{
   }
 
   @override
-  Future<Either<FetchError, BoatInfo>> fetchBoatInfo() async {
+  Future<Either<FetchError, List<BoatInfo>>> fetchBoats() async {
     // TODO: implement fetchBoatInfo
     throw UnimplementedError();
   }
@@ -107,7 +107,7 @@ class FakeServerFetcherInfo extends Server{
   @override
   Future<Either<FetchError, HighpowerbatteryInfo>> fetchHighpowerbatteryInfo() async {
     // battery info
-    HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo();
+    HighpowerbatteryInfo batteryInfo = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
     batteryInfo.SOC = (SOC++ % 100);
     batteryInfo.totalVoltage = SOC / 80;
     batteryInfo.power = SOG % 100;
@@ -130,7 +130,7 @@ class FakeServerFetcherInfo extends Server{
 
 
   @override
-  void runFetchProcess({required Duration interval, required void Function(Timer p1) callback}) {
+  void setFetchProcess({required Duration interval, required void Function(Timer p1) callback}) {
     fetch = Timer.periodic(interval, callback);
   }
 

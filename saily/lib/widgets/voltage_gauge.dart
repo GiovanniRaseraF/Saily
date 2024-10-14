@@ -26,7 +26,7 @@ class VoltageGauge extends StatefulWidget {
 class _VoltageGaugeState extends State<VoltageGauge> {
   _VoltageGaugeState({required this.settingsController, required this.small}) {}
 
-  HighpowerbatteryInfo internalBatteryInfo = HighpowerbatteryInfo();
+  HighpowerbatteryInfo internalBatteryInfo= HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
   SettingsController settingsController;
   bool small = true;
 

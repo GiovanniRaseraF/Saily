@@ -42,9 +42,8 @@ abstract class Server{
   }
 
   // fetch boat information from server
-  Future<Either<FetchError, BoatInfo>> fetchBoatInfo() async {
+  Future<Either<FetchError, List<BoatInfo>>> fetchBoats() async {
     return Either.left(FetchError(why: "fetchBoatInfo is abstract |"));
-    return Either.right(BoatInfo(name: "generic", id: "0x0"));
   }
   
   Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() async {

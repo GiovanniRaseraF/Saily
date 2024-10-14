@@ -64,7 +64,7 @@ class _RPMGaugeState extends State<RPMGauge> {
     return StreamBuilder(
         stream: settingsController.getHighPowerBatteryInfoStream(),
         builder: (bc, snapshot) {
-          HighpowerbatteryInfo info = HighpowerbatteryInfo();
+          HighpowerbatteryInfo info = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
           // read data
           if (snapshot.data != null) {
             info = snapshot.data!;
@@ -219,7 +219,7 @@ class InternalPowerGauge extends StatefulWidget {
 class _InternalPowerGaugeState extends State<InternalPowerGauge> {
   _InternalPowerGaugeState({required this.settingsController, required this.small}) {}
 
-  HighpowerbatteryInfo internalBatteryInfo = HighpowerbatteryInfo();
+  HighpowerbatteryInfo internalBatteryInfo = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
   SettingsController settingsController;
   bool small = true;
 
