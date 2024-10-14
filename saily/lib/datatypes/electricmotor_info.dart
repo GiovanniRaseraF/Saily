@@ -13,11 +13,11 @@ class ElectricmotorInfo {
   static ElectricmotorInfo? fromJSONDynamic(dynamic json) {
     try {
       ElectricmotorInfo ret = ElectricmotorInfo();
-      double busVoltage = json["busVoltage"];
-      double motorCurrent = json["motorCurrent"];
-      double inverterTemperature = json["inverterTemperature"];
-      double motorTemperature = json["motorTemperature"];
-      double motorRPM = json["motorRPM"];
+      double busVoltage = (json["busVoltage"] as num).toDouble();
+      double motorCurrent = (json["motorCurrent"] as num).toDouble();
+      double inverterTemperature = (json["inverterTemperature"] as num).toDouble();
+      double motorTemperature = (json["motorTemperature"] as num).toDouble();
+      double motorRPM = (json["motorRPM"] as num).toDouble();
 
       ret.busVoltage = busVoltage;
       ret.motorCurrent = motorCurrent;
