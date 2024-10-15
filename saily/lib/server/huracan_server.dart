@@ -20,10 +20,14 @@ class HuracanServer extends Server {
   }
   SettingsController settingsController;
 
-  String USERNAME = "USERNAME";
-  String PASSWORD = "PASSWORD";
-  final DEFAULT_SERVER_NAME = "huracanpower.com";
-  final DEFAULT_PORT = 443;
+  String USERNAME = "g.rasera@huracanmarine.com";
+  String PASSWORD = "MoroRacing2024";
+  // final DEFAULT_SERVER_NAME = "huracanpower.com";
+  // final DEFAULT_PORT = 443;
+  // final PROTOCOL = "https";
+  final DEFAULT_SERVER_NAME = "localhost";
+  final DEFAULT_PORT = 8567;
+  final PROTOCOL = "http";
 
   Future<void> fetchProcess(Timer t) async {
     print("-");
@@ -96,7 +100,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/ping"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/ping"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -127,7 +131,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/fetch_acti"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/fetch_acti"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -160,7 +164,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/boats"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/boats"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -192,7 +196,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/fetch_emi"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/fetch_emi"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -225,7 +229,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/fetch_endoi"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/fetch_endoi"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -258,7 +262,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/fetch_gi"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/fetch_gi"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -291,7 +295,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/fetch_hpbi"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/fetch_hpbi"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -324,7 +328,7 @@ class HuracanServer extends Server {
 
     try {
       final res = await post(
-          Uri.parse("https://" + DEFAULT_SERVER_NAME + "/fetch_nmea2000/vtgi"),
+          Uri.parse("$PROTOCOL://" + DEFAULT_SERVER_NAME + ":$DEFAULT_PORT" "/fetch_nmea2000/vtgi"),
           body: loginData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
