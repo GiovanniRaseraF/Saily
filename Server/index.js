@@ -8,7 +8,7 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const env = require("./envload")
 const db = require("./database/mysqldb")(env)
-const https = require(env.HTTP_PROTOCOL)
+const https = require("http")
 
 // Server
 const app = express()
