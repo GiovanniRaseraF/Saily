@@ -23,28 +23,27 @@ or
 error_boat_id
 */
 
-function createResponse(database) {
-    const busVoltage = 0.0;
-    const motorCurrent = 0.0;
-    const inverterTemperature = 0.0;
-    const motorTemperature = 0.0;
-    const motorRPM = 0.0;
+const errors = require("./errors");
 
-    const response = {
-        busVoltage,
-        motorCurrent,
-        inverterTemperature,
-        motorTemperature,
-        motorRPM
-    };
+async function createResponse(database, req) {
+    const { username, password, boat_id} = req.body;
 
-    return response;
+    let canlogin = await database.isUserInDb(username, password);
+    if (canlogin) {
+        // OK
+        return await database.getLastBoatElectricMotorInfo(username, boat_id);
+    } else {
+        // NO
+        return errors.error_authentication;
+    }
+
+    return errors.error_authentication;
 }
 
 module.exports = function (app, database) {
     // fetch_electric_motor_info
-    app.post('/fetch_emi', function (req, res) {
-        const response = createResponse(database);
+    app.post('/fetch_emi', async function (req, res) {
+        const response = await createResponse(database, req);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);
     });

@@ -22,26 +22,27 @@ or
 error_boat_id
 */
 
-function createResponse(database) {
-    const pedal = 0; // %
-    const requestedGear = 0;
-    const validatedGear = 0;
-    const pedalTrim = 0;
+const errors = require("./errors");
 
-    const response = {
-        pedal,
-        requestedGear,
-        validatedGear,
-        pedalTrim
-    };
+async function createResponse(database, req) {
+    const { username, password, boat_id} = req.body;
 
-    return response;
+    let canlogin = await database.isUserInDb(username, password);
+    if (canlogin) {
+        // OK
+        return await database.getLastBoatActuatorInfo(username, boat_id);
+    } else {
+        // NO
+        return errors.error_authentication;
+    }
+
+    return errors.error_authentication;
 }
 
 module.exports = function (app, database) {
     // fetch_actuator_info
-    app.post('/fetch_acti', function (req, res) {
-        const response = createResponse(database);
+    app.post('/fetch_acti', async function (req, res) {
+        const response = await createResponse(database, req);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);
     });

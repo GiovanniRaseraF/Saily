@@ -135,14 +135,16 @@ module.exports = function (env) {
 
         // Boat Info getters
         async getLastBoatHighPowerBatteryInfo(user_id, boat_id) {
-            let totalVoltage = 0.0; 
-            let totalCurrent = 0.0; 
+            let totalVoltage = 0.0;
+            let totalCurrent = 0.0;
             let batteryTemperature = 0.0;
             let bmsTemperature = 0.0;
-            let SOC = 0.0; 
-            let power = 0.0; 
+            let SOC = 0.0;
+            let power = 0.0;
             let tte = 0;
-            let auxBatteryVoltage = 0.0; 
+            let auxBatteryVoltage = 0.0;
+
+            // TODO: Implement fetch from redis or a realtime database
 
             const response = {
                 totalVoltage,
@@ -153,6 +155,67 @@ module.exports = function (env) {
                 power,
                 tte,
                 auxBatteryVoltage
+            };
+
+            return response;
+        }
+
+        async getLastBoatActuatorInfo(user_id, boat_id) {
+            const pedal = 0; // %
+            const requestedGear = 0;
+            const validatedGear = 0;
+            const pedalTrim = 0;
+
+            // TODO: Implement fetch from redis or a realtime database
+
+            const response = {
+                pedal,
+                requestedGear,
+                validatedGear,
+                pedalTrim
+            };
+
+            return response;
+        }
+
+
+        async getLastBoatElectricMotorInfo(user_id, boat_id) {
+            const busVoltage = 0.0;
+            const motorCurrent = 0.0;
+            const inverterTemperature = 0.0;
+            const motorTemperature = 0.0;
+            const motorRPM = 0.0;
+
+            const response = {
+                busVoltage,
+                motorCurrent,
+                inverterTemperature,
+                motorTemperature,
+                motorRPM
+            };
+
+            return response;
+        }
+
+        async getLastBoatEndothermicMotorInfo(user_id, boat_id) {
+            const motorRPM = 0; // RPM
+            const refrigerationTemperature = 0.0; // C
+            const batteryVoltage = 0.0; // factor 0.1 V
+            const throttlePedalPosition = 0; // %
+            const glowStatus = 0; //GlowStatus.OFF
+            const dieselStatus = 0; // DieselStatus.WAIT;
+            const fuelLevel1 = 0; // %
+            const fuelLevel2 = 0; // %
+
+            const response = {
+                motorRPM,
+                refrigerationTemperature,
+                batteryVoltage,
+                throttlePedalPosition,
+                glowStatus,
+                dieselStatus,
+                fuelLevel1,
+                fuelLevel2
             };
 
             return response;
