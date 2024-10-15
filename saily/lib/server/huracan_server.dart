@@ -22,12 +22,16 @@ class HuracanServer extends Server {
 
   String USERNAME = "g.rasera@huracanmarine.com";
   String PASSWORD = "MoroRacing2024";
-  // final DEFAULT_SERVER_NAME = "huracanpower.com";
-  // final DEFAULT_PORT = 443;
-  // final PROTOCOL = "https";
-  String DEFAULT_SERVER_NAME = "localhost";
-  int DEFAULT_PORT = 8567;
-  String PROTOCOL = "http";
+
+  // remote
+  final DEFAULT_SERVER_NAME = "huracanpower.com";
+  final DEFAULT_PORT = 443;
+  final PROTOCOL = "https";
+
+  // local
+  // String DEFAULT_SERVER_NAME = "localhost";
+  // int DEFAULT_PORT = 8567;
+  // String PROTOCOL = "http";
 
   // current boat
   BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0");
