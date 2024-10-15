@@ -33,7 +33,7 @@ class HuracanServer extends Server {
   BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0");
 
   Future<Either<InitError, String>> ping() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -66,7 +66,7 @@ class HuracanServer extends Server {
 
   @override
   Future<Either<FetchError, ActuatorInfo>> fetchAcuatorInfo() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -101,7 +101,7 @@ class HuracanServer extends Server {
   // fetch boat information from server
   @override
   Future<Either<FetchError, List<BoatInfo>>> fetchBoats() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -135,7 +135,7 @@ class HuracanServer extends Server {
 
   @override
   Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -170,7 +170,7 @@ class HuracanServer extends Server {
   @override
   Future<Either<FetchError, EndotermicmotorInfo>>
       fetchEndotermicmotorInfo() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -205,7 +205,7 @@ class HuracanServer extends Server {
 
   @override
   Future<Either<FetchError, GeneralInfo>> fetchGeneralInfo() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -240,7 +240,7 @@ class HuracanServer extends Server {
   @override
   Future<Either<FetchError, HighpowerbatteryInfo>>
       fetchHighpowerbatteryInfo() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -275,7 +275,7 @@ class HuracanServer extends Server {
 
   @override
   Future<Either<FetchError, VTGInfo>> fetchVTGInfo() async {
-    String loginData = "";
+    String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
