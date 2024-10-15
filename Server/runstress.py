@@ -8,8 +8,8 @@ import threading
 import time
 import random as rnd
 
-maxThreads = 20
-iterationsPerThread = 100
+maxThreads = 50
+iterationsPerThread = 10000
 
 folder = sys.argv[1]
 
@@ -26,7 +26,7 @@ def runTests(numThread):
             #print(out)
 
         print(f"th: ${numThread}, test: ${runCount} done, fail ${failCount}")
-        time.sleep(rnd.random()*4 + 2)
+        time.sleep(rnd.random()*2)
         
 
     end = time.time()
@@ -35,5 +35,5 @@ def runTests(numThread):
 for numThread in range(0, maxThreads):
     t = (threading.Thread(target=runTests, kwargs={'numThread':numThread}))
     t.start()
-    time.sleep(rnd.random()*10 + 2)
+    time.sleep(rnd.random())
 

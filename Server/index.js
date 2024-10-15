@@ -3,12 +3,12 @@
 // This server is designed to handle fetching 
 // requests form Saily Application
 
-const https = require("http")
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser');
 const env = require("./envload")
 const db = require("./database/mysqldb")(env)
+const https = require(env.HTTP_PROTOCOL)
 
 // Server
 const app = express()
