@@ -19,9 +19,6 @@ const errors = require("./errors");
 async function createResponse(database, req) {
     const { username, password } = req.body;
 
-    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; // get ip
-    console.log(ip + " /login");
-
     let canlogin = await database.isUserInDb(username, password);
 
     if (canlogin) {

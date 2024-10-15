@@ -18,34 +18,27 @@ or
 error_boat_id
 */
 
-function createResponse(database) {
-    const totalVoltage = 0.0; // factor 0.1 V
-    const totalCurrent = 0.0; // factor 0.1 A
-    const batteryTemperature = 0.0;  // C
-    const bmsTemperature = 0.0;      // C
-    const SOC = 0.0;                 // %
-    const power = 0.0; // factor 0.1 KW +consumata -assorbita
-    const tte = 0;        // min
-    const auxBatteryVoltage = 0.0; // factor 0.1 V
+const errors = require("./errors");
 
-    const response = {
-        totalVoltage,
-        totalCurrent,
-        batteryTemperature,
-        bmsTemperature,
-        SOC,
-        power,
-        tte,
-        auxBatteryVoltage
-    };
+async function createResponse(database, req) {
+    const { username, password, boat_id} = req.body;
 
-    return response;
+    let canlogin = await database.isUserInDb(username, password);
+    if (canlogin) {
+        // OK
+        return await database.getLastBoatHighPowerBatteryInfo(username, boat_id);
+    } else {
+        // NO
+        return errors.error_authentication;
+    }
+
+    return errors.error_authentication;
 }
 
 module.exports = function (app, database) {
     // fetch_highpower_battery_info
-    app.post('/fetch_hpbi', function (req, res) {
-        const response = createResponse(database);
+    app.post('/fetch_hpbi', async function (req, res) {
+        const response = await createResponse(database, req);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);
     });

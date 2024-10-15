@@ -23,11 +23,7 @@ const errors = require("./errors")
 // TODO: define a boat
 
 async function createResponse(database, req) {
-
     const { username, password } = req.body;
-
-    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; // get ip
-    console.log(ip + " /boats");
 
     let canlogin = await database.isUserInDb(username, password);
 

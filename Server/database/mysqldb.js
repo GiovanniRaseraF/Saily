@@ -29,7 +29,6 @@ module.exports = function (env) {
         }
 
         async get_account(username, password) {
-            console.log(username);
             var sql = `SELECT * FROM user_account WHERE user_email = '${username}';`;
             //console.log(sql);
 
@@ -134,5 +133,29 @@ module.exports = function (env) {
             return boatsResult;
         }
 
+        // Boat Info getters
+        async getLastBoatHighPowerBatteryInfo(user_id, boat_id) {
+            let totalVoltage = 0.0; 
+            let totalCurrent = 0.0; 
+            let batteryTemperature = 0.0;
+            let bmsTemperature = 0.0;
+            let SOC = 0.0; 
+            let power = 0.0; 
+            let tte = 0;
+            let auxBatteryVoltage = 0.0; 
+
+            const response = {
+                totalVoltage,
+                totalCurrent,
+                batteryTemperature,
+                bmsTemperature,
+                SOC,
+                power,
+                tte,
+                auxBatteryVoltage
+            };
+
+            return response;
+        }
     }
 }

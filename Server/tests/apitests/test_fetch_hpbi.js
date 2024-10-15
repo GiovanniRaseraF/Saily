@@ -3,7 +3,8 @@
 const testName = "should fetch highpower battery info";
 const env = require("./envload")
 const https = require(env.HTTP_PROTOCOL);
-const data = "";
+//const data = "username=g.rasera@huracanmarine.com&password=MoroRacing2024&boat_id=0";
+const data = "boat_id=0x0&username=g.rasera@huracanmarine.com&password=MoroRacing2024";
 
 const options = {
   hostname: env.HOST_NAME,
@@ -11,7 +12,7 @@ const options = {
   path: '/fetch_hpbi',
   method: 'POST',
   headers: {
-    'Content-Type': '',
+    'Content-Type': 'application/x-www-form-urlencoded',
     'Content-Length': data.length,
   },
 };

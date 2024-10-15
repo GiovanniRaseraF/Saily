@@ -11,7 +11,7 @@ const options = {
     path: '/fetch_nmea2000/vtgi', // important to vtgi and nmea2000 prefix
     method: 'POST',
     headers: {
-        'Content-Type': '',
+        'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': data.length,
     },
 };

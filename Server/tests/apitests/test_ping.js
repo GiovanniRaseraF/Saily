@@ -11,7 +11,7 @@ const options = {
   path: '/ping',
   method: 'POST',
   headers: {
-    'Content-Type': '',
+    'Content-Type': 'application/x-www-form-urlencoded',
     'Content-Length': data.length,
   },
 };
