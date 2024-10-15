@@ -17,33 +17,27 @@ or
 
 error_boat_id
 */
+const errors = require("./errors");
 
-function createResponse(database) {
-    const isHybrid = false; // false = FullElectric , true = Hybrid
-    const isDualMotor = false; // false = SingleMotor, true = DualMotor
-    const versionProtocol = 0.0; // factor 0.1
-    const versionFWControlUnit = 0.0; // factor 0.01
-    const versionFWDrive = 0.0; // factor 0.01
-    const dieselMotorModel = 0; // DieselMotorModel.None; // Tabella 1
-    const electricMotorModel = 0; //ElectricMotorModel.None; // Tabella 2
+async function createResponse(database, req) {
+    const { username, password, boat_id} = req.body;
 
-    const response = {
-        isHybrid,
-        isDualMotor,
-        versionProtocol,
-        versionFWControlUnit,
-        versionFWDrive,
-        dieselMotorModel,
-        electricMotorModel
-    };
+    let canlogin = await database.isUserInDb(username, password);
+    if (canlogin) {
+        // OK
+        return await database.getLastBoatGeneralInfo(username, boat_id);
+    } else {
+        // NO
+        return errors.error_authentication;
+    }
 
-    return response;
+    return errors.error_authentication;
 }
 
 module.exports = function (app, database) {
     // fetch_generic_info
-    app.post('/fetch_gi', function (req, res) {
-        const response = createResponse(database);
+    app.post('/fetch_gi', async function (req, res) {
+        const response = await createResponse(database, req);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);
     });

@@ -18,22 +18,21 @@ or
 error_boat_id
 */
 
-function createResponseVTGI(database) {
-    const satellitesCount = 0;
-    const isFixed = false;
-    const SOG = 0; // usualy in km/hr from NMEA2000
-    const lat = 0;
-    const lng = 0;
+const errors = require("./errors");
 
-    const response = {
-        satellitesCount,
-        isFixed,
-        SOG,
-        lat,
-        lng
-    };
+async function createResponseVTGI(database, req) {
+    const { username, password, boat_id} = req.body;
 
-    return response;
+    let canlogin = await database.isUserInDb(username, password);
+    if (canlogin) {
+        // OK
+        return await database.getLastBoatNMEA2000VTGInfo(username, boat_id);
+    } else {
+        // NO
+        return errors.error_authentication;
+    }
+
+    return errors.error_authentication;
 }
 
 function createResponseABCI(database) {
@@ -46,8 +45,8 @@ function createResponseABCI(database) {
 }
 
 module.exports = function (app, database) {
-    app.post('/fetch_nmea2000/vtgi', function (req, res) {
-        const response = createResponseVTGI(database);
+    app.post('/fetch_nmea2000/vtgi', async function (req, res) {
+        const response = await createResponseVTGI(database, req);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);
     });

@@ -161,10 +161,10 @@ module.exports = function (env) {
         }
 
         async getLastBoatActuatorInfo(user_id, boat_id) {
-            const pedal = 0; // %
-            const requestedGear = 0;
-            const validatedGear = 0;
-            const pedalTrim = 0;
+            let pedal = 0; // %
+            let requestedGear = 0;
+            let validatedGear = 0;
+            let pedalTrim = 0;
 
             // TODO: Implement fetch from redis or a realtime database
 
@@ -180,11 +180,11 @@ module.exports = function (env) {
 
 
         async getLastBoatElectricMotorInfo(user_id, boat_id) {
-            const busVoltage = 0.0;
-            const motorCurrent = 0.0;
-            const inverterTemperature = 0.0;
-            const motorTemperature = 0.0;
-            const motorRPM = 0.0;
+            let busVoltage = 0.0;
+            let motorCurrent = 0.0;
+            let inverterTemperature = 0.0;
+            let motorTemperature = 0.0;
+            let motorRPM = 0.0;
 
             const response = {
                 busVoltage,
@@ -198,14 +198,14 @@ module.exports = function (env) {
         }
 
         async getLastBoatEndothermicMotorInfo(user_id, boat_id) {
-            const motorRPM = 0; // RPM
-            const refrigerationTemperature = 0.0; // C
-            const batteryVoltage = 0.0; // factor 0.1 V
-            const throttlePedalPosition = 0; // %
-            const glowStatus = 0; //GlowStatus.OFF
-            const dieselStatus = 0; // DieselStatus.WAIT;
-            const fuelLevel1 = 0; // %
-            const fuelLevel2 = 0; // %
+            let motorRPM = 0; // RPM
+            let refrigerationTemperature = 0.0; // C
+            let batteryVoltage = 0.0; // factor 0.1 V
+            let throttlePedalPosition = 0; // %
+            let glowStatus = 0; //GlowStatus.OFF
+            let dieselStatus = 0; // DieselStatus.WAIT;
+            let fuelLevel1 = 0; // %
+            let fuelLevel2 = 0; // %
 
             const response = {
                 motorRPM,
@@ -216,6 +216,89 @@ module.exports = function (env) {
                 dieselStatus,
                 fuelLevel1,
                 fuelLevel2
+            };
+
+            return response;
+        }
+
+        async getLastBoatGeneralInfo(user_id, boat_id) {
+            let isHybrid = false; // false = FullElectric , true = Hybrid
+            let isDualMotor = false; // false = SingleMotor, true = DualMotor
+            let versionProtocol = 0.0; // factor 0.1
+            let versionFWControlUnit = 0.0; // factor 0.01
+            let versionFWDrive = 0.0; // factor 0.01
+            let dieselMotorModel = 0; // DieselMotorModel.None; // Tabella 1
+            let electricMotorModel = 0; //ElectricMotorModel.None; // Tabella 2
+
+            const response = {
+                isHybrid,
+                isDualMotor,
+                versionProtocol,
+                versionFWControlUnit,
+                versionFWDrive,
+                dieselMotorModel,
+                electricMotorModel
+            };
+
+            return response;
+        }
+
+        async getLastBoatNMEA2000VTGInfo(user_id, boat_id) {
+            let satellitesCount = 0;
+            let isFixed = false;
+            let SOG = 0; // usualy in km/hr from NMEA2000
+            let lat = 0;
+            let lng = 0;
+
+            const response = {
+                satellitesCount,
+                isFixed,
+                SOG,
+                lat,
+                lng
+            };
+
+            return response;
+        }
+
+        async getLastBoatVehicleInfo(user_id, boat_id) {
+            let vehicleStatus = 0; //VehicleStatus.WAIT;
+            let isHybrid = false;
+            let isElectric = false;
+            let isDiesel = false;
+            let isSeaWaterPressureOK = false;
+            let isGlicolePressureOK = false;
+            let isLowSocLevel = false;
+            let sealINTemperature = 0.0; // C
+            let sealOUTTemperature = 0.0; // C
+            let glicoleINTemperature = 0.0; // C
+            let glicoleOUTTemperature = 0.0; // C
+            let isECUOn = false;
+            let isDCUOn = false;
+            let voltageToECU = 0.0; // factor 0.1 V
+
+            let timecounter = 0; //min
+            let timecounterElectricMotor = 0; //min
+            let timecounterDieselMotor = 0; //min 
+
+            const response = {
+                vehicleStatus,
+                isHybrid,
+                isElectric,
+                isDiesel,
+                isSeaWaterPressureOK,
+                isGlicolePressureOK,
+                isLowSocLevel,
+                sealINTemperature,
+                sealOUTTemperature,
+                glicoleINTemperature,
+                glicoleOUTTemperature,
+                isECUOn,
+                isDCUOn,
+                voltageToECU,
+                timecounter,
+                timecounterElectricMotor,
+                timecounterDieselMotor
             };
 
             return response;
