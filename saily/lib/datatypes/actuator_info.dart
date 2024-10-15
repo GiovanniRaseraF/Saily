@@ -39,4 +39,16 @@ class ActuatorInfo {
       return null;
     }
   }
+
+  @override
+  String toString(){
+    String ret = """{
+      "pedal": $pedal,
+      "requestedGear": $requestedGear,
+      "validatedGear": $validatedGear,
+      "pedalTrim": $pedalTrim
+      }
+    """;
+    return jsonEncode(jsonDecode(ret));
+  }
 }

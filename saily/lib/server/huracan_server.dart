@@ -26,7 +26,12 @@ class HuracanServer extends Server {
   final DEFAULT_PORT = 443;
 
   Future<void> fetchProcess(Timer t) async {
-    print("Running fetch..");
+    print("-");
+    print("--");
+    print("---");
+    print("-----");
+    print("------");
+    print("\n\n\nRunning fetch..");
 
     // init with ping
     final resPing = (await ping());
@@ -44,14 +49,6 @@ class HuracanServer extends Server {
 
     print(valFetchActi);
 
-    // final resFetchBoats = (await fetchBoats());
-    // final valFetchBoats = resFetchBoats.getOrHandle((err) {
-    //   print("FetchError: " + err.why);
-    //   return [];
-    // });
-
-    // print(valFetchBoats);
-
     final resFetchEmi = (await fetchElectricmotorInfo());
     final valFetchEmi = resFetchEmi.getOrHandle((err) {
       print("FetchError: " + err.why);
@@ -60,53 +57,38 @@ class HuracanServer extends Server {
 
     print(valFetchEmi);
 
-    // final resFetchEndoi = (await fetchEndotermicmotorInfo());
-    // final valFetchEndoi = resFetchEndoi.getOrHandle((err) {
-    //   print("FetchError: " + err.why);
-    //   return EndotermicmotorInfo();
-    // });
+    final resFetchEndoi = (await fetchEndotermicmotorInfo());
+    final valFetchEndoi = resFetchEndoi.getOrHandle((err) {
+      print("FetchError: " + err.why);
+      return EndotermicmotorInfo();
+    });
 
-    // print(valFetchEndoi);
+    print(valFetchEndoi);
 
-    // final resFetchGi = (await fetchGeneralInfo());
-    // final valFetchGi = resFetchGi.getOrHandle((err) {
-    //   print("FetchError: " + err.why);
-    //   return GeneralInfo(
-    //       isHybrid: false,
-    //       isDualMotor: false,
-    //       versionProtocol: 0,
-    //       versionFWControlUnit: 0,
-    //       versionFWDrive: 0,
-    //       dieselMotorModel: DieselMotorModel.None,
-    //       electricMotorModel: ElectricMotorModel.None);
-    // });
+    final resFetchGi = (await fetchGeneralInfo());
+    final valFetchGi = resFetchGi.getOrHandle((err) {
+      print("FetchError: " + err.why);
+      return GeneralInfo.zero();
+    });
 
-    // print(valFetchGi);
+    print(valFetchGi);
 
-    // final resFetchHpbi = (await fetchHighpowerbatteryInfo());
-    // final valFetchHpbi = resFetchHpbi.getOrHandle((err) {
-    //   print("FetchError: " + err.why);
-    //   return HighpowerbatteryInfo(
-    //       totalVoltage: 0,
-    //       totalCurrent: 0,
-    //       batteryTemperature: 0,
-    //       bmsTemperature: 0,
-    //       SOC: 0,
-    //       power: 0,
-    //       tte: 0,
-    //       auxBatteryVoltage: 0);
-    // });
+    final resFetchHpbi = (await fetchHighpowerbatteryInfo());
+    final valFetchHpbi = resFetchHpbi.getOrHandle((err) {
+      print("FetchError: " + err.why);
+      return HighpowerbatteryInfo.zero();
+    });
 
-    // print(valFetchHpbi);
+    print(valFetchHpbi);
 
-    // final resFetchVtgi = (await fetchVTGInfo());
-    // final valFetchVtgi = resFetchVtgi.getOrHandle((err) {
-    //   print("FetchError: " + err.why);
-    //   return VTGInfo(
-    //       isFixed: false, satellitesCount: 0, SOG: 0, lat: 0, lng: 0);
-    // });
+    final resFetchVtgi = (await fetchVTGInfo());
+    final valFetchVtgi = resFetchVtgi.getOrHandle((err) {
+      print("FetchError: " + err.why);
+      return VTGInfo(
+          isFixed: false, satellitesCount: 0, SOG: 0, lat: 0, lng: 0);
+    });
 
-    // print(valFetchVtgi);
+    print(valFetchVtgi);
   }
 
   Future<Either<InitError, String>> ping() async {

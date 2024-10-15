@@ -26,6 +26,17 @@ class GeneralInfo {
       required this.dieselMotorModel,
       required this.electricMotorModel});
 
+  static GeneralInfo zero() {
+    return GeneralInfo(
+        isHybrid: false,
+        isDualMotor: false,
+        versionProtocol: 0,
+        versionFWControlUnit: 0,
+        versionFWDrive: 0,
+        dieselMotorModel: DieselMotorModel.None,
+        electricMotorModel: ElectricMotorModel.None);
+  }
+
   bool isHybrid = false; // false = FullElectric , true = Hybrid
   bool isDualMotor = false; // false = SingleMotor, true = DualMotor
   double versionProtocol = 0.0; // factor 0.1
@@ -38,21 +49,21 @@ class GeneralInfo {
     try {
       bool isHybrid = json["isHybrid"];
       bool isDualMotor = json["isDualMotor"];
-      double versionProtocol = json["versionProtocol"];
-      double versionFWControlUnit = json["versionFWControlUnit"];
-      double versionFWDrive = json["versionFWDrive"];
+      double versionProtocol = (json["versionProtocol"] as num).toDouble();
+      double versionFWControlUnit = (json["versionFWControlUnit"] as num).toDouble();
+      double versionFWDrive = (json["versionFWDrive"] as num).toDouble();
+      // TODO: implement model parser from json string
       DieselMotorModel dieselMotorModel = DieselMotorModel.None; // Tabella 1
       ElectricMotorModel electricMotorModel =
           ElectricMotorModel.None; // Tabella 2
       GeneralInfo ret = GeneralInfo(
-        isHybrid: isHybrid,
-        isDualMotor: isDualMotor,
-        versionProtocol: versionProtocol,
-        versionFWControlUnit: versionFWControlUnit,
-        versionFWDrive: versionFWDrive,
-        dieselMotorModel: dieselMotorModel,
-        electricMotorModel: electricMotorModel
-      );
+          isHybrid: isHybrid,
+          isDualMotor: isDualMotor,
+          versionProtocol: versionProtocol,
+          versionFWControlUnit: versionFWControlUnit,
+          versionFWDrive: versionFWDrive,
+          dieselMotorModel: dieselMotorModel,
+          electricMotorModel: electricMotorModel);
       return ret;
     } on Exception {
       return null;
@@ -66,5 +77,20 @@ class GeneralInfo {
     } on Exception {
       return null;
     }
+  }
+
+  @override
+  String toString() {
+    String ret = """{
+          "isHybrid": $isHybrid,
+          "isDualMotor": $isDualMotor,
+          "versionProtocol": $versionProtocol,
+          "versionFWControlUnit": $versionFWControlUnit,
+          "versionFWDrive": $versionFWDrive,
+          "dieselMotorModel": 0,
+          "electricMotorModel":0 
+    }
+    """;
+    return jsonEncode(jsonDecode(ret));
   }
 }

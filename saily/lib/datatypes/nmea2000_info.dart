@@ -14,11 +14,11 @@ class VTGInfo {
 
   static VTGInfo? fromJSONDynamic(dynamic json) {
     try {
-      int satellitesCount = json["satellitesCount"];
+      int satellitesCount = (json["satellitesCount"] as num).toInt();
       bool isFixed = json["isFixed"];
-      double SOG = json["SOG"]; // usualy in km/hr from NMEA2000
-      double lat = json["lat"];
-      double lng = json["lng"];
+      double SOG = (json["SOG"] as num).toDouble(); // usualy in km/hr from NMEA2000
+      double lat = (json["lat"] as num).toDouble();
+      double lng = (json["lng"] as num).toDouble();
 
       VTGInfo ret = VTGInfo(isFixed: isFixed, satellitesCount: satellitesCount, SOG: SOG, lat: lat, lng: lng);
       return ret;
@@ -38,12 +38,13 @@ class VTGInfo {
 
   @override
   String toString() {
-    return """{
-      'satellitesCount' : $satellitesCount,
-      'isFixed' : $isFixed,
-      'SOG' : $SOG,
-      'lat' : $lat,
-      'lng' : $lng,
+    String ret = """{
+      "satellitesCount" : $satellitesCount,
+      "isFixed" : $isFixed,
+      "SOG" : $SOG,
+      "lat" : $lat,
+      "lng" : $lng
     }""";
+    return jsonEncode(jsonDecode(ret));
   }
 }

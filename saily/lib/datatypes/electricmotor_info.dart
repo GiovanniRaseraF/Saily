@@ -38,4 +38,17 @@ class ElectricmotorInfo {
       return null;
     }
   }
+
+  @override
+  String toString(){
+    String ret = """{
+      "busVoltage" : $busVoltage,
+      "motorCurrent" : $motorCurrent,
+      "inverterTemperature" : $inverterTemperature,
+      "motorTemperature" : $motorTemperature,
+      "motorRPM" : $motorRPM
+    }
+    """;
+    return jsonEncode(jsonDecode(ret));
+  }
 }
