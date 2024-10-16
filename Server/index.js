@@ -45,6 +45,7 @@ app._router.stack.forEach(r => {
 });
 
 // Start Listening
-
-// HTTPS
-https.createServer(app).listen(port, () => {});
+// HTTP or HTTPS
+https.createServer(app).listen(port, () => {
+  console.log("Server in port: " + port);
+});
