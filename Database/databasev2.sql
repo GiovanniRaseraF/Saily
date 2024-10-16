@@ -31,6 +31,20 @@ CREATE TABLE IF NOT EXISTS `huracanp_login_databasev2`.`user_account` (
   UNIQUE INDEX `user_email_UNIQUE` (`user_email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+--
+-- Dumping data for table `user_account`
+--
+
+INSERT INTO `user_account` (`user_email`, `password_hash`) VALUES
+('zero', '$2a$10$1mwuFEn94P3NlfmtSQL/cec00cm6Tn7hJLItSoH6/gT3FzxDV.qiG'),
+('g.rasera@huracanmarine.com', '$2a$10$ii4b6pmQXygk35vcpkF9Qe5BzSKQd5lcd8dLXt.zsKoQX2FUOZsF6'),
+('g.sossai@huracanmarine.com', '$2a$10$ii4b6pmQXygk35vcpkF9Qe5BzSKQd5lcd8dLXt.zsKoQX2FUOZsF6'),
+('l.scomazzon@huracanmarine.com', '$2a$10$ii4b6pmQXygk35vcpkF9Qe5BzSKQd5lcd8dLXt.zsKoQX2FUOZsF6'),
+('b.ghizzo@huracanmarine.com', '$2a$10$ii4b6pmQXygk35vcpkF9Qe5BzSKQd5lcd8dLXt.zsKoQX2FUOZsF6'),
+('f.moro@huracanmarine.com', '$2a$10$ii4b6pmQXygk35vcpkF9Qe5BzSKQd5lcd8dLXt.zsKoQX2FUOZsF6');
+COMMIT;
+
+
 
 -- -----------------------------------------------------
 -- Table `huracanp_login_databasev2`.`boats`
@@ -51,6 +65,21 @@ CREATE TABLE IF NOT EXISTS `huracanp_login_databasev2`.`boats` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+--
+-- Dumping data for table `boats`
+--
+
+INSERT INTO `boats` (`boat_id`, `mqtt_user`, `mqtt_password`) VALUES
+('qwertyuiop', 'test', 'test'),
+('0x0001', 'test', 'test'),
+('0x0002', 'test', 'test'),
+('0x0003', 'test', 'test'),
+('0x0004', 'test', 'test'),
+('0x0005', 'test', 'test'),
+('0x0006', 'test', 'test'),
+('0x0007', 'test', 'test'),
+('0x0008', 'test', 'test');
 
 
 -- -----------------------------------------------------
