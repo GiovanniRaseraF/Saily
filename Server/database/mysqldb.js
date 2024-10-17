@@ -12,7 +12,8 @@ module.exports = function (env) {
     // this class contains the environment
     return class mysqlDatabase {
         connect() {
-            console.log(`MySql whats to connect to:\n\t${env.DATABASE_HOST}\n\t${env.DATABASE_USER}`)
+            console.log(`MySql whats to connect to:\n\t${env.DATABASE_HOST}\n\t${env.DATABASE_USER}@${env.DATABASE_NAME}`)
+            console.log(`Bash Script:\n\tmysql -u ${env.DATABASE_NAME} -p ${env.DATABASE_NAME}`)
 
             // making the actual connection
             this.pool = mysql.createConnection({
