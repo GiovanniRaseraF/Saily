@@ -30,13 +30,20 @@ for file in sorted(l_files_names):
     proc = subprocess.Popen(["node", f"./{tests_folder_name}/{file}"], stdout=subprocess.PIPE, shell=False)
     (out, err) = proc.communicate()
     result = False
-
+    output = str(out)
+    output = output.replace("\\n","\n")
+    output = output.replace("\n\n","")
+    output = output.replace("\n\n","")
+    output = output.replace("\n\n","")
+    output = output.replace("\n\n","")
+    output = output.replace("\n\n","")
+    output = output.strip()
     if(" FAIL" in str(out) or "OK :)" not in str(out)):
         result = False
-        print(f"./{tests_folder_name}/{file}: FAILED { str(out) if print_test_output else ''} \n")
+        print(f"./{tests_folder_name}/{file}: FAILED { output if print_test_output else ''} \n")
     else:
         result = True
-        print(f"./{tests_folder_name}/{file}: PASSED { str(out) if print_test_output else ''} \n")
+        print(f"./{tests_folder_name}/{file}: PASSED { output if print_test_output else ''} \n")
 
     # check passed
     if(result):

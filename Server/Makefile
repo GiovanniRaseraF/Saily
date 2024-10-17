@@ -10,5 +10,8 @@ test_out:
 test_login:
 	./runtest.py tests/logintests 1
 
+test_local_database:
+	./runtest.py tests/databasetests 1
+
 stress:
 	./runstress.py tests/apitests 
