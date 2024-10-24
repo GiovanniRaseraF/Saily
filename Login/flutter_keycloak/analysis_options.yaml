@@ -1,5 +1,0 @@
-include: package:flutter_lints/flutter.yaml
-
-linter:
-  rules:
-    avoid_catches_without_on_clauses: false
