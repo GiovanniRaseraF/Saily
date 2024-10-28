@@ -1,0 +1,27 @@
+services:
+  database_postgress:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: pdb
+    networks:
+      default: null
+
+  keycloack:
+    depends_on: 
+      - database_postgress
+    image : quay.io/keycloak/keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      default: null
+    ports:
+      - 8080:8080
+    command:
+      - start-dev
+networks:
+  default:
+    name: keycloak-network
