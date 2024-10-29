@@ -221,6 +221,13 @@ CREATE TABLE IF NOT EXISTS `huracanp_login_databasev2`.`vehicle_info` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- Data
+INSERT INTO `huracanp_login_databasev2`.`nmea2000_vtg_info`
+  (`json_value`, `timestamp`, `boats_boat_id`,`id`)
+VALUES
+  ('{"satellitesCount":0,"isFixed":false,"SOG":0.0,"lat":45.432453,"lng":12.328085}', now(), "0x0001", null),
+  ('{"satellitesCount":0,"isFixed":false,"SOG":0.0,"lat":45.441003,"lng":12.309873}', now(), "0x0002", null),
+  ('{"satellitesCount":0,"isFixed":false,"SOG":0.0,"lat":45.458972,"lng":12.380915}', now(), "0x0003", null);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
