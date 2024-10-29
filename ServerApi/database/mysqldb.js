@@ -248,8 +248,8 @@ module.exports = function (env) {
             let satellitesCount = 0;
             let isFixed = false;
             let SOG = 0; // usualy in km/hr from NMEA2000
-            let lat = 0;
-            let lng = 0;
+            let lat = 45.432453; // fake position near Venice
+            let lng = 12.328085;
 
             const response = {
                 satellitesCount,
