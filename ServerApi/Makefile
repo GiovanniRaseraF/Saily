@@ -7,6 +7,9 @@ test:
 test_out:
 	./runtest.py tests/apitests 1
 
+test_boats:
+	./runtest.py tests/boatapitests 1
+
 test_login:
 	./runtest.py tests/logintests 1
 

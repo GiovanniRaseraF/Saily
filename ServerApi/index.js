@@ -34,6 +34,9 @@ require("./api/fetch_gi")(app, database)
 require("./api/fetch_vi")(app, database)
 require("./api/fetch_nmea2000")(app, database)
 
+// list of functions for boats
+require("./boatapi/send_nmea2000")(app, database)
+
 // default route
 require("./api/default")(app)
 
