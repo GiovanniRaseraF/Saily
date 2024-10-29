@@ -229,6 +229,8 @@ VALUES
   ('{"satellitesCount":0,"isFixed":false,"SOG":0.0,"lat":45.441003,"lng":12.309873}', now(), "0x0002", null),
   ('{"satellitesCount":0,"isFixed":false,"SOG":0.0,"lat":45.458972,"lng":12.380915}', now(), "0x0003", null);
 
+-- Functions
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
