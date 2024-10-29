@@ -13,6 +13,7 @@ import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/server/server.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:http/http.dart';
+import 'package:latlong2/latlong.dart';
 
 class HuracanServer extends Server {
   HuracanServer({required this.settingsController}) {
@@ -37,6 +38,9 @@ class HuracanServer extends Server {
   BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0");
 
   Future<Either<InitError, String>> ping() async {
+    // USERNAME = settingsController.getUsername(); 
+    // PASSWORD = settingsController.getPassword();
+
     String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -92,8 +96,7 @@ class HuracanServer extends Server {
 
         ActuatorInfo? res = ActuatorInfo.fromJSONDynamic(jsonValues);
         if (res == null) {
-          return Either.left(
-              FetchError(why: "Cannot parse response: $stringResult"));
+          return Either.left(FetchError(why: "Cannot parse response: $stringResult"));
         }
         return Either.right(res!);
       }
@@ -344,7 +347,6 @@ class HuracanServer extends Server {
       debugPrint("FetchError: ${err.why}");
       return ElectricmotorInfo();
     });
-
     debugPrint(valFetchEmi.toString());
 
     final resFetchEndoi = (await fetchEndotermicmotorInfo());
@@ -378,6 +380,8 @@ class HuracanServer extends Server {
           isFixed: false, satellitesCount: 0, SOG: 0, lat: 0, lng: 0);
     });
 
+    LatLng send = LatLng(valFetchVtgi.lat, valFetchVtgi.lng);
+    settingsController.currentBoatPositionStream.sink.add(send);
     debugPrint(valFetchVtgi.toString());
   }
 

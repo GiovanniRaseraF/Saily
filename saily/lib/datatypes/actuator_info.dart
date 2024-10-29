@@ -2,7 +2,9 @@
 // Author: Giovanni Rasera
 
 import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
+//@JsonSerializable()
 class ActuatorInfo {
   ActuatorInfo(
       {this.pedal = 0,
@@ -16,18 +18,29 @@ class ActuatorInfo {
 
   static ActuatorInfo? fromJSONDynamic(dynamic json) {
     try {
-      int pedal = json["pedal"];
-      int requestedGear = json["requestedGear"];
-      int validatedGear = json["validatedGear"];
-      int pedalTrim = json["pedalTrim"];
+      int pedal = getInt(json, "pedal");
+      int requestedGear = getInt(json, "requestedGear");
+      int validatedGear = getInt(json, "validatedGear");
+      int pedalTrim = getInt(json, "pedalTrim");
 
       return ActuatorInfo(
-          pedal: pedal,
-          requestedGear: requestedGear,
-          validatedGear: validatedGear,
-          pedalTrim: pedalTrim);
-    } on Exception {
-      return null;
+        pedal: pedal,
+        requestedGear: requestedGear,
+        validatedGear: validatedGear,
+        pedalTrim: pedalTrim
+      );
+    } on Exception catch (err){
+      print("${err} Maybe you have to parse json as Saily Authentication Error ${jsonEncode(json)}");
+    }
+    return null;
+  }
+
+  static int getInt(dynamic json, String elem){
+    try{
+      if(json[elem] == null) throw 0;
+      return (json[elem] as int);
+    }on int catch(_){
+      throw Exception();//"Parse Error";
     }
   }
 
@@ -35,7 +48,7 @@ class ActuatorInfo {
     try {
       final parsed = jsonDecode(json);
       return ActuatorInfo.fromJSONDynamic(parsed);
-    } on Exception {
+    } on Exception catch(err){
       return null;
     }
   }

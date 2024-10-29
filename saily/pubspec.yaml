@@ -26,6 +26,7 @@ dependencies:
   animated_battery_gauge: ^0.2.0
   dart_either: ^2.0.0
   http: ^1.2.2
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
