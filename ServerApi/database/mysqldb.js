@@ -304,5 +304,43 @@ module.exports = function (env) {
 
             return response;
         }
+
+
+        // Send boat info
+        async send_info(boat_id, mqtt_user, mqtt_password, actual_message, database_table_name) {
+            var sql = "";//`SELECT * FROM ${database_table_name} WHERE user_email = '${username}';`;
+
+            this.sendInfo = function (pool) {
+                return new Promise(function (resolve, reject) {
+                    pool.query(
+                        sql,
+                        function (err, rows) {
+                            if (rows === undefined) {
+                                resolve([]);
+                            } else {
+                                resolve(rows);
+                            }
+                        }
+                    )
+                }
+                )
+            }
+
+            let ret = await this.sendInfo(this.pool);
+            return (ret);
+        }
+
+        async sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            console.log("FromDatabase:");
+            console.log(mqtt_user);
+            console.log(mqtt_password);
+            console.log(boat_id);
+            console.log(actual_message);
+
+            // TODO: Check for boat info credential then send to database the new data
+
+            const response = {};
+            return response;
+        }
     }
 }
