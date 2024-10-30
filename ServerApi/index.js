@@ -21,24 +21,24 @@ database = new db();
 database.connect();
 
 // list of fuctions
-require("./api/ping")(app)
+require("./api/ping")                 (app)
 
-require("./api/login")(app, database)
-require("./api/boats")(app, database)
+require("./api/login")                (app, new db())
+require("./api/boats")                (app, new db())
 
-require("./api/fetch_emi")(app, database)
-require("./api/fetch_acti")(app, database)
-require("./api/fetch_endoi")(app, database)
-require("./api/fetch_hpbi")(app, database)
-require("./api/fetch_gi")(app, database)
-require("./api/fetch_vi")(app, database)
-require("./api/fetch_nmea2000")(app, database)
+require("./api/fetch_emi")            (app, new db())
+require("./api/fetch_acti")           (app, new db())
+require("./api/fetch_endoi")          (app, new db())
+require("./api/fetch_hpbi")           (app, new db())
+require("./api/fetch_gi")             (app, new db())
+require("./api/fetch_vi")             (app, new db())
+require("./api/fetch_nmea2000")       (app, new db())
 
 // list of functions for boats
-require("./boatapi/send_nmea2000")(app, database)
+require("./boatapi/send_nmea2000")    (app, new db())
 
 // default route
-require("./api/default")(app)
+require("./api/default")              (app)
 
 // Available apis
 console.log("Saily Apis:")

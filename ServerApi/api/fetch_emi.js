@@ -41,6 +41,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch_electric_motor_info
     app.post('/fetch_emi', async function (req, res) {
         const response = await createResponse(database, req);

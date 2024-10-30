@@ -40,6 +40,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch_actuator_info
     app.post('/fetch_acti', async function (req, res) {
         const response = await createResponse(database, req);

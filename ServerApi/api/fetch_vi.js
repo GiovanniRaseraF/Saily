@@ -36,6 +36,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch_vehicle_info
     app.post('/fetch_vi', async function (req, res) {
         const response = await createResponse(database, req);

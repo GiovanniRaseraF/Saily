@@ -35,6 +35,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch_generic_info
     app.post('/fetch_gi', async function (req, res) {
         const response = await createResponse(database, req);

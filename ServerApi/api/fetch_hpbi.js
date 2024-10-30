@@ -36,6 +36,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch_highpower_battery_info
     app.post('/fetch_hpbi', async function (req, res) {
         const response = await createResponse(database, req);

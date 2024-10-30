@@ -35,6 +35,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch_endotermic_motor_info
     app.post('/fetch_endoi', async function (req, res) {
         const response = await createResponse(database, req);

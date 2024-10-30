@@ -41,6 +41,7 @@ async function createResponse(database, req) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
     // fetch my boats
     app.post('/boats', async function (req, res) {
         const response = await createResponse(database, req);

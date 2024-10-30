@@ -36,6 +36,8 @@ function createResponseABCI(database) {
 }
 
 module.exports = function (app, database) {
+    database.connect();
+    
     app.post('/send_nmea2000/vtgi', async function (req, res) {
         const response = await createResponseVTGI(database, req);
         const jsonResponse = JSON.stringify(response);
