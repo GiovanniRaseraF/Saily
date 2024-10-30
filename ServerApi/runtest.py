@@ -38,7 +38,7 @@ for file in sorted(l_files_names):
     output = output.replace("\n\n","")
     output = output.replace("\n\n","")
     output = output.strip()
-    if(" FAIL" in str(out) or "OK :)" not in str(out)):
+    if(" FAIL" in str(out) or "FAILED" in str(out) or "OK :)" not in str(out)):
         result = False
         print(f"./{tests_folder_name}/{file}: FAILED { output if print_test_output else ''} \n")
     else:
