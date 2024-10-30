@@ -1,5 +1,7 @@
 // Author: Giovanni Rasera and Lorenzo Mancini
 
+// TODO: protect from sql injectio
+
 const mysql = require("mysql");
 const fs = require("fs");
 const result = require('lodash');
@@ -28,7 +30,8 @@ module.exports = function (env) {
         async hashPassword(password) {
             return await bcrypt.hash(password, saltRounds);
         }
-
+        
+        // calls the database and return [] or the actual user
         async get_account(username, password) {
             var sql = `SELECT * FROM user_account WHERE user_email = '${username}';`;
             //console.log(sql);
@@ -53,33 +56,6 @@ module.exports = function (env) {
             //console.log(ret);
             return (ret);
         }
-
-        async get_boats(user_id) {
-
-            var sql = `SELECT * FROM boats WHERE user_id = '${user_id}';`;
-
-            this.getBoats = function (pool) {
-                return new Promise(function (resolve, reject) {
-                    pool.query(
-                        sql,
-                        function (err, rows) {
-                            if (rows === undefined) {
-                                resolve([]);
-                            } else {
-                                resolve(rows);
-                            }
-                        }
-                    )
-                }
-                )
-            }
-
-            let ret = await this.getBoats(this.pool);
-
-            //console.log(ret);
-            return (ret);
-        }
-
 
         // this function return an object
         // { user_id: , user_email: , password_hash: }
@@ -119,6 +95,81 @@ module.exports = function (env) {
             }
 
             return true;
+        }
+
+        // get boat by id and mqtt_user and mqtt_password
+        async get_boat(boat_id, mqtt_user, mqtt_password) {
+            var sql = `SELECT * FROM boats WHERE boat_id = '${boat_id}' AND mqtt_user = '${mqtt_user}' AND mqtt_password = '${mqtt_password}';`;
+            console.log(sql);
+
+            this.getBoat = function (pool) {
+                return new Promise(function (resolve, reject) {
+                    pool.query(
+                        sql,
+                        function (err, rows) {
+                            if (rows === undefined) {
+                                resolve([]);
+                            } else {
+                                resolve(rows);
+                            }
+                        }
+                    )
+                }
+                )
+            }
+
+            let ret = await this.getBoat(this.pool);
+            //console.log(ret);
+            return (ret);
+        }
+
+        async getBoatByIdAndMqttUserPass(boat_id, mqtt_user, mqtt_password) {
+            let userResult;
+            try {
+                userResult = await this.get_boat(boat_id, mqtt_user, mqtt_password);
+            } catch (err) {
+                console.error(err);
+                return undefined;
+            }
+
+            return userResult[0];
+        }
+
+        // is boat credential good ? 
+        async isBoatCredentialGood(boat_id, mqtt_user, mqtt_password) {
+            const row = await this.getBoatByIdAndMqttUserPass(boat_id, mqtt_user, mqtt_password);
+
+            if (row === undefined) {
+                return false;
+            }
+
+            return true;
+        }
+        
+        // get the boats of a specefic user
+        async get_boats(user_id) {
+            var sql = `SELECT * FROM boats WHERE user_id = '${user_id}';`;
+
+            this.getBoats = function (pool) {
+                return new Promise(function (resolve, reject) {
+                    pool.query(
+                        sql,
+                        function (err, rows) {
+                            if (rows === undefined) {
+                                resolve([]);
+                            } else {
+                                resolve(rows);
+                            }
+                        }
+                    )
+                }
+                )
+            }
+
+            let ret = await this.getBoats(this.pool);
+
+            //console.log(ret);
+            return (ret);
         }
 
         // get boats from id
