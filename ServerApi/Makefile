@@ -16,9 +16,14 @@ test_boats:
 test_login:
 	./runtest.py tests/logintests 1
 
-
 test_local_database:
 	./runtest.py tests/databasetests 1
 
-stress:
+stress_api:
 	./runstress.py tests/apitests 
+
+stress_boats:
+	./runstress.py tests/boatapitests
+
+stress_login:
+	./runstress.py tests/logintests
