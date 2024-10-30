@@ -37,9 +37,24 @@ async function test2(){
     }
 }
 
+async function test3(){
+    // test with not in db
+    console.log("User sql injection, Should return undefined")
+    username = `'OR ''='`;
+    password = "'OR ''='";
+    let userbyid = await database.getUserByNameAndPassword(username, password);
+    let ok = userbyid == undefined;
+    if(ok){
+        console.log("OK :)" + userbyid);
+    }else{
+        console.log("FAILED :" + userbyid);
+    }
+}
+
 async function main(){
     await test1();
     await test2();
+    await test3();
     process.exit(0);
 }
 

@@ -50,6 +50,18 @@ async function test3(){
     }else{
         console.log("FAILED :" + userbyid);
     }
+
+    boat_id = "0x0001";
+    //mqtt_user = ` '(SELECT mqtt_user FROM boats WHERE boat_id = '${boat_id}')'`; 
+    mqtt_user = `' OR 1 = 1; UPDATE boats SET mqtt_password = '' WHERE boat_id='0x0001'; SELECT * FROM boats WHERE boat_id = '0x0001'; -- `; //TODO: this is sql injection !!!
+    mqtt_password = "test";
+    userbyid = await database.getBoatByIdAndMqttUserPass(boat_id, mqtt_user, mqtt_password);
+    ok = userbyid == undefined;
+    if(ok){
+        console.log("OK :)" + userbyid);
+    }else{
+        console.log("FAILED :" + userbyid);
+    }
 }
 
 async function main(){

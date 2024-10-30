@@ -22,7 +22,8 @@ module.exports = function (env) {
                 user: env.DATABASE_USER,
                 host: env.DATABASE_HOST,
                 database: env.DATABASE_NAME,
-                password: env.DATABASE_PASSWORD
+                password: env.DATABASE_PASSWORD,
+                multipleStatements: false
             });
         }
 
