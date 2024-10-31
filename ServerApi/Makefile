@@ -8,16 +8,16 @@ test_all:
 	make test_local_database
 
 test_out:
-	./runtest.py tests/apitests 1
+	./runtest.py tests/apitests 0
 
 test_boats:
-	./runtest.py tests/boatapitests 1
+	./runtest.py tests/boatapitests 0
 
 test_login:
-	./runtest.py tests/logintests 1
+	./runtest.py tests/logintests 0
 
 test_local_database:
-	./runtest.py tests/databasetests 1
+	./runtest.py tests/databasetests 0
 
 stress_api:
 	./runstress.py tests/apitests 

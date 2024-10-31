@@ -101,7 +101,6 @@ module.exports = function (env) {
         // get boat by id and mqtt_user and mqtt_password
         async get_boat(boat_id, mqtt_user, mqtt_password) {
             var sql = `SELECT * FROM boats WHERE boat_id = '${boat_id}' AND mqtt_user = '${mqtt_user}' AND mqtt_password = '${mqtt_password}';`;
-            console.log(sql);
 
             this.getBoat = function (pool) {
                 return new Promise(function (resolve, reject) {
@@ -120,7 +119,6 @@ module.exports = function (env) {
             }
 
             let ret = await this.getBoat(this.pool);
-            //console.log(ret);
             return (ret);
         }
 
@@ -361,7 +359,7 @@ module.exports = function (env) {
         // Send boat info
         async insert_boat_info(database_table_name, boat_id, mqtt_user, mqtt_password, json_value) {
             let goodCredentials = await this.isBoatCredentialGood(boat_id, mqtt_user, mqtt_password);
-            if (!goodCredentials) return false;
+            if (!goodCredentials) { return false; }
 
             let sql = `INSERT INTO '${database_table_name}' ('json_value','timestamp','boats_boat_id')
             VALUES
@@ -386,12 +384,14 @@ module.exports = function (env) {
             }
 
             let ret = await this.insertBoatInfo(this.pool);
-            return (ret);
+            console.log(ret);
+            return true;
         }
 
+        // sends the nemea data to the database and to redis database
+        // TODO: implement redis database store
         async sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
-            await this.insert_boat_info("nmea2000_vtg_info", boat_id, mqtt_user, mqtt_password, actual_message);
-            
+            return await this.insert_boat_info("nmea2000_vtg_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }
     }
 }

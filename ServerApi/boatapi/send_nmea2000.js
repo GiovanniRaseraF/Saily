@@ -12,20 +12,17 @@ INPUT: {
 }
 */
 
+const { error_boat_authentication } = require("../api/errors");
+
 async function createResponseVTGI(database, req) {
     const { mqtt_user, mqtt_password, boat_id, actual_message} = req.body;
 
-    // just print message
-    // console.log(mqtt_user);
-    // console.log(mqtt_password);
-    // console.log(boat_id);
-    // console.log(actual_message);
-
-    await database.sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, actual_message);
-
-    const response = {};
-
-    return response;
+    const good = await database.sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, actual_message);
+    if(good){
+        return {};
+    }else{
+        return error_boat_authentication;
+    }
 }
 
 function createResponseABCI(database) {
