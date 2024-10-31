@@ -9,11 +9,18 @@ const error_boat_id = {
 };
 
 const error_api_call_invalid = {
-    error: "Api call invalid"
-}
+    error: "Api call invalid",
+    code: 2
+};
+
+const error_boat_authentication = {
+    error: "Boat Authentication Error",
+    code: 3
+};
 
 module.exports = {
     error_authentication,
     error_boat_id,
-    error_api_call_invalid
+    error_api_call_invalid,
+    error_boat_authentication 
 }

@@ -359,10 +359,17 @@ module.exports = function (env) {
 
 
         // Send boat info
-        async send_info(boat_id, mqtt_user, mqtt_password, actual_message, database_table_name) {
-            var sql = "";//`SELECT * FROM ${database_table_name} WHERE user_email = '${username}';`;
+        async insert_boat_info(database_table_name, boat_id, mqtt_user, mqtt_password, json_value) {
+            let goodCredentials = await this.isBoatCredentialGood(boat_id, mqtt_user, mqtt_password);
+            if (!goodCredentials) return false;
 
-            this.sendInfo = function (pool) {
+            let sql = `INSERT INTO '${database_table_name}' ('json_value','timestamp','boats_boat_id')
+            VALUES
+            ('${json_value}',now(),'${boat_id}');`;
+
+            console.log(sql);
+
+            this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
                         sql,
@@ -378,21 +385,13 @@ module.exports = function (env) {
                 )
             }
 
-            let ret = await this.sendInfo(this.pool);
+            let ret = await this.insertBoatInfo(this.pool);
             return (ret);
         }
 
         async sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
-            console.log("FromDatabase:");
-            console.log(mqtt_user);
-            console.log(mqtt_password);
-            console.log(boat_id);
-            console.log(actual_message);
-
-            // TODO: Check for boat info credential then send to database the new data
-
-            const response = {};
-            return response;
+            await this.insert_boat_info("nmea2000_vtg_info", boat_id, mqtt_user, mqtt_password, actual_message);
+            
         }
     }
 }
