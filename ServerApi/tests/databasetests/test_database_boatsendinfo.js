@@ -79,9 +79,9 @@ async function test5(){
     mqtt_password = "test";
     const expected = `{"satellitesCount":1,"isFixed":false,"SOG":2.3,"lat":45.6789,"lng":1.2345678}`;
     let response = await database.sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, expected);
-    
+
     // TODO: implement the actual response by the server
-    let actual = await database.getLastBoatNMEA2000VTGInfo("g.rasera@huracanmarine.com", mqtt_user);
+    let actual = await database.getLastBoatNMEA2000VTGInfo("g.rasera@huracanmarine.com", boat_id);
     let actualStr = JSON.stringify(actual);
     let expectedlObj = JSON.parse(expected);
 

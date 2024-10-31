@@ -23,7 +23,7 @@ module.exports = function (env) {
                 host: env.DATABASE_HOST,
                 database: env.DATABASE_NAME,
                 password: env.DATABASE_PASSWORD,
-                multipleStatements: false
+                multipleStatements: true
             });
         }
 
@@ -185,6 +185,38 @@ module.exports = function (env) {
         }
 
         // Boat Info getters
+        
+        // get boat info
+        async get_last_boat_info(database_table_name, user_id, boat_id) {
+            let sql = `SELECT json_value FROM ${database_table_name}
+                            WHERE boats_boat_id = "${boat_id}" AND
+                                id = (SELECT max(id) FROM ${database_table_name}
+                                        WHERE boats_boat_id = "${boat_id}" 
+                                        GROUP BY boats_boat_id
+                                    );`;
+            
+            console.log(sql);
+
+            this.getLastBoatInfo = function (pool) {
+                return new Promise(function (resolve, reject) {
+                    pool.query(
+                        sql,
+                        function (err, rows) {
+                            if (rows === undefined) {
+                                resolve([]);
+                            } else {
+                                resolve(rows);
+                            }
+                        }
+                    )
+                }
+                )
+            }
+
+            let ret = await this.getLastBoatInfo(this.pool);
+            return ret;
+        }
+
         async getLastBoatHighPowerBatteryInfo(user_id, boat_id) {
             let totalVoltage = 0.0;
             let totalCurrent = 0.0;
@@ -298,18 +330,31 @@ module.exports = function (env) {
             let satellitesCount = 0;
             let isFixed = false;
             let SOG = 0; // usualy in km/hr from NMEA2000
-            let lat = 45.432453; // fake position near Venice
-            let lng = 12.328085;
+            let lat = 0; // fake position near Venice
+            let lng = 0;
 
-            const response = {
+            let response = {
                 satellitesCount,
                 isFixed,
                 SOG,
                 lat,
                 lng
             };
+            
+            // TODO: test this functionality
+            try{
+                const values = await this.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
+                if(values.length == 0) return undefined;
 
-            return response;
+                const latest = values[0];
+                console.log(latest);
+                response = JSON.parse(latest);
+            }catch(err){
+                console.log(err);
+                return undefined;
+            }
+
+            return lat 
         }
 
         async getLastBoatVehicleInfo(user_id, boat_id) {
@@ -361,11 +406,10 @@ module.exports = function (env) {
             let goodCredentials = await this.isBoatCredentialGood(boat_id, mqtt_user, mqtt_password);
             if (!goodCredentials) { return false; }
 
-            let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id)
-            VALUES
-            ('${json_value}', now(), '${boat_id}');`;
+            let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id) 
+                        VALUES
+                            ('${json_value}', now(), '${boat_id}');`;
 
-            //console.log(sql);
 
             this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
@@ -384,7 +428,6 @@ module.exports = function (env) {
             }
 
             let ret = await this.insertBoatInfo(this.pool);
-            //console.log(ret);
             return true;
         }
 
