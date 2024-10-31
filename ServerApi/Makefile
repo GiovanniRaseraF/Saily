@@ -27,3 +27,17 @@ stress_boats:
 
 stress_login:
 	./runstress.py tests/logintests
+
+build:
+	zip -r ~/Desktop/server.zip \
+	'api' \
+	'boatapi' \
+	'database' \
+	'tests' \
+	'envload.js' \
+	'index.js' \
+	'Makefile' \
+	'package.json' \
+	'readme.md' \
+	'runstress.py' \
+	'runtest.py'
