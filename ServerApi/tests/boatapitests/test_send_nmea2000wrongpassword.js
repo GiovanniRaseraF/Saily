@@ -1,10 +1,11 @@
 // Author: Giovanni Rasera
 // arrange
-const testName = "should send all nmea2000 correctly";
+const testName = "should respond with boat authentication error if user or password are wrong";
 const env = require("./envload")
 const _ = require("lodash");
+const { error_boat_authentication } = require("../../api/errors");
 const https = require(env.HTTP_PROTOCOL);
-const data = "boat_id=0x0001&mqtt_user=fdsa&mqtt_password=fdsa&actual_message={'lat':11, 'lng':12, 'test' : 'testmessage'}";
+const data = "boat_id=0x0001&mqtt_user=wrong&mqtt_password=wrong&actual_message={'lat':11, 'lng':12, 'test' : 'testmessage'}";
 
 const options = {
     hostname: env.HOST_NAME,
@@ -29,7 +30,7 @@ const req = https.request(options, (res) => {
         try {
             const response = JSON.parse(responseData);
             if (
-                _.isEqual(response,  {})
+                _.isEqual(response,  error_boat_authentication)
             ) {
                 console.log("OK :) " + `${responseData}`)
             } else {

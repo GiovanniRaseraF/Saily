@@ -361,11 +361,11 @@ module.exports = function (env) {
             let goodCredentials = await this.isBoatCredentialGood(boat_id, mqtt_user, mqtt_password);
             if (!goodCredentials) { return false; }
 
-            let sql = `INSERT INTO '${database_table_name}' ('json_value','timestamp','boats_boat_id')
+            let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id)
             VALUES
-            ('${json_value}',now(),'${boat_id}');`;
+            ('${json_value}', now(), '${boat_id}');`;
 
-            console.log(sql);
+            //console.log(sql);
 
             this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
@@ -384,7 +384,7 @@ module.exports = function (env) {
             }
 
             let ret = await this.insertBoatInfo(this.pool);
-            console.log(ret);
+            //console.log(ret);
             return true;
         }
 
