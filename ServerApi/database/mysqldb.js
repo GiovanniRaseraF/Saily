@@ -195,8 +195,6 @@ module.exports = function (env) {
                                         GROUP BY boats_boat_id
                                     );`;
             
-            console.log(sql);
-
             this.getLastBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
@@ -347,9 +345,7 @@ module.exports = function (env) {
                 if(values.length == 0) return undefined;
 
                 const latest = values[0];
-                console.log(latest);
                 response = JSON.parse(latest.json_value);
-                console.log({response});
             }catch(err){
                 console.log(err);
                 return undefined;
