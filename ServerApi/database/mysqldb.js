@@ -23,7 +23,7 @@ module.exports = function (env) {
                 host: env.DATABASE_HOST,
                 database: env.DATABASE_NAME,
                 password: env.DATABASE_PASSWORD,
-                multipleStatements: true
+                multipleStatements: false
             });
         }
 
@@ -348,13 +348,14 @@ module.exports = function (env) {
 
                 const latest = values[0];
                 console.log(latest);
-                response = JSON.parse(latest);
+                response = JSON.parse(latest.json_value);
+                console.log({response});
             }catch(err){
                 console.log(err);
                 return undefined;
             }
 
-            return lat 
+            return response;
         }
 
         async getLastBoatVehicleInfo(user_id, boat_id) {
@@ -406,10 +407,12 @@ module.exports = function (env) {
             let goodCredentials = await this.isBoatCredentialGood(boat_id, mqtt_user, mqtt_password);
             if (!goodCredentials) { return false; }
 
+            let jsonEnc = JSON.parse(json_value);
+            let jsonStr = JSON.stringify(jsonEnc);
+
             let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id) 
                         VALUES
-                            ('${json_value}', now(), '${boat_id}');`;
-
+                            ('${jsonStr}', now(), '${boat_id}');`;
 
             this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {

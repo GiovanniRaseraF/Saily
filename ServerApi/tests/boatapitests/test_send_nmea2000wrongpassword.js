@@ -5,7 +5,7 @@ const env = require("./envload")
 const _ = require("lodash");
 const { error_boat_authentication } = require("../../api/errors");
 const https = require(env.HTTP_PROTOCOL);
-const data = "boat_id=0x0001&mqtt_user=wrong&mqtt_password=wrong&actual_message={'lat':11, 'lng':12, 'test' : 'testmessage'}";
+const data = `boat_id=0x0001&mqtt_user=wrong&mqtt_password=wrong&actual_message={"lat":11, "lng":12, "test" : "testmessage"}`;
 
 const options = {
     hostname: env.HOST_NAME,
