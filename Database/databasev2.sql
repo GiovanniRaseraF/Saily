@@ -70,16 +70,7 @@ ENGINE = InnoDB;
 -- Dumping data for table `boats`
 --
 
-INSERT INTO `boats` (`boat_id`, `mqtt_user`, `mqtt_password`) VALUES
-('qwertyuiop', 'test', 'test'),
-('0x0001', 'test', 'test'),
-('0x0002', 'test', 'test'),
-('0x0003', 'test', 'test'),
-('0x0004', 'test', 'test'),
-('0x0005', 'test', 'test'),
-('0x0006', 'test', 'test'),
-('0x0007', 'test', 'test'),
-('0x0008', 'test', 'test');
+INSERT INTO `boats` VALUES ('0x0001','test','test',NULL),('0x0002','test','test',NULL),('0x0003','test','test',NULL),('0x0004','test','test',NULL),('0x0005','test','test',NULL),('0x0006','test','test',NULL),('0x0007','test','test',NULL),('0x0008','test','test',NULL),('0x0009','test','test',2),('0x0010','test','test',2),('0x0011','test','test',2),('0x0012','test','test',2),('0x0013','test','test',2),('0x0014','test','test',2),('0x0015','test','test',2),('0x0016','test','test',2),('0x0017','test','test',2),('0x0018','test','test',2),('0x0019','test','test',2),('0x0020','test','test',2),('0x0021','test','test',2),('0x0022','test','test',2),('0x0023','test','test',2),('0x0024','test','test',2),('0x0025','test','test',2),('0x0026','test','test',2),('0x0027','test','test',2),('0x0028','test','test',2),('0x0029','test','test',2),('0x0030','test','test',2),('0x0031','test','test',2),('0x0032','test','test',2),('0x0033','test','test',2),('0x0034','test','test',2),('0x0035','test','test',2),('0x0036','test','test',2),('0x0037','test','test',2),('0x0038','test','test',2),('0x0039','test','test',2),('0x0040','test','test',2),('0x0041','test','test',2),('0x0042','test','test',2),('0x0043','test','test',2),('0x0044','test','test',2),('0x0045','test','test',2),('0x0046','test','test',2),('0x0047','test','test',2),('0x0048','test','test',2),('0x0049','test','test',2),('0x0050','test','test',2),('qwertyuiop','test','test',NULL);
 
 
 -- -----------------------------------------------------
