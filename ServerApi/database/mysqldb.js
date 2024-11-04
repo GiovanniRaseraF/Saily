@@ -187,14 +187,16 @@ module.exports = function (env) {
         // Boat Info getters
         
         // get boat info
-        async get_last_boat_info(database_table_name, user_id, boat_id) {
+        async get_last_boat_info(database_table_name, username, boat_id) {
             let sql = `SELECT json_value FROM ${database_table_name}
                             WHERE boats_boat_id = "${boat_id}" AND
                                 id = (SELECT max(id) FROM ${database_table_name}
-                                        WHERE boats_boat_id = "${boat_id}" 
+                                        WHERE boats_boat_id = "${boat_id}" AND
+                                        user_id = (SELECT user_id FROM user_account WHERE user_email = "${username}")
                                         GROUP BY boats_boat_id
                                     );`;
             
+            console.log(sql);
             this.getLastBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
@@ -210,9 +212,14 @@ module.exports = function (env) {
                 }
                 )
             }
-
-            let ret = await this.getLastBoatInfo(this.pool);
-            return ret;
+            
+            try{
+                let ret = await this.getLastBoatInfo(this.pool);
+                return ret;
+            }catch(err){
+                console.log(err);
+                return [];
+            }
         }
 
         async getLastBoatHighPowerBatteryInfo(user_id, boat_id) {
@@ -324,7 +331,7 @@ module.exports = function (env) {
             return response;
         }
 
-        async getLastBoatNMEA2000VTGInfo(user_id, boat_id) {
+        async getLastBoatNMEA2000VTGInfo(username, boat_id) {
             let satellitesCount = 0;
             let isFixed = false;
             let SOG = 0; // usualy in km/hr from NMEA2000
@@ -341,7 +348,7 @@ module.exports = function (env) {
             
             // TODO: test this functionality
             try{
-                const values = await this.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
+                const values = await this.get_last_boat_info("nmea2000_vtg_info", username, boat_id);
                 if(values.length == 0) return undefined;
 
                 const latest = values[0];
@@ -409,7 +416,7 @@ module.exports = function (env) {
             let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id) 
                         VALUES
                             ('${jsonStr}', now(), '${boat_id}');`;
-
+            console.log(sql);
             this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
@@ -425,9 +432,13 @@ module.exports = function (env) {
                 }
                 )
             }
-
-            let ret = await this.insertBoatInfo(this.pool);
-            return true;
+            try{
+                let ret = await this.insertBoatInfo(this.pool);
+                return true;
+            }catch(err){
+                console.log(err);
+                return false;
+            }
         }
 
         // sends the nemea data to the database and to redis database

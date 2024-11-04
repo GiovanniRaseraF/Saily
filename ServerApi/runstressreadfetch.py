@@ -11,7 +11,7 @@ import threading
 import time
 import random as rnd
 
-maxThreads = 20
+maxThreads = 50
 iterationsPerThread = 10000
 
 def runTests(numThread):
@@ -19,7 +19,7 @@ def runTests(numThread):
     start = time.time()
     for runCount in range(0, iterationsPerThread):
         # run
-        proc = subprocess.Popen(["node", "tests/boatapitests/test_send_generic.js", "0x000"+str(numThread+1), "test", "test", "g.rasera@huracanmarine.com", "MoroRacing2024"], stdout=subprocess.PIPE, shell=False)
+        proc = subprocess.Popen(["node", "tests/boatapitests/test_send_generic.js", "0x00"+str(numThread+1), "test", "test", "g.rasera@huracanmarine.com", "MoroRacing2024"], stdout=subprocess.PIPE, shell=False)
         (out, err) = proc.communicate()
         result = False
         if("FAILED" in out.decode()):
