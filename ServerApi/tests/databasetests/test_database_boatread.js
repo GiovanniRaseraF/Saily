@@ -69,7 +69,7 @@ async function  test4() {
     let boat_id = "0x0001";
     const values = await database.get_last_boat_info("nmea2000_vtg_info", -10, boat_id);
 
-    let ok = _.isEqual(values, []);
+    let ok = _.isEqual(values, undefined);
     if(ok){
         console.log("OK :)" + values);
     }else{
@@ -83,7 +83,7 @@ async function  test5() {
     let boat_id = "0x0010";
     const values = await database.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
 
-    let ok = ! _.isEqual(values, []);
+    let ok = ! _.isEqual(values, []) && ! _.isEqual(values, []);
     if(ok){
         console.log("OK :)" + values);
     }else{

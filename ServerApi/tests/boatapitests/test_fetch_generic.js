@@ -27,14 +27,14 @@ const _ = require("lodash");
 const { error_boat_authentication } = require("../../api/errors");
 const https = require(env.HTTP_PROTOCOL);
 
-async function send(){
-    const data = `boat_id=${boat_id}&mqtt_user=${mqtt_user}&mqtt_password=${mqtt_password}&actual_message=${actual_message_str}`;
+async function fetch(){
+    const data = `boat_id=${boat_id}&username=${username}&password=${password}`;
     console.log(data);
 
     const options = {
         hostname: env.HOST_NAME,
         port: env.SERVER_PORT,
-        path: '/send_nmea2000/vtgi', // important to vtgi and nmea2000 prefix
+        path: '/fetch_nmea2000/vtgi', // important to vtgi and nmea2000 prefix
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,7 +54,7 @@ async function send(){
             try {
                 const response = JSON.parse(responseData);
                 if (
-                    _.isEqual(response, {})
+                    _.isEqual(response, actual_message)
                 ) {
                     console.log("OK :) " + `${responseData}`)
                 } else {
@@ -78,7 +78,7 @@ async function send(){
 }
 
 async function main(){
-    await send();
+    await fetch();
 }
 
 main();

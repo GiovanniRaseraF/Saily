@@ -27,13 +27,13 @@ async function createResponseVTGI(database, req) {
     if (canlogin) {
         // OK
         const user = await database.getUserByNameAndPassword(username, password);
-        return await database.getLastBoatNMEA2000VTGInfo(user.user_id, boat_id);
+        const res = await database.getLastBoatNMEA2000VTGInfo(user.user_id, boat_id);
+        if(res == undefined) return errors.error_boat_id;
+        return res;
     } else {
         // NO
         return errors.error_authentication;
     }
-
-    return errors.error_authentication;
 }
 
 function createResponseABCI(database) {

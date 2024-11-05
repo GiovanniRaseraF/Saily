@@ -199,12 +199,14 @@ module.exports = function (env) {
         // Boat Info getters
         
         // get boat info
+        // returns undefined if the boat_id does not belog to the user
+        // returns the last value of [] if the boat_id and the user_id are valid
         async get_last_boat_info(database_table_name, user_id, boat_id) {
             // check if you can read the boat
             const boatsResult = await database.getBoatsFromId(user_id);
             const boats = _.map(boatsResult, function (b){return b.boat_id;});
             //console.log(boats);
-            if(! boats.includes(boat_id)) return [];
+            if(! boats.includes(boat_id)) return undefined;
 
             let sql = `SELECT json_value FROM ${database_table_name}
                             WHERE boats_boat_id = "${boat_id}" AND
@@ -249,9 +251,7 @@ module.exports = function (env) {
             let tte = 0;
             let auxBatteryVoltage = 0.0;
 
-            // TODO: Implement fetch from redis or a realtime database
-
-            const response = {
+            let response = {
                 totalVoltage,
                 totalCurrent,
                 batteryTemperature,
@@ -261,6 +261,21 @@ module.exports = function (env) {
                 tte,
                 auxBatteryVoltage
             };
+
+            // TODO: test this functionality
+            try{
+                const values = await this.get_last_boat_info("high_power_battery_info", user_id, boat_id);
+                if(values == undefined) return undefined;
+                if(values.length == 0) return response;
+
+                const latest = values[0];
+                response = JSON.parse(latest.json_value);
+            }catch(err){
+                console.log(err);
+                return undefined;
+            }
+
+            return response;
 
             return response;
         }
@@ -366,7 +381,8 @@ module.exports = function (env) {
             // TODO: test this functionality
             try{
                 const values = await this.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
-                if(values.length == 0) return undefined;
+                if(values == undefined) return undefined;
+                if(values.length == 0) return response;
 
                 const latest = values[0];
                 response = JSON.parse(latest.json_value);
@@ -433,7 +449,7 @@ module.exports = function (env) {
             let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id) 
                         VALUES
                             ('${jsonStr}', now(), '${boat_id}');`;
-                            
+
             //console.log(sql);
             this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
