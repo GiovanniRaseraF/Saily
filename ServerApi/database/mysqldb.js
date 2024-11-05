@@ -325,7 +325,7 @@ module.exports = function (env) {
             let fuelLevel1 = 0; // %
             let fuelLevel2 = 0; // %
 
-            const response = {
+            let response = {
                 motorRPM,
                 refrigerationTemperature,
                 batteryVoltage,
@@ -348,7 +348,7 @@ module.exports = function (env) {
             let dieselMotorModel = 0; // DieselMotorModel.None; // Tabella 1
             let electricMotorModel = 0; //ElectricMotorModel.None; // Tabella 2
 
-            const response = {
+            let response = {
                 isHybrid,
                 isDualMotor,
                 versionProtocol,
@@ -412,7 +412,7 @@ module.exports = function (env) {
             let timecounterElectricMotor = 0; //min
             let timecounterDieselMotor = 0; //min 
 
-            const response = {
+            let response = {
                 vehicleStatus,
                 isHybrid,
                 isElectric,
@@ -493,9 +493,20 @@ module.exports = function (env) {
         }
 
         // TODO: implement redis database store
-        async sendLastBoatActiInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
-            return await this.insert_boat_info("nmea2000_vtg_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        async sendLastBoatHighPowerBatteryInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("high_power_battery_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        }
+
+        async sendLastBoatVehicleInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("vehicle_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }
         
+        async sendLastBoatGeneralInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("general_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        }
+        
+        async sendLastBoatEndothermicMotorInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("endothermic_motor_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        }
     }
 }

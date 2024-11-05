@@ -35,8 +35,11 @@ require("./api/fetch_vi")             (app, new db())
 require("./api/fetch_nmea2000")       (app, new db())
 
 // list of functions for boats
-require("./boatapi/send_nmea2000")    (app, new db())
+require("./boatapi/send_endoi")       (app, new db())
 require("./boatapi/send_hpbi")        (app, new db())
+require("./boatapi/send_gi")          (app, new db())
+require("./boatapi/send_vi")          (app, new db())
+require("./boatapi/send_nmea2000")    (app, new db())
 
 // default route
 require("./api/default")              (app)
