@@ -159,6 +159,31 @@ async function main() {
         let send = createSend("/send_endoi", responseStr);
         await send();
     }
+
+    {
+        let busVoltage = 0.0;
+        let motorCurrent = 0.0;
+        let inverterTemperature = 0.0;
+        let motorTemperature = 0.0;
+        let motorRPM = 0.0;
+
+        let response = { busVoltage, motorCurrent, inverterTemperature, motorTemperature, motorRPM };
+        let responseStr = JSON.stringify(response);
+        let send = createSend("/send_emi", responseStr);
+        await send();
+    }
+
+    {
+        let pedal = 0; // %
+        let requestedGear = 0;
+        let validatedGear = 0;
+        let pedalTrim = 0;
+
+        let response = { pedal, requestedGear, validatedGear, pedalTrim };
+        let responseStr = JSON.stringify(response);
+        let send = createSend("/send_acti", responseStr);
+        await send();
+    }
 }
 
 main();

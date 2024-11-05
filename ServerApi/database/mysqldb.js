@@ -286,7 +286,7 @@ module.exports = function (env) {
 
             // TODO: Implement fetch from redis or a realtime database
 
-            const response = {
+            let response = {
                 pedal,
                 requestedGear,
                 validatedGear,
@@ -304,7 +304,7 @@ module.exports = function (env) {
             let motorTemperature = 0.0;
             let motorRPM = 0.0;
 
-            const response = {
+            let response = {
                 busVoltage,
                 motorCurrent,
                 inverterTemperature,
@@ -507,6 +507,14 @@ module.exports = function (env) {
         
         async sendLastBoatEndothermicMotorInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
             return await this.insert_boat_info("endothermic_motor_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        }
+
+        async sendLastBoatElectricMotorInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("electric_motor_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        }
+
+        async sendLastBoatActuatorInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("actuator_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }
     }
 }

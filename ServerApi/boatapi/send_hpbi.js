@@ -18,13 +18,6 @@ async function createResponse(database, req) {
     }
 }
 
-function createResponseABCI(database) {
-    const response = {
-    };
-
-    return response;
-}
-
 module.exports = function (app, database) {
     database.connect();
     
