@@ -21,21 +21,19 @@ error_boat_id
 const errors = require("./errors");
 
 async function createResponse(database, req) {
-    const { username, password, boat_id} = req.body;
-
+    const {username, password, boat_id} = req.body;
+    
     let canlogin = await database.isUserInDb(username, password);
     if (canlogin) {
         // OK
         const user = await database.getUserByNameAndPassword(username, password);
-        const res = await database.getLastBoatHighPowerBatteryInfo(username, boat_id);
+        const res = await database.getLastBoatHighPowerBatteryInfo(user.user_id, boat_id);
         if(res == undefined) return errors.error_boat_id;
         return res;
     } else {
         // NO
         return errors.error_authentication;
     }
-
-    return errors.error_authentication;
 }
 
 module.exports = function (app, database) {

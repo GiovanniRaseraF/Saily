@@ -26,15 +26,17 @@ const env = require("./envload")
 const _ = require("lodash");
 const { error_boat_authentication } = require("../../api/errors");
 const https = require(env.HTTP_PROTOCOL);
+const defaultPath = '/send_nmea2000/vtgi';
 
-async function send(){
-    const data = `boat_id=${boat_id}&mqtt_user=${mqtt_user}&mqtt_password=${mqtt_password}&actual_message=${actual_message_str}`;
+function createSend(endpoindPath, actualStr){
+return async function send(){
+    const data = `boat_id=${boat_id}&mqtt_user=${mqtt_user}&mqtt_password=${mqtt_password}&actual_message=${actualStr}`;
     console.log(data);
 
     const options = {
         hostname: env.HOST_NAME,
         port: env.SERVER_PORT,
-        path: '/send_nmea2000/vtgi', // important to vtgi and nmea2000 prefix
+        path: endpoindPath, // important to vtgi and nmea2000 prefix
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -76,9 +78,35 @@ async function send(){
     req.write(data);
     req.end();
 }
+}
 
 async function main(){
-    await send();
+    let sendNmea2000 = createSend(defaultPath, actual_message_str);
+    await sendNmea2000();
+
+    let totalVoltage = 0.0;
+    let totalCurrent = 0.0;
+    let batteryTemperature = 0.0;
+    let bmsTemperature = 0.0;
+    let SOC = 0.0;
+    let power = 0.0;
+    let tte = 0;
+    let auxBatteryVoltage = 0.0;
+
+    let response = {
+        totalVoltage,
+        totalCurrent,
+        batteryTemperature,
+        bmsTemperature,
+        SOC,
+        power,
+        tte,
+        auxBatteryVoltage
+    };
+    let responseStr = JSON.stringify(response);
+    let sendhpbi = createSend("/send_hpbi", responseStr);
+    await sendhpbi();
+
 }
 
 main();

@@ -215,7 +215,7 @@ module.exports = function (env) {
                                         GROUP BY boats_boat_id
                                     );`;
             
-            //console.log(sql);
+            // console.log(sql);
             this.getLastBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
@@ -274,8 +274,6 @@ module.exports = function (env) {
                 console.log(err);
                 return undefined;
             }
-
-            return response;
 
             return response;
         }
@@ -433,6 +431,19 @@ module.exports = function (env) {
                 timecounterElectricMotor,
                 timecounterDieselMotor
             };
+
+            // TODO: test this functionality
+            try{
+                const values = await this.get_last_boat_info("vehicle_info", user_id, boat_id);
+                if(values == undefined) return undefined;
+                if(values.length == 0) return response;
+
+                const latest = values[0];
+                response = JSON.parse(latest.json_value);
+            }catch(err){
+                console.log(err);
+                return undefined;
+            }
 
             return response;
         }
