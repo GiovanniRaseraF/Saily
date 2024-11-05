@@ -74,7 +74,7 @@ async function test4(){
 async function test5(){
     // test with not in db
     console.log("Can insert to databse if right password is provided")
-    boat_id = "0x0001";
+    boat_id = "0x0010";
     mqtt_user = "test"; 
     mqtt_password = "test";
     now = Date.now()
@@ -82,7 +82,7 @@ async function test5(){
     let response = await database.sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, expected);
 
     // TODO: implement the actual response by the server
-    let actual = await database.getLastBoatNMEA2000VTGInfo("g.rasera@huracanmarine.com", boat_id);
+    let actual = await database.getLastBoatNMEA2000VTGInfo(2, boat_id);
     let actualStr = JSON.stringify(actual);
     let expectedlObj = JSON.parse(expected);
     //console.log({actual, expectedlObj});
@@ -103,7 +103,7 @@ async function test6(){
     const expected = `{"satellitesCount":9999,"isFixed":true,"SOG":9999,"lat":99999,"lng":9}`;
     let response = await database.sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, expected);
     // TODO: implement the actual response by the server
-    let actual = await database.getLastBoatNMEA2000VTGInfo("g.rasera@huracanmarine.com", boat_id);
+    let actual = await database.getLastBoatNMEA2000VTGInfo(2, boat_id);
     let actualStr = JSON.stringify(actual);
     let expectedlObj = JSON.parse(expected);
     //console.log({actual, expectedlObj});

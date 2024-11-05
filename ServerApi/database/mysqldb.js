@@ -4,7 +4,7 @@
 
 const mysql = require("mysql");
 const fs = require("fs");
-const result = require('lodash');
+const _ = require('lodash');
 const bcrypt = require("bcrypt")
 
 const saltRounds = 10;
@@ -184,19 +184,36 @@ module.exports = function (env) {
             return boatsResult;
         }
 
+        // get boats from name
+        async getBoatsFromUsername(username) {
+            let boatsResult;
+            try {
+                boatsResult = await this.get_boats(user_id);
+            } catch (err) {
+                console.error(err);
+                return undefined;
+            }
+            return boatsResult;
+        }
+
         // Boat Info getters
         
         // get boat info
-        async get_last_boat_info(database_table_name, username, boat_id) {
+        async get_last_boat_info(database_table_name, user_id, boat_id) {
+            // check if you can read the boat
+            const boatsResult = await database.getBoatsFromId(user_id);
+            const boats = _.map(boatsResult, function (b){return b.boat_id;});
+            //console.log(boats);
+            if(! boats.includes(boat_id)) return [];
+
             let sql = `SELECT json_value FROM ${database_table_name}
                             WHERE boats_boat_id = "${boat_id}" AND
                                 id = (SELECT max(id) FROM ${database_table_name}
-                                        WHERE boats_boat_id = "${boat_id}" AND
-                                        user_id = (SELECT user_id FROM user_account WHERE user_email = "${username}")
+                                        WHERE boats_boat_id = "${boat_id}"
                                         GROUP BY boats_boat_id
                                     );`;
             
-            console.log(sql);
+            //console.log(sql);
             this.getLastBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
@@ -331,7 +348,7 @@ module.exports = function (env) {
             return response;
         }
 
-        async getLastBoatNMEA2000VTGInfo(username, boat_id) {
+        async getLastBoatNMEA2000VTGInfo(user_id, boat_id) {
             let satellitesCount = 0;
             let isFixed = false;
             let SOG = 0; // usualy in km/hr from NMEA2000
@@ -348,7 +365,7 @@ module.exports = function (env) {
             
             // TODO: test this functionality
             try{
-                const values = await this.get_last_boat_info("nmea2000_vtg_info", username, boat_id);
+                const values = await this.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
                 if(values.length == 0) return undefined;
 
                 const latest = values[0];
@@ -416,7 +433,8 @@ module.exports = function (env) {
             let sql = `INSERT INTO ${database_table_name} (json_value, timestamp, boats_boat_id) 
                         VALUES
                             ('${jsonStr}', now(), '${boat_id}');`;
-            console.log(sql);
+                            
+            //console.log(sql);
             this.insertBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
                     pool.query(
@@ -446,5 +464,11 @@ module.exports = function (env) {
         async sendLastBoatNMEA2000VTGInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
             return await this.insert_boat_info("nmea2000_vtg_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }
+
+        // TODO: implement redis database store
+        async sendLastBoatActiInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
+            return await this.insert_boat_info("nmea2000_vtg_info", boat_id, mqtt_user, mqtt_password, actual_message);
+        }
+        
     }
 }

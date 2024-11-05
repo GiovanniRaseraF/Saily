@@ -1,4 +1,5 @@
 const env = require("../../envload")
+const _ = require("lodash")
 const db = require("../../database/mysqldb")(env)
 
 // Database
@@ -62,13 +63,42 @@ async function test3(){
         console.log("FAILED :" + userbyid);
     }
 }
+async function  test4() {
+    console.log("Shoul not be able to read othrer boat if it does not belog to user");
+    let user_id = "fakeusername";
+    let boat_id = "0x0001";
+    const values = await database.get_last_boat_info("nmea2000_vtg_info", -10, boat_id);
 
+    let ok = _.isEqual(values, []);
+    if(ok){
+        console.log("OK :)" + values);
+    }else{
+        console.log("FAILED :" + values);
+    }
+}
+
+async function  test5() {
+    console.log("Shoul be able to read boat if it belog to user");
+    let user_id = 2;
+    let boat_id = "0x0010";
+    const values = await database.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
+
+    let ok = ! _.isEqual(values, []);
+    if(ok){
+        console.log("OK :)" + values);
+    }else{
+        console.log("FAILED :" + values);
+    }
+}
 
 
 async function main(){
     await test1();
     await test2();
     //await test3();
+    await test4();
+    await test5();
+
     process.exit(0);
 }
 

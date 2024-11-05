@@ -26,7 +26,8 @@ async function createResponseVTGI(database, req) {
     let canlogin = await database.isUserInDb(username, password);
     if (canlogin) {
         // OK
-        return await database.getLastBoatNMEA2000VTGInfo(username, boat_id);
+        const user = await database.getUserByNameAndPassword(username, password);
+        return await database.getLastBoatNMEA2000VTGInfo(user.user_id, boat_id);
     } else {
         // NO
         return errors.error_authentication;
