@@ -31,7 +31,7 @@ module.exports = function (env) {
         async hashPassword(password) {
             return await bcrypt.hash(password, saltRounds);
         }
-        
+
         // calls the database and return [] or the actual user
         async get_account(username, password) {
             var sql = `SELECT * FROM user_account WHERE user_email = '${username}';`;
@@ -144,7 +144,7 @@ module.exports = function (env) {
 
             return true;
         }
-        
+
         // get the boats of a specefic user
         async get_boats(user_id) {
             var sql = `SELECT * FROM boats WHERE user_id = '${user_id}';`;
@@ -197,16 +197,16 @@ module.exports = function (env) {
         }
 
         // Boat Info getters
-        
+
         // get boat info
         // returns undefined if the boat_id does not belog to the user
         // returns the last value of [] if the boat_id and the user_id are valid
         async get_last_boat_info(database_table_name, user_id, boat_id) {
             // check if you can read the boat
             const boatsResult = await database.getBoatsFromId(user_id);
-            const boats = _.map(boatsResult, function (b){return b.boat_id;});
+            const boats = _.map(boatsResult, function (b) { return b.boat_id; });
             //console.log(boats);
-            if(! boats.includes(boat_id)) return undefined;
+            if (!boats.includes(boat_id)) return undefined;
 
             let sql = `SELECT json_value FROM ${database_table_name}
                             WHERE boats_boat_id = "${boat_id}" AND
@@ -214,7 +214,7 @@ module.exports = function (env) {
                                         WHERE boats_boat_id = "${boat_id}"
                                         GROUP BY boats_boat_id
                                     );`;
-            
+
             // console.log(sql);
             this.getLastBoatInfo = function (pool) {
                 return new Promise(function (resolve, reject) {
@@ -231,11 +231,11 @@ module.exports = function (env) {
                 }
                 )
             }
-            
-            try{
+
+            try {
                 let ret = await this.getLastBoatInfo(this.pool);
                 return ret;
-            }catch(err){
+            } catch (err) {
                 console.log(err);
                 return [];
             }
@@ -263,14 +263,14 @@ module.exports = function (env) {
             };
 
             // TODO: test this functionality
-            try{
+            try {
                 const values = await this.get_last_boat_info("high_power_battery_info", user_id, boat_id);
-                if(values == undefined) return undefined;
-                if(values.length == 0) return response;
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
 
                 const latest = values[0];
                 response = JSON.parse(latest.json_value);
-            }catch(err){
+            } catch (err) {
                 console.log(err);
                 return undefined;
             }
@@ -293,6 +293,18 @@ module.exports = function (env) {
                 pedalTrim
             };
 
+            try {
+                const values = await this.get_last_boat_info("actuator_info", user_id, boat_id);
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
+
+                const latest = values[0];
+                response = JSON.parse(latest.json_value);
+            } catch (err) {
+                console.log(err);
+                return undefined;
+            }
+
             return response;
         }
 
@@ -311,6 +323,18 @@ module.exports = function (env) {
                 motorTemperature,
                 motorRPM
             };
+
+            try {
+                const values = await this.get_last_boat_info("electric_motor_info", user_id, boat_id);
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
+
+                const latest = values[0];
+                response = JSON.parse(latest.json_value);
+            } catch (err) {
+                console.log(err);
+                return undefined;
+            }
 
             return response;
         }
@@ -336,6 +360,18 @@ module.exports = function (env) {
                 fuelLevel2
             };
 
+            try {
+                const values = await this.get_last_boat_info("endothermic_motor_info", user_id, boat_id);
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
+
+                const latest = values[0];
+                response = JSON.parse(latest.json_value);
+            } catch (err) {
+                console.log(err);
+                return undefined;
+            }
+
             return response;
         }
 
@@ -358,6 +394,18 @@ module.exports = function (env) {
                 electricMotorModel
             };
 
+            try {
+                const values = await this.get_last_boat_info("general_info", user_id, boat_id);
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
+
+                const latest = values[0];
+                response = JSON.parse(latest.json_value);
+            } catch (err) {
+                console.log(err);
+                return undefined;
+            }
+
             return response;
         }
 
@@ -375,16 +423,16 @@ module.exports = function (env) {
                 lat,
                 lng
             };
-            
+
             // TODO: test this functionality
-            try{
+            try {
                 const values = await this.get_last_boat_info("nmea2000_vtg_info", user_id, boat_id);
-                if(values == undefined) return undefined;
-                if(values.length == 0) return response;
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
 
                 const latest = values[0];
                 response = JSON.parse(latest.json_value);
-            }catch(err){
+            } catch (err) {
                 console.log(err);
                 return undefined;
             }
@@ -433,14 +481,14 @@ module.exports = function (env) {
             };
 
             // TODO: test this functionality
-            try{
+            try {
                 const values = await this.get_last_boat_info("vehicle_info", user_id, boat_id);
-                if(values == undefined) return undefined;
-                if(values.length == 0) return response;
+                if (values == undefined) return undefined;
+                if (values.length == 0) return response;
 
                 const latest = values[0];
                 response = JSON.parse(latest.json_value);
-            }catch(err){
+            } catch (err) {
                 console.log(err);
                 return undefined;
             }
@@ -477,10 +525,10 @@ module.exports = function (env) {
                 }
                 )
             }
-            try{
+            try {
                 let ret = await this.insertBoatInfo(this.pool);
                 return true;
-            }catch(err){
+            } catch (err) {
                 console.log(err);
                 return false;
             }
@@ -500,11 +548,11 @@ module.exports = function (env) {
         async sendLastBoatVehicleInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
             return await this.insert_boat_info("vehicle_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }
-        
+
         async sendLastBoatGeneralInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
             return await this.insert_boat_info("general_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }
-        
+
         async sendLastBoatEndothermicMotorInfo(boat_id, mqtt_user, mqtt_password, actual_message) {
             return await this.insert_boat_info("endothermic_motor_info", boat_id, mqtt_user, mqtt_password, actual_message);
         }

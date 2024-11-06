@@ -25,13 +25,14 @@ async function createResponse(database, req) {
     let canlogin = await database.isUserInDb(username, password);
     if (canlogin) {
         // OK
-        return await database.getLastBoatGeneralInfo(username, boat_id);
+        const user = await database.getUserByNameAndPassword(username, password);
+        const res = await database.getLastBoatGeneralInfo(user.user_id, boat_id);
+        if(res == undefined) return errors.error_boat_id;
+        return res;
     } else {
         // NO
         return errors.error_authentication;
     }
-
-    return errors.error_authentication;
 }
 
 module.exports = function (app, database) {

@@ -119,7 +119,7 @@ async function main() {
         let voltageToECU = 0.0; // factor 0.1 V
         let timecounter = 0; //min
         let timecounterElectricMotor = 0; //min
-        let timecounterDieselMotor = 0; //min 
+        let timecounterDieselMotor = Date.now(); //min 
 
         let responsevi = {
             vehicleStatus, isHybrid, isElectric, isDiesel, isSeaWaterPressureOK, isGlicolePressureOK, isLowSocLevel, sealINTemperature, sealOUTTemperature, glicoleINTemperature, glicoleOUTTemperature, isECUOn, isDCUOn, voltageToECU, timecounter, timecounterElectricMotor, timecounterDieselMotor
@@ -132,7 +132,7 @@ async function main() {
     {
         let isHybrid = false; // false = FullElectric , true = Hybrid
         let isDualMotor = false; // false = SingleMotor, true = DualMotor
-        let versionProtocol = 0.0; // factor 0.1
+        let versionProtocol = Date.now(); // factor 0.1
         let versionFWControlUnit = 0.0; // factor 0.01
         let versionFWDrive = 0.0; // factor 0.01
         let dieselMotorModel = 0; // DieselMotorModel.None; // Tabella 1
@@ -152,7 +152,7 @@ async function main() {
         let glowStatus = 0; //GlowStatus.OFF
         let dieselStatus = 0; // DieselStatus.WAIT;
         let fuelLevel1 = 0; // %
-        let fuelLevel2 = 0; // %
+        let fuelLevel2 = Date.now(); // %
 
         let response = { motorRPM, refrigerationTemperature, batteryVoltage, throttlePedalPosition, glowStatus, dieselStatus, fuelLevel1, fuelLevel2 };
         let responseStr = JSON.stringify(response);
@@ -165,7 +165,7 @@ async function main() {
         let motorCurrent = 0.0;
         let inverterTemperature = 0.0;
         let motorTemperature = 0.0;
-        let motorRPM = 0.0;
+        let motorRPM = Date.now();
 
         let response = { busVoltage, motorCurrent, inverterTemperature, motorTemperature, motorRPM };
         let responseStr = JSON.stringify(response);
@@ -177,7 +177,7 @@ async function main() {
         let pedal = 0; // %
         let requestedGear = 0;
         let validatedGear = 0;
-        let pedalTrim = 0;
+        let pedalTrim = Date.now();
 
         let response = { pedal, requestedGear, validatedGear, pedalTrim };
         let responseStr = JSON.stringify(response);

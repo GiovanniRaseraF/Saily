@@ -3,7 +3,7 @@
 const testName = "should fetch electric motor info";
 const env = require("./envload")
 const https = require(env.HTTP_PROTOCOL);
-const data = "boat_id=0x0&username=g.rasera@huracanmarine.com&password=MoroRacing2024";
+const data = "boat_id=0x0020&username=g.rasera@huracanmarine.com&password=MoroRacing2024";
 
 const options = {
   hostname: env.HOST_NAME,
