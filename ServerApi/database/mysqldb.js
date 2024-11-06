@@ -89,6 +89,8 @@ module.exports = function (env) {
 
         // is user in DB
         async isUserInDb(username, password) {
+            if(username == undefined || password == undefined) return false;
+
             const row = await this.getUserByNameAndPassword(username, password);
 
             if (row === undefined) {
@@ -499,6 +501,13 @@ module.exports = function (env) {
 
         // Send boat info
         async insert_boat_info(database_table_name, boat_id, mqtt_user, mqtt_password, json_value) {
+            if(database_table_name == "" || database_table_name == undefined
+                || boat_id == "" || boat_id == undefined 
+                || mqtt_user == "" || mqtt_user == undefined 
+                || mqtt_password == "" || mqtt_password== undefined 
+                || json_value == undefined 
+            ) return false;
+
             let goodCredentials = await this.isBoatCredentialGood(boat_id, mqtt_user, mqtt_password);
             if (!goodCredentials) { return false; }
 
