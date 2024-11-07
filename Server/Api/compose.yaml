@@ -1,0 +1,23 @@
+version: "2"
+services:
+  mysqldatabase: 
+    image: "mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports: 
+      - "8081:3306"
+
+  mynodeserver:
+    image: "node:20.12.2"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./server/Saily/ServerApi:/home/node/app
+    ports: 
+      - "8080:8567"
+    command: "npm start"
+    depends_on:
+      - mysqldatabase

@@ -14,4 +14,10 @@ RUN touch /etc/init.d/runserver.sh && chmod +x /etc/init.d/runserver.sh
 RUN cd /Saily/ServerApi && npm install
 COPY .env /Saily/ServerApi/
 
+COPY .env /
+RUN export $(cat .env | xargs)
+# RUN mysql -u root -p -e "CREATE USER '$DATABASE_USER'@'%' IDENTIFIED BY '$DATABASE_PASSWORD';"
+# RUN mysql -u root -p -e "GRANT ALL PRIVILEGES ON $DATABASE_NAME.* TO '$DATABASE_USER'@'%';"
+# RUN mysql -u root -p -e "FLUSH PRIVILEGES;"
+
 RUN echo "(cd /Saily/ServerApi && make) &" >> /etc/init.d/runserver.sh
