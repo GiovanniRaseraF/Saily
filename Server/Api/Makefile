@@ -19,3 +19,8 @@ mysqlbash:
 	@ echo "Define:\n DATABASE_NAME=${DATABASE_NAME}"
 	docker exec -it api-mysqldatabase-1 mysql -uroot -proot ${DATABASE_NAME}
 	# mysql -uroot -proot
+
+# source .env
+# make loadbd
+# make usercreate DATABASE_NAME=$DATABASE_NAME  DATABASE_USER=$DATABASE_USER DATABASE_PASSWORD=$DATABASE_PASSWORD
+# make mysqlbash DATABASE_NAME=$DATABASE_NAME

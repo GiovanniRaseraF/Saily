@@ -1,14 +1,14 @@
 version: "2"
 services:
   mysqldatabase: 
-    image: "mysql"
+    image: "mysql:8.0.39"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./server/Saily/Database:/home
     ports: 
-      - "8081:3306"
+      - "3306:3306"
 
   mynodeserver:
     image: "node:20.12.2"
