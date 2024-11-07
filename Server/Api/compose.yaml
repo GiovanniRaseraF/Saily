@@ -5,6 +5,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./server/Saily/Database:/home
     ports: 
       - "8081:3306"
 
