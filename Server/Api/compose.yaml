@@ -20,7 +20,7 @@ services:
     volumes:
       - ./server/Saily/ServerApi:/home/node/app
     ports: 
-      - "8080:8567"
+      - "8567:8567"
     command: "npm start"
     depends_on:
       - mysqldatabase
