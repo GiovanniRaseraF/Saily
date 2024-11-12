@@ -80,24 +80,26 @@ function createSend(endpoindPath, actualStr) {
 const route = require("./cannes.js");
 
 async function main() {
-    for(let i = 0; i < route.trkpt.length; i++){
-        let f = async function(){
-            let pos = (route.trkpt[i]);
-            let actualLat = parseFloat(pos._lat);
-            let actualLng = parseFloat(pos._lon);
-            {
-                let actual_message = { "satellitesCount": 1, "isFixed": false, "SOG": 2.3, "lat": actualLat, "lng": actualLng };
-                console.log(actual_message);
-                let actual_message_str = JSON.stringify(actual_message);
-                let sendNmea2000 = createSend(defaultPath, actual_message_str);
-                await sendNmea2000();
-            };
-            
-            const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-            await delay(10000);
-        }
+    while (true) {
+        for (let i = 0; i < route.trkpt.length; i++) {
+            let f = async function () {
+                let pos = (route.trkpt[i]);
+                let actualLat = parseFloat(pos._lat);
+                let actualLng = parseFloat(pos._lon);
+                {
+                    let actual_message = { "satellitesCount": 1, "isFixed": false, "SOG": 2.3, "lat": actualLat, "lng": actualLng };
+                    console.log(actual_message);
+                    let actual_message_str = JSON.stringify(actual_message);
+                    let sendNmea2000 = createSend(defaultPath, actual_message_str);
+                    await sendNmea2000();
+                };
 
-        await f();
+                const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+                await delay(10000);
+            }
+
+            await f();
+        }
     }
 }
 
