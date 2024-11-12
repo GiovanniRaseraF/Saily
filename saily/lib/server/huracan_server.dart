@@ -35,7 +35,7 @@ class HuracanServer extends Server {
   // String PROTOCOL = "http";
 
   // current boat
-  BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0");
+  BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0010");
 
   Future<Either<InitError, String>> ping() async {
     // USERNAME = settingsController.getUsername(); 
