@@ -45,6 +45,11 @@ function createResponseABCI(database) {
     return response;
 }
 
+function createResponseInvalid() {
+    return errors.error_api_call_invalid;
+}
+
+
 module.exports = function (app, database) {
     database.connect();
     app.post('/fetch_nmea2000/vtgi', async function (req, res) {
@@ -55,6 +60,12 @@ module.exports = function (app, database) {
 
     app.post('/fetch_nmea2000/abci', function (req, res) {
         const response = createResponseABCI(database);
+        const jsonResponse = JSON.stringify(response);
+        res.end(jsonResponse);
+    });
+
+    app.post('/fetch_nmea2000/*', function (req, res) {
+        const response = createResponseInvalid(database);
         const jsonResponse = JSON.stringify(response);
         res.end(jsonResponse);
     });
