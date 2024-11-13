@@ -23,6 +23,8 @@ class HuracanServer extends Server {
 
   String USERNAME = "g.rasera@huracanmarine.com";
   String PASSWORD = "MoroRacing2024";
+  // current boat
+  BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0010");
 
   // remote
   final DEFAULT_SERVER_NAME = "huracanpower.com";
@@ -34,13 +36,13 @@ class HuracanServer extends Server {
   // int DEFAULT_PORT = 8567;
   // String PROTOCOL = "http";
 
-  // current boat
-  BoatInfo currentBoat = BoatInfo(name: "default", id: "0x0010");
+  void resetCredentials(){
+    USERNAME = "";
+    PASSWORD = "";
+    currentBoat = BoatInfo(name: "", id: "0x0");
+  }
 
   Future<Either<InitError, String>> ping() async {
-    // USERNAME = settingsController.getUsername(); 
-    // PASSWORD = settingsController.getPassword();
-
     String loginData = "boat_id=${currentBoat.id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -312,6 +314,43 @@ class HuracanServer extends Server {
     } on Exception catch (err) {
       return Either.left(FetchError(why: err.toString()));
     }
+  }
+
+  // returns true if the creadentials are good
+  Future<bool> canUserLogin(String username, String password) async {
+    String loginData = "username=$username&password=$password";
+    try {
+      final res = await post(
+          Uri.parse("$PROTOCOL://$DEFAULT_SERVER_NAME:$DEFAULT_PORT/login"),
+          body: loginData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          });
+
+      final response = res.body;
+
+      // checking response
+      if (response.isEmpty) {
+        print("Login is empty");
+        return false;
+      } else {
+        print(response);
+        final jsonResponse = jsonDecode(response.toString());
+        if(jsonResponse["error"] != null){
+          return false;
+        }else {
+          return jsonResponse["canuselogin"] as bool;
+        }
+      }
+    } on Exception catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
+  // returns the the list of boats
+  Future<List<BoatInfo>> boatsList(String username, String password) async {
+    return [];
   }
 
   //////////////////////////

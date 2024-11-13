@@ -6,6 +6,7 @@ import 'package:saily/boats/boats_view.dart';
 import 'package:saily/boats/selected_boat_view.dart';
 import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/user_info.dart';
+import 'package:saily/server/server.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/boats/boat_widget.dart';
 import 'package:saily/user/user_controller.dart';
@@ -17,22 +18,24 @@ import 'package:saily/widgets/fract_box.dart';
 
 class UserView extends StatefulWidget {
   UserView(
-      {super.key, required this.settingsController, required this.onLogout});
+      {super.key, required this.settingsController, required this.onLogout, required this.server});
 
   final String title = "user";
   SettingsController settingsController;
+  Server server;
 
   void Function() onLogout;
 
   @override
   State<UserView> createState() => _UserViewState(
-      settingsController: settingsController, onLogout: onLogout);
+      settingsController: settingsController, onLogout: onLogout, server: server);
 }
 
 class _UserViewState extends State<UserView> {
-  _UserViewState({required this.settingsController, required this.onLogout});
+  _UserViewState({required this.settingsController, required this.onLogout, required this.server});
 
   SettingsController settingsController;
+  Server server;
 
   void Function() onLogout;
 

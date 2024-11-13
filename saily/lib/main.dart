@@ -93,13 +93,27 @@ void main() async {
   serverInfo = HuracanServer(settingsController: settingsController);
   await serverInfo.initServer();
 
+  // Prelogging
+  String u = settingsController.getUsername();
+  String p = settingsController.getPassword();
+
+  bool canLogin = await serverInfo.canUserLogin(u, p);
+  print("can login: $canLogin");
+
+  if (!canLogin) {
+    print("User ${settingsController.getUsername()}, ${settingsController.getPassword()} does not exist");
+  } else {
+    settingsController.login(settingsController.getUsername(), settingsController.getPassword());
+  }
+  // checked if the user can login
+
+  serverInfo.stopFetchProcess();
+
   debugPrint(settingsService.getKeys().toString());
   debugPrint(Env.str());
 
   // load settings
   expandedatstart = false;
-
-  //debugPrint("$expandedatstart");
 
   runApp(MyApp());
 }
@@ -118,7 +132,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home:
-            LoginView(settingsController: settingsController, onLogin: () {}));
+            LoginView(settingsController: settingsController, onLogin: () {}, server: serverInfo));
   }
 }
 
@@ -274,6 +288,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             MaterialPageRoute(
                                 builder: (context) => UserView(
                                       settingsController: settingsController,
+                                      server: serverInfo,
                                       onLogout: () {
                                         //Navigator.pop(context);
                                         this.onLogout();
@@ -471,6 +486,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           MaterialPageRoute(
                               builder: (context) => UserView(
                                     settingsController: settingsController,
+                                    server: serverInfo,
                                     onLogout: () {
                                       //Navigator.pop(context);
                                       this.onLogout();

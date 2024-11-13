@@ -66,6 +66,21 @@ abstract class Server{
     return Either.left(FetchError(why: "fetchVTGInfois abstract |"));
   }
 
+  // returns true if the creadentials are good
+  Future<bool> canUserLogin(String username, String password) async {
+    return false;
+  }
+
+  // returns the the list of boats
+  Future<List<BoatInfo>> boatsList(String username, String password) async {
+    return [];
+  }
+
+  void resetCredentials(){
+    throw Exception("Implement it !");
+  }
+
+
   void setFetchProcess({required Duration interval, required void Function(Timer) callback}){
     fetch = Timer.periodic(interval, callback);
   }

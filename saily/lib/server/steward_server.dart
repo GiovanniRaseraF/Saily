@@ -77,6 +77,15 @@ class StewardServerInfo extends Server{
     throw UnimplementedError();
   }
 
+    // returns true if the creadentials are good
+  Future<bool> canUserLogin(String username, String password) async {
+    return false;
+  }
+
+  // returns the the list of boats
+  Future<List<BoatInfo>> boatsList(String username, String password) async {
+    return [];
+  }
 
   @override
   void runFetchProcess({required Duration interval, required void Function(Timer p1) callback}) {

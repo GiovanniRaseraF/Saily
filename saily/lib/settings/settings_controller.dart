@@ -56,6 +56,7 @@ class SettingsController extends ChangeNotifier {
 
   String username = "";
   String password = "";
+  bool logged = false;
 
   // camera
   late CameraDescription camera;
@@ -198,10 +199,14 @@ class SettingsController extends ChangeNotifier {
   }
 
   void login(String username, String password){
-    if(canUserLogin(username, password)){
       settingsService.setUsername(username);
       settingsService.setPassword(password);
-    }
+      
+      logged = true;
+  }
+
+  bool isUserLogged(){
+    return logged;
   }
 
   String getUsername(){
@@ -220,6 +225,8 @@ class SettingsController extends ChangeNotifier {
 
     settingsService.setUsername(username);
     settingsService.setPassword(password);
+    
+    logged = false;
   }
 
   UserInfo? getUser(String username, String password){
