@@ -41,8 +41,11 @@ class _UserViewState extends State<UserView> {
 
   @override
   Widget build(BuildContext context) {
-    UserInfo? currentUser = settingsController.getLoggedUser();
-    int numOfBoats = currentUser!.boats.length;
+    UserInfo? currentUser = UserInfo(email: "", username: "", password: "", boats: [], routes: []);
+    currentUser.email = settingsController.username; 
+    currentUser.username = settingsController.username; 
+
+    int numOfBoats = 0;//currentUser!.boats.length;
 
     return OrientationBuilder(builder: (c, or) {
       var w = scaleW(c, 1);
