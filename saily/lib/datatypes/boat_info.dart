@@ -24,8 +24,8 @@ class BoatInfo {
   // From the json dynamic
   static BoatInfo? fromJSONDynamic(dynamic json){
     try{
-      String name = json["name"];
-      String id = json["id"];
+      String name = "";//json["name"];
+      String id = "";//json["boat_id"];
 
       return BoatInfo(name: name, id: id);
     }on Exception {

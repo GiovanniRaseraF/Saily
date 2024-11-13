@@ -350,6 +350,44 @@ class HuracanServer extends Server {
 
   // returns the the list of boats
   Future<List<BoatInfo>> boatsList(String username, String password) async {
+    String loginData = "username=$username&password=$password";
+    try {
+      final res = await post(
+          Uri.parse("$PROTOCOL://$DEFAULT_SERVER_NAME:$DEFAULT_PORT/boats"),
+          body: loginData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          });
+
+      final response = res.body;
+
+      // checking response
+      if (response.isEmpty) {
+        print("response for boat is empty");
+        return [];
+      } else {
+        print(response);
+        final jsonResponse = jsonDecode(response.toString());
+        if(jsonResponse["error"] != null){
+          return [];
+        }else {
+          List<dynamic> boatsDynamic = jsonResponse["boats"];
+          List<BoatInfo> boats = [];
+
+          for (dynamic dyn in boatsDynamic) {
+            final boat = BoatInfo.fromJSONDynamic(dyn);
+            if (boat != null) {
+              boats.add(boat);
+            }
+          }
+
+          return boats;
+        }
+      }
+    } on Exception catch (err) {
+      print(err);
+      return [];
+    }
     return [];
   }
 

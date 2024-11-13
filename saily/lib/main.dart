@@ -100,11 +100,10 @@ void main() async {
     settingsController.login(settingsController.getUsername(), settingsController.getPassword());
   }
   // checked if the user can login
-
   serverInfo.stopFetchProcess();
 
-  debugPrint(settingsService.getKeys().toString());
-  debugPrint(Env.str());
+  // debugPrint(settingsService.getKeys().toString());
+  // debugPrint(Env.str());
 
   // load settings
   expandedatstart = false;

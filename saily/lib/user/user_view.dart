@@ -32,10 +32,21 @@ class UserView extends StatefulWidget {
 }
 
 class _UserViewState extends State<UserView> {
-  _UserViewState({required this.settingsController, required this.onLogout, required this.server});
+  _UserViewState({required this.settingsController, required this.onLogout, required this.server}){
+      final boat = server.boatsList(settingsController.username, settingsController.password).then((res){
+        // print("Boats loaded: ");
+        // print(res);
+        setState(() {
+          numOfBoats = res.length;
+          boats = res;
+        });
+      });
+  }
 
   SettingsController settingsController;
   Server server;
+  int numOfBoats = 0;
+  List<BoatInfo> boats = [];
 
   void Function() onLogout;
 
@@ -44,8 +55,6 @@ class _UserViewState extends State<UserView> {
     UserInfo? currentUser = UserInfo(email: "", username: "", password: "", boats: [], routes: []);
     currentUser.email = settingsController.username; 
     currentUser.username = settingsController.username; 
-
-    int numOfBoats = 0;//currentUser!.boats.length;
 
     return OrientationBuilder(builder: (c, or) {
       var w = scaleW(c, 1);
@@ -123,7 +132,7 @@ class _UserViewState extends State<UserView> {
                   numOfBoats == 0
                     ? Center(child: Text("No boats, click Boats and add a boat ;)"))
                     :
-                    SelectedBoatWidget(info: BoatInfo(name: "NoBoat", id: "0x0"))
+                    SelectedBoatWidget(info: boats[0])
                 ],
               ),
             ));
