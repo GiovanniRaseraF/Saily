@@ -304,7 +304,7 @@ class SettingsController extends ChangeNotifier {
     if(currentUser == null) return;
     List<BoatInfo> newList = [];
     for(final b in currentUser!.boats){
-      if(b.id != id){
+      if(b.boat_id != id){
         newList.add(b);
       }
     }

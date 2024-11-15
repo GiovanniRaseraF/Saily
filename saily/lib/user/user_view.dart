@@ -33,9 +33,7 @@ class UserView extends StatefulWidget {
 
 class _UserViewState extends State<UserView> {
   _UserViewState({required this.settingsController, required this.onLogout, required this.server}){
-      final boat = server.boatsList(settingsController.username, settingsController.password).then((res){
-        // print("Boats loaded: ");
-        // print(res);
+      server.boatsList(settingsController.username, settingsController.password).then((res){
         setState(() {
           numOfBoats = res.length;
           boats = res;

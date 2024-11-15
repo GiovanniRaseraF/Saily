@@ -50,7 +50,7 @@ class SelectedBoatWidget extends StatelessWidget {
                                   FittedBox(
                                       child: Row(children: [
                                     Text(
-                                      info.name,
+                                      info.boat_id,
                                       style:
                                           TextStyle(fontWeight: FontWeight.bold),
                                     )
@@ -72,7 +72,7 @@ class SelectedBoatWidget extends StatelessWidget {
                                       ])),
                                   FittedBox(
                                       child: Row(
-                                          children: [Text("id: ${info.id}")])),
+                                          children: [Text("id: ${info.boat_id}")])),
                                 ],
                               ))),
                     ),

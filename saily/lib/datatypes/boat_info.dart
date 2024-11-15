@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class BoatInfo {
-  BoatInfo({required this.name, required this.id});
-  String name = "";
-  String id = "";
+  BoatInfo({required this.boat_name, required this.boat_id});
+  String boat_name = "";
+  String boat_id = "";
   
   String toJSONString(){
     return """{
-      "name" : "${name}",
-      "id" : "${id}"
+      "boat_name" : "${boat_name}",
+      "boat_id" : "${boat_id}"
     }""";
   }
   // From the json string saved
@@ -24,10 +24,10 @@ class BoatInfo {
   // From the json dynamic
   static BoatInfo? fromJSONDynamic(dynamic json){
     try{
-      String name = "";//json["name"];
-      String id = "";//json["boat_id"];
+      String name = json["boat_id"];
+      String id = json["boat_id"];
 
-      return BoatInfo(name: name, id: id);
+      return BoatInfo(boat_name: name, boat_id: id);
     }on Exception {
       return null; 
     }

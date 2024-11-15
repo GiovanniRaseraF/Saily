@@ -70,7 +70,7 @@ void main() async {
 
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
-  fakeServer.loadUsers();
+  //fakeServer.loadUsers();
 
   // setting service
   settingsService =
@@ -99,11 +99,6 @@ void main() async {
   } else {
     settingsController.login(settingsController.getUsername(), settingsController.getPassword());
   }
-  // checked if the user can login
-  serverInfo.stopFetchProcess();
-
-  // debugPrint(settingsService.getKeys().toString());
-  // debugPrint(Env.str());
 
   // load settings
   expandedatstart = false;

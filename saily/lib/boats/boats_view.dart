@@ -92,7 +92,7 @@ class _BoatsViewState extends State<BoatsView> {
                             () {
                               
                               BoatInfo newboat =
-                                  BoatInfo(name: name, id: "0x" + scannedId);
+                                  BoatInfo(boat_name: name, boat_id: "0x" + scannedId);
                               settingsController.addNewBoat(newboat);
                               Navigator.pop(context);
                               setState(() {});

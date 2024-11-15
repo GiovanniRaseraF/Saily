@@ -44,23 +44,23 @@ class BoatWidget extends StatelessWidget {
                             elevation: 0,
                             child: Column(
                               children: [
-                                FittedBox(child: Row(children: [Text(info.name, style: TextStyle(fontWeight: FontWeight.bold),)])),
+                                FittedBox(child: Row(children: [Text(info.boat_name, style: TextStyle(fontWeight: FontWeight.bold),)])),
                                 FittedBox(child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [Icon(Icons.online_prediction, color: SailyBlue,),Text("online", style: TextStyle(fontWeight: FontWeight.bold),)])),
-                                FittedBox(child: Row(children: [Text("id: ${info.id}")])),
+                                FittedBox(child: Row(children: [Text("id: ${info.boat_id}")])),
                                 Divider(),
                                 FittedBox(
                                   child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         FloatingActionButton(
-                                          heroTag: "view_boat_" + info.id,
+                                          heroTag: "view_boat_" + info.boat_id,
                                           elevation: 2,
                                           mini: true,
                                           backgroundColor: Colors.white,
                                           onPressed: () {
-                                            print("Select Boat ${info.id}");
+                                            print("Select Boat ${info.boat_id}");
                                             Navigator.pop(context);
                                           },
                                           child: Icon(
@@ -69,7 +69,7 @@ class BoatWidget extends StatelessWidget {
                                           ),
                                         ),
                                         FloatingActionButton(
-                                          heroTag: "delete_boat_" + info.id,
+                                          heroTag: "delete_boat_" + info.boat_id,
                                           elevation: 2,
                                           mini: true,
                                           backgroundColor: Colors.white,
@@ -85,7 +85,7 @@ class BoatWidget extends StatelessWidget {
                                                       mainAxisSize: MainAxisSize.min,
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: <Widget>[
-                                                        Text('Delete: ${info.name} ?', style: TextStyle(fontSize: 15)),
+                                                        Text('Delete: ${info.boat_name} ?', style: TextStyle(fontSize: 15)),
                                                         Divider( color: Colors.transparent),
                                                         Divider( color: Colors.transparent),
                                                         Row(
@@ -95,13 +95,13 @@ class BoatWidget extends StatelessWidget {
                                                             SizedBox(
                                                                 width:  gCtxW() * 0.3,
                                                                 child: FloatingActionButton(
-                                                                  heroTag: "confirm_delete_boat_${info.id}",
+                                                                  heroTag: "confirm_delete_boat_${info.boat_id}",
                                                                   child: Text("Yes",  style: TextStyle(color:Colors.white)),
                                                                   backgroundColor: Colors.red,
                                                                   elevation: 10,
                                                                   onPressed: () {
-                                                                    print("Delete boat ${info.name}");
-                                                                    settingsController.deleteBoat(info.id);
+                                                                    print("Delete boat ${info.boat_name}");
+                                                                    settingsController.deleteBoat(info.boat_id);
                                                                     Navigator.pop(context);
                                                                     onDelete();
                                                             })),
@@ -109,7 +109,7 @@ class BoatWidget extends StatelessWidget {
                                                             SizedBox(
                                                                 width: gCtxW() * 0.3,
                                                                 child: FloatingActionButton(
-                                                                heroTag: "decline_delete_boat_${info.id}",
+                                                                heroTag: "decline_delete_boat_${info.boat_id}",
                                                                 child: Text("NO",  style: TextStyle( color:Colors.white )),
                                                                 backgroundColor:  SailyBlue,
                                                                 elevation: 10,

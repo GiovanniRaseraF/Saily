@@ -33,9 +33,9 @@ UserInfo adminDefault = UserInfo(
       ], from: DateTime.now().toString(), to: DateTime.now().toString()),
     ],
     boats: [
-      BoatInfo(name: "Angelica", id: "0x0000"),
-      BoatInfo(name: "Marta", id: "0x0001"),
-      BoatInfo(name: "Lorena", id: "0x0002"),
+      BoatInfo(boat_name: "Angelica", boat_id: "0x0000"),
+      BoatInfo(boat_name: "Marta", boat_id: "0x0001"),
+      BoatInfo(boat_name: "Lorena", boat_id: "0x0002"),
     ]);
 
 class FakeServer {
