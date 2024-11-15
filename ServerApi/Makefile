@@ -28,6 +28,9 @@ stress_boats:
 stress_login:
 	./runstress.py tests/logintests
 
+simulation:
+	node ./tests/simulation/simulatemovement.js
+
 build:
 	zip -r ~/Desktop/server.zip \
 	'api' \
