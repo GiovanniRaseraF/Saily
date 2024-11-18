@@ -70,7 +70,6 @@ void main() async {
 
   // server for login
   fakeServer = FakeServer(preferences: sharedPreferences);
-  //fakeServer.loadUsers();
 
   // setting service
   settingsService =

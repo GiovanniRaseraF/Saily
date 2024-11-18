@@ -414,70 +414,73 @@ class HuracanServer extends Server {
   Future<void> fetchProcess(Timer t) async {
     if(! settingsController.isUserLogged()) return;
     
-    debugPrint("-");
-    debugPrint("--");
-    debugPrint("---");
-    debugPrint("-----");
-    debugPrint("------");
-    debugPrint("\n\n\nRunning fetch..");
+    // debugPrint("-");
+    // debugPrint("--");
+    // debugPrint("---");
+    // debugPrint("-----");
+    // debugPrint("------");
+    // debugPrint("\n\n\nRunning fetch..");
 
-    // init with ping
-    final resPing = (await ping());
-    final valPing = resPing.getOrHandle((err) {
-      return ("FetchError: ${err.why}");
+    // // init with ping
+    // final resPing = (ping());
+    // final valPing = resPing.then((v){ 
+    //   v.getOrHandle((err) {
+    //     return ("FetchError: ${err.why}");
+    //   });
+    // });
+
+    // // fetch acti
+    // final resFetchActi = (await fetchAcuatorInfo());
+    // final valFetchActi = resFetchActi.getOrHandle((err) {
+    //   debugPrint("FetchError: ${err.why}");
+    //   return ActuatorInfo();
+    // });
+
+    // debugPrint(valFetchActi.toString());
+
+    // final resFetchEmi = (await fetchElectricmotorInfo());
+    // final valFetchEmi = resFetchEmi.getOrHandle((err) {
+    //   debugPrint("FetchError: ${err.why}");
+    //   return ElectricmotorInfo();
+    // });
+    // debugPrint(valFetchEmi.toString());
+
+    // final resFetchEndoi = (await fetchEndotermicmotorInfo());
+    // final valFetchEndoi = resFetchEndoi.getOrHandle((err) {
+    //   debugPrint("FetchError: ${err.why}");
+    //   return EndotermicmotorInfo();
+    // });
+
+    // debugPrint(valFetchEndoi.toString());
+
+    // final resFetchGi = (await fetchGeneralInfo());
+    // final valFetchGi = resFetchGi.getOrHandle((err) {
+    //   debugPrint("FetchError: ${err.why}");
+    //   return GeneralInfo.zero();
+    // });
+
+    // debugPrint(valFetchGi.toString());
+
+    // final resFetchHpbi = (await fetchHighpowerbatteryInfo());
+    // final valFetchHpbi = resFetchHpbi.getOrHandle((err) {
+    //   debugPrint("FetchError: ${err.why}");
+    //   return HighpowerbatteryInfo.zero();
+    // });
+
+    // debugPrint(valFetchHpbi.toString());
+
+    final resFetchVtgi = (fetchVTGInfo());
+    resFetchVtgi.then((v){
+      var valFetchVtgi = v.getOrHandle((err) {
+        debugPrint("FetchError: ${err.why}");
+        return VTGInfo(
+            isFixed: false, satellitesCount: 0, SOG: 0, lat: 0, lng: 0);
+      });
+
+      LatLng send = LatLng(valFetchVtgi.lat, valFetchVtgi.lng);
+      settingsController.currentBoatPositionStream.sink.add(send);
+      debugPrint(valFetchVtgi.toString());
     });
-    debugPrint(valPing);
-
-    // fetch acti
-    final resFetchActi = (await fetchAcuatorInfo());
-    final valFetchActi = resFetchActi.getOrHandle((err) {
-      debugPrint("FetchError: ${err.why}");
-      return ActuatorInfo();
-    });
-
-    debugPrint(valFetchActi.toString());
-
-    final resFetchEmi = (await fetchElectricmotorInfo());
-    final valFetchEmi = resFetchEmi.getOrHandle((err) {
-      debugPrint("FetchError: ${err.why}");
-      return ElectricmotorInfo();
-    });
-    debugPrint(valFetchEmi.toString());
-
-    final resFetchEndoi = (await fetchEndotermicmotorInfo());
-    final valFetchEndoi = resFetchEndoi.getOrHandle((err) {
-      debugPrint("FetchError: ${err.why}");
-      return EndotermicmotorInfo();
-    });
-
-    debugPrint(valFetchEndoi.toString());
-
-    final resFetchGi = (await fetchGeneralInfo());
-    final valFetchGi = resFetchGi.getOrHandle((err) {
-      debugPrint("FetchError: ${err.why}");
-      return GeneralInfo.zero();
-    });
-
-    debugPrint(valFetchGi.toString());
-
-    final resFetchHpbi = (await fetchHighpowerbatteryInfo());
-    final valFetchHpbi = resFetchHpbi.getOrHandle((err) {
-      debugPrint("FetchError: ${err.why}");
-      return HighpowerbatteryInfo.zero();
-    });
-
-    debugPrint(valFetchHpbi.toString());
-
-    final resFetchVtgi = (await fetchVTGInfo());
-    final valFetchVtgi = resFetchVtgi.getOrHandle((err) {
-      debugPrint("FetchError: ${err.why}");
-      return VTGInfo(
-          isFixed: false, satellitesCount: 0, SOG: 0, lat: 0, lng: 0);
-    });
-
-    LatLng send = LatLng(valFetchVtgi.lat, valFetchVtgi.lng);
-    settingsController.currentBoatPositionStream.sink.add(send);
-    debugPrint(valFetchVtgi.toString());
   }
 
   @override
