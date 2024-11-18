@@ -95,7 +95,7 @@ async function main() {
                 };
 
                 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-                await delay(10000);
+                await delay(1000);
             }
 
             await f();
