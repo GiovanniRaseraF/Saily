@@ -21,6 +21,10 @@ console.log({
 const testName = "just stress test";
 const env = require("./envload")
 const _ = require("lodash");
+// import the noise functions you need
+const { createNoise2D } = require('simplex-noise');
+// initialize the noise function
+let noise2D = createNoise2D();
 const { error_boat_authentication } = require("../../api/errors");
 const https = require(env.HTTP_PROTOCOL);
 const defaultPath = '/send_nmea2000/vtgi';
@@ -93,6 +97,53 @@ async function main() {
                     let sendNmea2000 = createSend(defaultPath, actual_message_str);
                     await sendNmea2000();
                 };
+
+                {
+                    let busVoltage = 0.0;
+                    let motorCurrent = 0.0;
+                    let inverterTemperature = 0.0;
+                    let motorTemperature = 0.0;
+                    let motorRPM = 2000 + Math.random() * 1000;//Date.now();
+
+                    let response = { busVoltage, motorCurrent, inverterTemperature, motorTemperature, motorRPM };
+                    let responseStr = JSON.stringify(response);
+                    let send = createSend("/send_emi", responseStr);
+                    await send();
+                }
+
+
+                {
+                    let motorRPM = 3; // RPM
+                    let refrigerationTemperature = 0.0; // C
+                    let batteryVoltage = 0.0; // factor 0.1 V
+                    let throttlePedalPosition = 0; // %
+                    let glowStatus = 0; //GlowStatus.OFF
+                    let dieselStatus = 0; // DieselStatus.WAIT;
+                    let fuelLevel1 = 0; // %
+                    let fuelLevel2 = Date.now(); // %
+
+                    let response = { motorRPM, refrigerationTemperature, batteryVoltage, throttlePedalPosition, glowStatus, dieselStatus, fuelLevel1, fuelLevel2 };
+                    let responseStr = JSON.stringify(response);
+                    let send = createSend("/send_endoi", responseStr);
+                    await send();
+                }
+
+                {
+
+                    let totalVoltage = 160.0;
+                    let totalCurrent = 23.0;
+                    let batteryTemperature = 24.0;
+                    let bmsTemperature = 20.0;
+                    let SOC = 23.3 + Math.random() * 20;
+                    let power = 23.0 + Math.random() * 7;
+                    let tte = 55;
+                    let auxBatteryVoltage = 12.1;
+                    let responsehpbi = { totalVoltage, totalCurrent, batteryTemperature, bmsTemperature, SOC, power, tte, auxBatteryVoltage };
+
+                    let responsehpbiStr = JSON.stringify(responsehpbi);
+                    let sendhpbi = createSend("/send_hpbi", responsehpbiStr);
+                    await sendhpbi();
+                }
 
                 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
                 await delay(1000);
