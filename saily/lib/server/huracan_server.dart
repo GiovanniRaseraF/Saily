@@ -17,7 +17,7 @@ import 'package:latlong2/latlong.dart';
 
 class HuracanServer extends Server {
   HuracanServer({required this.settingsController}) {
-    setFetchProcess(interval: const Duration(seconds: 5), callback: fetchProcess);
+    setFetchProcess(interval: const Duration(seconds: 1), callback: fetchProcess);
   }
   SettingsController settingsController;
 
@@ -366,6 +366,7 @@ class HuracanServer extends Server {
   }
 
   // returns the the list of boats
+  @override
   Future<List<BoatInfo>> boatsList(String username, String password) async {
     String loginData = "username=$username&password=$password";
     try {
@@ -430,45 +431,60 @@ class HuracanServer extends Server {
     // });
 
     // // fetch acti
-    // final resFetchActi = (await fetchAcuatorInfo());
-    // final valFetchActi = resFetchActi.getOrHandle((err) {
-    //   debugPrint("FetchError: ${err.why}");
-    //   return ActuatorInfo();
-    // });
+    final resFetchActi = (fetchAcuatorInfo());
+    resFetchActi.then((v){
+      final valFetchActi = v.getOrHandle((err) {
+        debugPrint("FetchError: ${err.why}");
+        return ActuatorInfo();
+      });
+      // TODO: acutator info on settingsController
+      debugPrint(valFetchActi.toString());
+    });
 
-    // debugPrint(valFetchActi.toString());
+    final resFetchEmi = (fetchElectricmotorInfo());
+    resFetchEmi.then((v){
+      final valFetchEmi = v.getOrHandle((err) {
+        debugPrint("FetchError: ${err.why}");
+        return ElectricmotorInfo();
+      });
+      settingsController.electricmotorInfoStream.sink.add(valFetchEmi); 
+      debugPrint(valFetchEmi.toString());
+    });
 
-    // final resFetchEmi = (await fetchElectricmotorInfo());
-    // final valFetchEmi = resFetchEmi.getOrHandle((err) {
-    //   debugPrint("FetchError: ${err.why}");
-    //   return ElectricmotorInfo();
-    // });
-    // debugPrint(valFetchEmi.toString());
+    final resFetchEndoi = (fetchEndotermicmotorInfo());
+    resFetchEndoi.then((v){
+      final valFetchEndoi = v.getOrHandle((err) {
+        debugPrint("FetchError: ${err.why}");
+        return EndotermicmotorInfo();
+      });
+      settingsController.endotermicmotorInfoStream.sink.add(valFetchEndoi); 
+      debugPrint(valFetchEndoi.toString());
+    });
 
-    // final resFetchEndoi = (await fetchEndotermicmotorInfo());
-    // final valFetchEndoi = resFetchEndoi.getOrHandle((err) {
-    //   debugPrint("FetchError: ${err.why}");
-    //   return EndotermicmotorInfo();
-    // });
+    final resFetchGi = (fetchGeneralInfo());
+    resFetchGi.then((v){
+      final valFetchGi = v.getOrHandle((err) {
+        debugPrint("FetchError: ${err.why}");
+        return GeneralInfo.zero();
+      });
 
-    // debugPrint(valFetchEndoi.toString());
+      settingsController.generalInfoStream.sink.add(valFetchGi); 
+      debugPrint(valFetchGi.toString());
+    });
 
-    // final resFetchGi = (await fetchGeneralInfo());
-    // final valFetchGi = resFetchGi.getOrHandle((err) {
-    //   debugPrint("FetchError: ${err.why}");
-    //   return GeneralInfo.zero();
-    // });
+    // battery
+    final resFetchHpbi = (fetchHighpowerbatteryInfo());
+    resFetchHpbi.then((v){
+      final valFetchHpbi = v.getOrHandle((err) {
+        debugPrint("FetchError: ${err.why}");
+        return HighpowerbatteryInfo.zero();
+      });
 
-    // debugPrint(valFetchGi.toString());
+      settingsController.highpowerbatteryInfoStream.sink.add(valFetchHpbi);
+      debugPrint(valFetchHpbi.toString());
+    });
 
-    // final resFetchHpbi = (await fetchHighpowerbatteryInfo());
-    // final valFetchHpbi = resFetchHpbi.getOrHandle((err) {
-    //   debugPrint("FetchError: ${err.why}");
-    //   return HighpowerbatteryInfo.zero();
-    // });
-
-    // debugPrint(valFetchHpbi.toString());
-
+    // position
     final resFetchVtgi = (fetchVTGInfo());
     resFetchVtgi.then((v){
       var valFetchVtgi = v.getOrHandle((err) {
