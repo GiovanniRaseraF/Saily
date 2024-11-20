@@ -24,7 +24,7 @@ class HuracanServer extends Server {
   String USERNAME = "g.rasera@huracanmarine.com";
   String PASSWORD = "MoroRacing2024";
   // current boat
-  BoatInfo currentBoat = BoatInfo(boat_name: "default", boat_id: "0x0010");
+  BoatInfo currentBoat = BoatInfo(boat_name: "default", boat_id: "0x0020");
 
   // remote
   final DEFAULT_SERVER_NAME = "huracanpower.com";
