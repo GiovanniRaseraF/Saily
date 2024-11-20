@@ -6,15 +6,17 @@ console.log(arguments);
 
 const routeCannes = require("./cannes.js");
 const routeVenice = require("./venice.js");
+const routeGeneric1 = require("./generic1.js");
 
 const boatsList = [
     {boat_id : "0x0010", mqtt_user: "test", mqtt_password : "test", route: routeCannes},
     {boat_id : "0x0020", mqtt_user: "test", mqtt_password : "test", route: routeVenice},
+    {boat_id : "0x0030", mqtt_user: "test", mqtt_password : "test", route: routeGeneric1},
 ];
 // info print
 console.log("Simulation Started");
 for(let b in boatsList){
-    console.log(b.boat_id);
+    console.log(boatsList[b].boat_id);
 }
 
 const testName = "just stress test";
@@ -145,7 +147,7 @@ async function sim(boat){
                 }
 
                 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-                await delay(1000);
+                await delay(30000);
             }
 
             await f();
