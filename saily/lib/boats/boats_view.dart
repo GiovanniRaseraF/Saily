@@ -17,19 +17,20 @@ import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/fract_box.dart';
 
 class BoatsView extends StatefulWidget {
-  BoatsView({super.key, required this.settingsController, required this.server});
+  BoatsView({super.key, required this.settingsController, required this.server, required this.onSelect});
 
   final String title = "Boats";
   SettingsController settingsController;
   Server server;
+  void Function(BoatInfo) onSelect = (BoatInfo boat){};
 
   @override
   State<BoatsView> createState() =>
-      _BoatsViewState(settingsController: settingsController, server: server);
+      _BoatsViewState(settingsController: settingsController, server: server, onSelect: onSelect);
 }
 
 class _BoatsViewState extends State<BoatsView> {
-  _BoatsViewState({required this.settingsController, required this.server}){
+  _BoatsViewState({required this.settingsController, required this.server, required this.onSelect}){
     server.boatsList(settingsController.username, settingsController.password).then((res){
         setState(() {
           numOfBoats = res.length;
@@ -42,6 +43,7 @@ class _BoatsViewState extends State<BoatsView> {
   Server server;
   int numOfBoats = 0;
   List<BoatInfo> boats = [];
+  void Function(BoatInfo) onSelect = (BoatInfo boat){};
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +71,10 @@ class _BoatsViewState extends State<BoatsView> {
                           return BoatWidget(
                             info: b,
                             settingsController: settingsController,
-                            onDelete: () {
+                            onDelete: (){
                               setState(() {});
                             },
+                            onSelect: onSelect,
                           );
                         }).toList()),
                       ),

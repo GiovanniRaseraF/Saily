@@ -33,19 +33,14 @@ class UserView extends StatefulWidget {
 
 class _UserViewState extends State<UserView> {
   _UserViewState({required this.settingsController, required this.onLogout, required this.server}){
-      server.boatsList(settingsController.username, settingsController.password).then((res){
-        setState(() {
-          numOfBoats = res.length;
-          boats = res;
-        });
-      });
+    boat = settingsController.getCurretBoat();
   }
 
   SettingsController settingsController;
   Server server;
   int numOfBoats = 0;
   List<BoatInfo> boats = [];
-
+  late BoatInfo boat;
   void Function() onLogout;
 
   @override
@@ -53,7 +48,6 @@ class _UserViewState extends State<UserView> {
     UserInfo? currentUser = UserInfo(email: "", username: "", password: "", boats: [], routes: []);
     currentUser.email = settingsController.username; 
     currentUser.username = settingsController.username; 
-    BoatInfo boat = settingsController.getCurretBoat();
 
     return OrientationBuilder(builder: (c, or) {
       var w = scaleW(c, 1);
@@ -102,7 +96,12 @@ class _UserViewState extends State<UserView> {
                                     MaterialPageRoute(
                                         builder: (context) => BoatsView(
                                             settingsController:
-                                                settingsController, server: server,)));
+                                                settingsController, server: server,
+                                                onSelect: (b){
+                                                  setState(() {
+                                                    boat = b;
+                                                  });
+                                                },)));
                               }),
                         )),
                     // logout
@@ -128,10 +127,7 @@ class _UserViewState extends State<UserView> {
                   ]),
                   Divider(),
                   Text("Selected Boat:"),
-                  numOfBoats == 0
-                    ? Center(child: Text("No boats, click Boats and add a boat ;)"))
-                    :
-                    SelectedBoatWidget(info: boat)
+                  SelectedBoatWidget(info: boat)
                 ],
               ),
             ));

@@ -5,11 +5,12 @@ import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 
 class BoatWidget extends StatelessWidget {
-  BoatWidget({required this.info, required this.settingsController, required this.onDelete});
+  BoatWidget({required this.info, required this.settingsController, required this.onDelete, required this.onSelect});
 
   BoatInfo info;
   SettingsController settingsController;
   void Function() onDelete = (){};
+  void Function(BoatInfo) onSelect = (BoatInfo boat){};
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,7 @@ class BoatWidget extends StatelessWidget {
                                             print("Select Boat ${info.boat_id}");
                                             settingsController.setCurrentBoat(info);
                                             Navigator.pop(context);
+                                            onSelect(info);
                                           },
                                           child: Icon(
                                             Icons.visibility,
