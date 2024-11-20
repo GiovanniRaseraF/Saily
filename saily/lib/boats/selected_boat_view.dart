@@ -11,6 +11,9 @@ class SelectedBoatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(info.boat_name == "" || info.boat_id == ""){
+      return Text("Please select a boat in the Boats Menu ;)");
+    }
     return SizedBox(
         height: 150,
         width: gCtxW() * 0.9,
@@ -50,7 +53,7 @@ class SelectedBoatWidget extends StatelessWidget {
                                   FittedBox(
                                       child: Row(children: [
                                     Text(
-                                      info.boat_id,
+                                      info.boat_name,
                                       style:
                                           TextStyle(fontWeight: FontWeight.bold),
                                     )

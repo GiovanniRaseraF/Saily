@@ -6,6 +6,7 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:saily/addnewboat/addnewboat_view.dart';
 import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/user_info.dart';
+import 'package:saily/server/server.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/boats/boat_widget.dart';
 import 'package:saily/user/user_controller.dart';
@@ -16,25 +17,34 @@ import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/fract_box.dart';
 
 class BoatsView extends StatefulWidget {
-  BoatsView({super.key, required this.settingsController});
+  BoatsView({super.key, required this.settingsController, required this.server});
 
   final String title = "Boats";
   SettingsController settingsController;
+  Server server;
 
   @override
   State<BoatsView> createState() =>
-      _BoatsViewState(settingsController: settingsController);
+      _BoatsViewState(settingsController: settingsController, server: server);
 }
 
 class _BoatsViewState extends State<BoatsView> {
-  _BoatsViewState({required this.settingsController});
+  _BoatsViewState({required this.settingsController, required this.server}){
+    server.boatsList(settingsController.username, settingsController.password).then((res){
+        setState(() {
+          numOfBoats = res.length;
+          boats = res;
+        });
+      });
+  }
 
   SettingsController settingsController;
+  Server server;
+  int numOfBoats = 0;
+  List<BoatInfo> boats = [];
 
   @override
   Widget build(BuildContext context) {
-    UserInfo? currentUser = settingsController.getLoggedUser();
-    int numOfBoats = currentUser!.boats.length;
     return OrientationBuilder(builder: (c, or) {
       var w = scaleW(c, 1);
       var h = scaleH(c, 0.45);
@@ -55,7 +65,7 @@ class _BoatsViewState extends State<BoatsView> {
                       child: SingleChildScrollView(
                         padding: EdgeInsets.only(bottom: 100),
                         child: Column(
-                            children: currentUser!.boats.map((b) {
+                            children: boats.map((b) {
                           return BoatWidget(
                             info: b,
                             settingsController: settingsController,

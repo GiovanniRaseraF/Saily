@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/main.dart';
@@ -40,6 +41,7 @@ class SettingsService extends CacheProvider {
 
   final String USERNAME = "USERNAME";
   final String PASSwORD = "PASSWORD";
+  final String CURRENTBOAT = "CURRENTBOAT";
 
   String loadUsername(){
     String? ret = sharedPreferences.getString(USERNAME);
@@ -59,12 +61,28 @@ class SettingsService extends CacheProvider {
     return ret!;
   }
 
+  BoatInfo loadCurrentBoat(){
+    String? ret = sharedPreferences.getString(CURRENTBOAT);
+    if(ret == null){
+      return BoatInfo(boat_name: "", boat_id: "");
+    }
+    BoatInfo? b = BoatInfo.fromJSONString(ret!);
+    if(b == null){
+      return BoatInfo(boat_name: "", boat_id: "");
+    }
+    return b!;
+  }
+
   void setUsername(String user){
     sharePreferences.setString(USERNAME, user);
   }
   
   void setPassword(String pass){
     sharePreferences.setString(PASSwORD, pass);
+  }
+
+  void setCurrentBoat(BoatInfo boat){
+    sharePreferences.setString(CURRENTBOAT, boat.toJSONString());
   }
 
   @override

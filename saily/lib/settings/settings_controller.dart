@@ -30,6 +30,7 @@ class SettingsController extends ChangeNotifier {
     // gps recording
     currentRouteToFollow = StreamController<RouteInfo>.broadcast();
     currentRouteBuilding = StreamController<RouteInfo>.broadcast();
+    currentBoat          = settingsService.loadCurrentBoat();
 
     // Units info
     sogUnitStream = StreamController<String>.broadcast();
@@ -80,6 +81,7 @@ class SettingsController extends ChangeNotifier {
   List<String> listOfIds = [];
   late StreamController<RouteInfo> currentRouteToFollow;
   late StreamController<RouteInfo> currentRouteBuilding;
+  late BoatInfo currentBoat;
 
   // Units info
   late StreamController<String> sogUnitStream;
@@ -198,6 +200,11 @@ class SettingsController extends ChangeNotifier {
     settingsService.setPassword(us);
   }
 
+  void setCurrentBoat(BoatInfo boat){
+    currentBoat = boat;
+    settingsService.setCurrentBoat(boat);
+  }
+
   void login(String username, String password){
       settingsService.setUsername(username);
       settingsService.setPassword(password);
@@ -217,6 +224,10 @@ class SettingsController extends ChangeNotifier {
   String getPassword(){
     password = settingsService.loadPassword();
     return password;
+  }
+
+  BoatInfo getCurretBoat(){
+    return currentBoat;
   }
 
   void logout(){

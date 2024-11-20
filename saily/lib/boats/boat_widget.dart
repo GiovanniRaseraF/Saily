@@ -61,6 +61,7 @@ class BoatWidget extends StatelessWidget {
                                           backgroundColor: Colors.white,
                                           onPressed: () {
                                             print("Select Boat ${info.boat_id}");
+                                            settingsController.setCurrentBoat(info);
                                             Navigator.pop(context);
                                           },
                                           child: Icon(

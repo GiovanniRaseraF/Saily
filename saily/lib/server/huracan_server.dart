@@ -21,10 +21,10 @@ class HuracanServer extends Server {
   }
   SettingsController settingsController;
 
-  String USERNAME = "g.rasera@huracanmarine.com";
-  String PASSWORD = "MoroRacing2024";
+  String USERNAME = "";
+  String PASSWORD = "";
   // current boat
-  BoatInfo currentBoat = BoatInfo(boat_name: "default", boat_id: "0x0020");
+  BoatInfo currentBoat = BoatInfo(boat_name: "", boat_id: "");
 
   // remote
   final DEFAULT_SERVER_NAME = "huracanpower.com";
@@ -39,12 +39,13 @@ class HuracanServer extends Server {
   void resetCredentials(){
     USERNAME = "";
     PASSWORD = "";
-    currentBoat = BoatInfo(boat_name: "", boat_id: "0x0");
+    currentBoat = BoatInfo(boat_name: "", boat_id: "");
   }
 
   Future<Either<InitError, String>> ping() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
 
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
@@ -81,6 +82,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, ActuatorInfo>> fetchAcuatorInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -117,6 +119,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, List<BoatInfo>>> fetchBoats() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -153,6 +156,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -190,6 +194,7 @@ class HuracanServer extends Server {
       fetchEndotermicmotorInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -227,6 +232,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, GeneralInfo>> fetchGeneralInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -264,6 +270,7 @@ class HuracanServer extends Server {
       fetchHighpowerbatteryInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -301,6 +308,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, VTGInfo>> fetchVTGInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
+    currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -413,23 +421,12 @@ class HuracanServer extends Server {
   //////////////////////////
    
   Future<void> fetchProcess(Timer t) async {
+    currentBoat = settingsController.getCurretBoat();
+    // no user selected
     if(! settingsController.isUserLogged()) return;
+    // no boat selected
+    if(currentBoat.boat_id == "") return;
     
-    // debugPrint("-");
-    // debugPrint("--");
-    // debugPrint("---");
-    // debugPrint("-----");
-    // debugPrint("------");
-    // debugPrint("\n\n\nRunning fetch..");
-
-    // // init with ping
-    // final resPing = (ping());
-    // final valPing = resPing.then((v){ 
-    //   v.getOrHandle((err) {
-    //     return ("FetchError: ${err.why}");
-    //   });
-    // });
-
     // // fetch acti
     final resFetchActi = (fetchAcuatorInfo());
     resFetchActi.then((v){
