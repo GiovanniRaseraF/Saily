@@ -17,7 +17,7 @@ import 'package:latlong2/latlong.dart';
 
 class HuracanServer extends Server {
   HuracanServer({required this.settingsController}) {
-    setFetchProcess(interval: const Duration(seconds: 1), callback: fetchProcess);
+    setFetchProcess(interval: const Duration(seconds: 10), callback: fetchProcess);
   }
   SettingsController settingsController;
 
@@ -421,6 +421,10 @@ class HuracanServer extends Server {
   //////////////////////////
    
   Future<void> fetchProcess(Timer t) async {
+    print("Fetching data....");
+    print(".");
+    print("...");
+
     currentBoat = settingsController.getCurretBoat();
     // no user selected
     if(! settingsController.isUserLogged()) return;

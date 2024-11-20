@@ -233,9 +233,11 @@ class SettingsController extends ChangeNotifier {
   void logout(){
     username = "";
     password = "";
+    currentBoat = BoatInfo(boat_name: "", boat_id: "");
 
     settingsService.setUsername(username);
     settingsService.setPassword(password);
+    settingsService.setCurrentBoat(currentBoat);
     
     logged = false;
   }
