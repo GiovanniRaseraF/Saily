@@ -4,32 +4,26 @@
 const arguments = process.argv
 console.log(arguments);
 
-let boat_id = arguments[2] == undefined ? "0x0010" : arguments[2];
-let mqtt_user = arguments[3] == undefined ? "test" : arguments[3];
-let mqtt_password = arguments[4] == undefined ? "test" : arguments[4];
-let username = arguments[5] == undefined ? "g.rasera@huracanmarine.com" : arguments[5];
-let password = arguments[6] == undefined ? "MoroRacing2024" : arguments[6];
+const routeCannes = require("./cannes.js");
+const routeVenice = require("./venice.js");
 
-console.log({
-    boat_id,
-    mqtt_user,
-    mqtt_password,
-    username,
-    password
-});
+const boatsList = [
+    {boat_id : "0x0010", mqtt_user: "test", mqtt_password : "test", route: routeCannes},
+    {boat_id : "0x0020", mqtt_user: "test", mqtt_password : "test", route: routeVenice},
+];
+// info print
+console.log("Simulation Started");
+for(let b in boatsList){
+    console.log(b.boat_id);
+}
 
 const testName = "just stress test";
 const env = require("./envload")
 const _ = require("lodash");
-// import the noise functions you need
-const { createNoise2D } = require('simplex-noise');
-// initialize the noise function
-let noise2D = createNoise2D();
-const { error_boat_authentication } = require("../../api/errors");
 const https = require(env.HTTP_PROTOCOL);
 const defaultPath = '/send_nmea2000/vtgi';
 
-function createSend(endpoindPath, actualStr) {
+function createSend(endpoindPath, actualStr, boat_id, mqtt_user, mqtt_password) {
     return async function send() {
         const data = `boat_id=${boat_id}&mqtt_user=${mqtt_user}&mqtt_password=${mqtt_password}&actual_message=${actualStr}`;
         //console.log(data);
@@ -81,9 +75,13 @@ function createSend(endpoindPath, actualStr) {
     }
 }
 
-const route = require("./cannes.js");
 
-async function main() {
+async function sim(boat){
+    const route = boat.route;
+    const boat_id = boat.boat_id;
+    const mqtt_password= boat.mqtt_password;
+    const mqtt_user= boat.mqtt_user;
+
     while (true) {
         for (let i = 0; i < route.trkpt.length; i++) {
             let f = async function () {
@@ -94,7 +92,7 @@ async function main() {
                     let actual_message = { "satellitesCount": 1, "isFixed": false, "SOG": 2.3, "lat": actualLat, "lng": actualLng };
                     console.log(actual_message);
                     let actual_message_str = JSON.stringify(actual_message);
-                    let sendNmea2000 = createSend(defaultPath, actual_message_str);
+                    let sendNmea2000 = createSend(defaultPath, actual_message_str, boat_id, mqtt_user, mqtt_password);
                     await sendNmea2000();
                 };
 
@@ -107,7 +105,7 @@ async function main() {
 
                     let response = { busVoltage, motorCurrent, inverterTemperature, motorTemperature, motorRPM };
                     let responseStr = JSON.stringify(response);
-                    let send = createSend("/send_emi", responseStr);
+                    let send = createSend("/send_emi", responseStr, boat_id, mqtt_user, mqtt_password);
                     await send();
                 }
 
@@ -124,7 +122,7 @@ async function main() {
 
                     let response = { motorRPM, refrigerationTemperature, batteryVoltage, throttlePedalPosition, glowStatus, dieselStatus, fuelLevel1, fuelLevel2 };
                     let responseStr = JSON.stringify(response);
-                    let send = createSend("/send_endoi", responseStr);
+                    let send = createSend("/send_endoi", responseStr, boat_id, mqtt_user, mqtt_password);
                     await send();
                 }
 
@@ -141,7 +139,8 @@ async function main() {
                     let responsehpbi = { totalVoltage, totalCurrent, batteryTemperature, bmsTemperature, SOC, power, tte, auxBatteryVoltage };
 
                     let responsehpbiStr = JSON.stringify(responsehpbi);
-                    let sendhpbi = createSend("/send_hpbi", responsehpbiStr);
+                    let sendhpbi = createSend("/send_hpbi", responsehpbiStr, boat_id, mqtt_user, mqtt_password);
+
                     await sendhpbi();
                 }
 
@@ -151,6 +150,12 @@ async function main() {
 
             await f();
         }
+    }
+}
+
+async function main() {
+    for(let boat in boatsList){
+        sim(boatsList[boat]);
     }
 }
 
