@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:cupertino_battery_indicator/cupertino_battery_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:saily/datatypes/endotermicmotor_info.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
@@ -25,19 +26,19 @@ class FuelGauge extends StatefulWidget {
 class _FuelGaugeState extends State<FuelGauge> {
   _FuelGaugeState({required this.settingsController, required this.small}) {}
 
-  HighpowerbatteryInfo internalBatteryInfo  = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
+  EndotermicmotorInfo internalBatteryInfo  = EndotermicmotorInfo();
   SettingsController settingsController;
   bool small = true;
 
   Widget buildSmall(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getHighPowerBatteryInfoStream(),
+        stream: settingsController.getEndotermicMotorInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
           if (snapshot.data != null) {
             internalBatteryInfo = snapshot.data!;
-            if(internalBatteryInfo.SOC < 10) spacer = "0";
+            if(internalBatteryInfo.fuelLevel1 < 10) spacer = "0";
           }
 
           return Container(
@@ -45,7 +46,7 @@ class _FuelGaugeState extends State<FuelGauge> {
               children: [
                 Row(children: [Icon(Icons.oil_barrel, color: SailyBlack), Text("Fuel")] ),
                 Text(
-                  "${spacer}${internalBatteryInfo.SOC} %",
+                  "${spacer}${internalBatteryInfo.fuelLevel1} %",
                   style: TextStyle(fontSize: 25),
                 )
               ],
@@ -56,7 +57,7 @@ class _FuelGaugeState extends State<FuelGauge> {
 
   Widget buildBig(BuildContext c) {
     return StreamBuilder(
-        stream: settingsController.getHighPowerBatteryInfoStream(),
+        stream: settingsController.getEndotermicMotorInfoStream(),
         builder: (bc, snapshot) {
           String spacer = "";
           // read data
@@ -73,7 +74,7 @@ class _FuelGaugeState extends State<FuelGauge> {
                 children: [
                   Center(child: Row(children: [Icon(Icons.oil_barrel, color: SailyBlack), Text("Fuel")] , mainAxisAlignment: MainAxisAlignment.spaceAround,)),
                   FittedBox(child: Text(
-                    "${spacer}${internalBatteryInfo.SOC} %",
+                    "${spacer}${internalBatteryInfo.fuelLevel1.toStringAsFixed(1)} %",
                     style: TextStyle(fontSize: 38),
                   ))
                 ],

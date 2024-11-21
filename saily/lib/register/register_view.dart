@@ -134,20 +134,21 @@ class _RegisterViewState extends State<RegisterView> {
                         } else if (password != repeatPassword) {
                           showAlertDialog(context);
                         } else {
-                          UserInfo newUser = UserInfo(
-                              email: email,
-                              username: username,
-                              password: password,
-                              boats: [],
-                              routes: []);
-                          bool can = settingsController.canAddUser(newUser);
-                          if (can) {
-                            settingsController.addUser(newUser);
-                            Navigator.pop(context);
-                          } else {
-                            // show you cannot add user
-                            showAlertUserAlreadyExistsDialog(context);
-                          }
+                          // TODO: allow a user to register using server !!
+                          // UserInfo newUser = UserInfo(
+                          //     email: email,
+                          //     username: username,
+                          //     password: password,
+                          //     boats: [],
+                          //     routes: []);
+                          // bool can = settingsController.canAddUser(newUser);
+                          // if (can) {
+                          //   settingsController.addUser(newUser);
+                          //   Navigator.pop(context);
+                          // } else {
+                          //   // show you cannot add user
+                          //   showAlertUserAlreadyExistsDialog(context);
+                          // }
                         }
                       },
                       child: const Text(

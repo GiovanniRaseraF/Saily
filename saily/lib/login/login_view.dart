@@ -31,6 +31,7 @@ class _LoginViewState extends State<LoginView> {
     homePage = MyHomePage(
         title: "Home Page",
         settingsController: this.settingsController,
+        server: server,
         onLogout: () {
           setState(() {});
         });

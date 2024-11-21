@@ -17,37 +17,26 @@ import 'package:latlong2/latlong.dart';
 
 class HuracanServer extends Server {
   HuracanServer({required this.settingsController}) {
-    setFetchProcess(interval: const Duration(seconds: 10), callback: fetchProcess);
+    setFetchProcess(interval: const Duration(seconds: 5), callback: fetchProcess);
   }
-  SettingsController settingsController;
 
-  String USERNAME = "";
-  String PASSWORD = "";
-  // current boat
-  BoatInfo currentBoat = BoatInfo(boat_name: "", boat_id: "");
+  // controller
+  SettingsController settingsController;
 
   // remote
   final DEFAULT_SERVER_NAME = "huracanpower.com";
   final DEFAULT_PORT = 443;
   final PROTOCOL = "https";
 
-  // local
-  // String DEFAULT_SERVER_NAME = "localhost";
-  // int DEFAULT_PORT = 8567;
-  // String PROTOCOL = "http";
-
+  @override
   void resetCredentials(){
-    USERNAME = "";
-    PASSWORD = "";
-    currentBoat = BoatInfo(boat_name: "", boat_id: "");
   }
 
   Future<Either<InitError, String>> ping() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
 
-    String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
+    String loginData = "username=$USERNAME&password=$PASSWORD";
 
     try {
       final res = await post(
@@ -82,7 +71,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, ActuatorInfo>> fetchAcuatorInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -119,7 +108,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, List<BoatInfo>>> fetchBoats() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -156,7 +145,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -194,7 +183,7 @@ class HuracanServer extends Server {
       fetchEndotermicmotorInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -232,7 +221,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, GeneralInfo>> fetchGeneralInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -270,7 +259,7 @@ class HuracanServer extends Server {
       fetchHighpowerbatteryInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -308,7 +297,7 @@ class HuracanServer extends Server {
   Future<Either<FetchError, VTGInfo>> fetchVTGInfo() async {
     String USERNAME = settingsController.username;
     String PASSWORD = settingsController.password;
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     String loginData = "boat_id=${currentBoat.boat_id}&username=$USERNAME&password=$PASSWORD";
 
     try {
@@ -416,6 +405,24 @@ class HuracanServer extends Server {
     }
   }
 
+  @override 
+  Future<bool> addNewBoat(BoatInfo newBoat) async {
+    final ret = await ping();
+      if (ret.isRight){
+        return true;
+      }
+      return false;
+  }
+
+  @override 
+  Future<bool> deleteBoat(BoatInfo toDelete) async {
+    final ret = await ping();
+    if (ret.isRight){
+      return true;
+    }
+    return false;
+  }
+
   //////////////////////////
   /// BackGround Process ///
   //////////////////////////
@@ -425,7 +432,7 @@ class HuracanServer extends Server {
     print(".");
     print("...");
 
-    currentBoat = settingsController.getCurretBoat();
+    BoatInfo currentBoat = settingsController.getCurretBoat();
     // no user selected
     if(! settingsController.isUserLogged()) return;
     // no boat selected
@@ -482,6 +489,7 @@ class HuracanServer extends Server {
       });
 
       settingsController.highpowerbatteryInfoStream.sink.add(valFetchHpbi);
+
       debugPrint(valFetchHpbi.toString());
     });
 
@@ -496,6 +504,8 @@ class HuracanServer extends Server {
 
       LatLng send = LatLng(valFetchVtgi.lat, valFetchVtgi.lng);
       settingsController.currentBoatPositionStream.sink.add(send);
+      settingsController.sendNVTGInfo(valFetchVtgi);
+
       debugPrint(valFetchVtgi.toString());
     });
   }

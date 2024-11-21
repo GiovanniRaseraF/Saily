@@ -66,6 +66,14 @@ abstract class Server{
     return Either.left(FetchError(why: "fetchVTGInfois abstract |"));
   }
 
+  Future<bool> addNewBoat(BoatInfo newBoat) async {
+    return false;//Either.left(FetchError(why: "cannot add new boat"));
+  }
+
+  Future<bool> deleteBoat(BoatInfo toDelete) async {
+    return false;//Either.left(FetchError(why: "cannot add new boat"));
+  }
+
   // returns true if the creadentials are good
   Future<bool> canUserLogin(String username, String password) async {
     return false;

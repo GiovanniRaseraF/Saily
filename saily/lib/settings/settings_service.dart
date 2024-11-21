@@ -7,37 +7,14 @@ import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/main.dart';
-import 'package:saily/settings/fake_server.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart';
 
 class SettingsService extends CacheProvider {
-  SettingsService({required this.sharePreferences, required this.server});
+  SettingsService({required this.sharePreferences});
 
   SharedPreferences sharePreferences;
-  FakeServer server;
-
-  void addRouteToUser(String username, String password, RouteInfo newRoute){
-    server.addRouteToUser(username, password, newRoute);
-  }
-
-  bool canAddUser(UserInfo newUser){
-    return server.canAddUser(newUser);
-  }
-
-  UserInfo? loadUser(String username, String password){
-    return server.getUser(username, password);
-  }
-
-  void saveUser(UserInfo user){
-    server.updateUser(user);
-  }
-
-  bool canUserLogin(String username, String password){
-    return server.canUserLogin(username, password);
-  }
-
 
   final String USERNAME = "USERNAME";
   final String PASSwORD = "PASSWORD";

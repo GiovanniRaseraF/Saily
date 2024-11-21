@@ -71,7 +71,13 @@ class _BoatsViewState extends State<BoatsView> {
                           return BoatWidget(
                             info: b,
                             settingsController: settingsController,
-                            onDelete: (){
+                            onDelete: (toDelete) async {
+                              final deleted = await server.deleteBoat(toDelete);
+                              if(deleted){
+                                debugPrint("Deleted: $toDelete");
+                              }else{
+                                debugPrint("Cannot Deleted: $toDelete");
+                              }
                               setState(() {});
                             },
                             onSelect: onSelect,
@@ -95,18 +101,18 @@ class _BoatsViewState extends State<BoatsView> {
                     Navigator.push(context, MaterialPageRoute(builder: (c) {
                       return TakePictureScreen(
                         settingsController: settingsController,
-                        onQRCodeTaken: (scannedId) {
+                        onQRCodeTaken: (scannedId) async {
                           UserController.dialogCreator(
                             context, 
                             scannedId, 
                             (v) {
                               name = v;
                             }, 
-                            () {
+                            () async {
                               
                               BoatInfo newboat =
                                   BoatInfo(boat_name: name, boat_id: "0x" + scannedId);
-                              settingsController.addNewBoat(newboat);
+                              await server.addNewBoat(newboat);
                               Navigator.pop(context);
                               setState(() {});
                           }, () {

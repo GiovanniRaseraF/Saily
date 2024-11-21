@@ -177,21 +177,6 @@ class SettingsController extends ChangeNotifier {
     vehicleInfoStream.sink.add(newV);
   }
 
-  // get current value
-
-  // Functions
-  void addUser(UserInfo newUser){
-    settingsService.saveUser(newUser);
-  }
-
-  bool canAddUser(UserInfo newUser){
-    return settingsService.canAddUser(newUser);
-  }
-
-  bool canUserLogin(String usename, String password){
-    return settingsService.canUserLogin(usename, password);
-  }
-
   void setUsername(String us){
     settingsService.setUsername(us);
   }
@@ -242,11 +227,7 @@ class SettingsController extends ChangeNotifier {
     logged = false;
   }
 
-  UserInfo? getUser(String username, String password){
-    return settingsService.loadUser(username, password);
-  }
-
-  Stream<String> getSogUnitStream() {
+   Stream<String> getSogUnitStream() {
     return sogUnitStream.stream;
   }
 
@@ -305,31 +286,6 @@ class SettingsController extends ChangeNotifier {
     }
   }
 
-  void addNewBoat(BoatInfo newboat){
-    UserInfo? currentUser = settingsService.loadUser(username, password);
-    if(currentUser == null) return;
-    currentUser!.addBoat(newboat);
-    settingsService.saveUser(currentUser!);
-  }
-
-  void deleteBoat(String id){
-    UserInfo? currentUser = settingsService.loadUser(username, password);
-    if(currentUser == null) return;
-    List<BoatInfo> newList = [];
-    for(final b in currentUser!.boats){
-      if(b.boat_id != id){
-        newList.add(b);
-      }
-    }
-
-    currentUser!.boats = newList;
-    settingsService.saveUser(currentUser!);
-  }
-
-  UserInfo? getLoggedUser(){
-    return settingsService.loadUser(username, password);
-  }
-
   ///
   /// Set the new active route to follow
   ///
@@ -354,7 +310,7 @@ class SettingsController extends ChangeNotifier {
   }
 
   void importRoute(RouteInfo r){
-    settingsService.addRouteToUser(username, password, r);
+    //settingsService.addRouteToUser(username, password, r);
   }
 
   ///
@@ -391,47 +347,23 @@ class SettingsController extends ChangeNotifier {
     }
 
     RouteInfo newRoute = RouteInfo(name: name.trim(), positions: listOfRecordedPositions, from: from, to: to);
-    settingsService.addRouteToUser(username, password, newRoute);
+    //settingsService.addRouteToUser(username, password, newRoute);
   }
 
   void deleteRoute(String id){
-    var user = getUser(username, password);
-    if(user ==  null) return;
-
-    List<RouteInfo> newRoutes = [];
-    for(var r in user.routes){
-      if(r.id == id){
-
-      }else{
-        newRoutes.add(r);
-      }
-    }
-
-    var newUser = UserInfo(email: user.email, username: user.username, password: password, boats: user.boats, routes: newRoutes);
-    
-    settingsService.saveUser(newUser);
+    //settingsService.deleteRoute(id, username);
   }
 
   ///
   /// Get route info
   ///
   RouteInfo? getRouteInfo(String id){
-    var user = getUser(username, password);
-    if(user ==  null) return null;
-
-    for(var r in user.routes){
-      if(r.id == id){
-        return r;
-      }
-    }
-
-    return null;
+    //settingsService.getRouteInfo(id, username);
   }
 
   List<RouteInfo> getRoutes(){
-    var user = getUser(username, password);
-    if(user ==  null) return [];
-    return user.routes;
+    return [];
+    //settingsService.getRoutes(username);
   }
 
   ///

@@ -16,12 +16,17 @@ class ExpandableTile extends StatefulWidget {
     required this.header,
     required this.expandedatstart,
     required this.settingsController,
+    required this.onExpandedToCollapsed,
+    required this.onCollapsedToExpanded
   });
 
   Widget collapsed;
   Widget expanded;
   Text header;
   bool expandedatstart;
+
+  void Function() onExpandedToCollapsed = (){};
+  void Function() onCollapsedToExpanded = (){};
 
   SettingsController settingsController;
 
@@ -32,6 +37,8 @@ class ExpandableTile extends StatefulWidget {
       header: header,
       expandedatstart: expandedatstart,
       settingsController: settingsController,
+      onExpandedToCollapsed:onExpandedToCollapsed,
+      onCollapsedToExpanded: onCollapsedToExpanded
       );
 }
 
@@ -42,6 +49,8 @@ class _ExpandableTileState extends State<ExpandableTile> {
     required this.header,
     required this.expandedatstart,
     required this.settingsController,
+    required this.onExpandedToCollapsed,
+    required this.onCollapsedToExpanded
   }) {
     nowexpanded = expandedatstart;
   }
@@ -52,6 +61,8 @@ class _ExpandableTileState extends State<ExpandableTile> {
   Text header;
   bool expandedatstart;
   bool nowexpanded = false;
+  void Function() onExpandedToCollapsed = (){};
+  void Function() onCollapsedToExpanded = (){};
 
   @override
   void initState() {

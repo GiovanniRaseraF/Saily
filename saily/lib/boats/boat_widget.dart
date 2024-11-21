@@ -9,8 +9,12 @@ class BoatWidget extends StatelessWidget {
 
   BoatInfo info;
   SettingsController settingsController;
-  void Function() onDelete = (){};
-  void Function(BoatInfo) onSelect = (BoatInfo boat){};
+  void Function(BoatInfo) onDelete = (BoatInfo boat){
+    print("Your want to delete: $boat");
+  };
+  void Function(BoatInfo) onSelect = (BoatInfo boat){
+    print("Your selected: $boat");
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +108,8 @@ class BoatWidget extends StatelessWidget {
                                                                   elevation: 10,
                                                                   onPressed: () {
                                                                     print("Delete boat ${info.boat_name}");
-                                                                    settingsController.deleteBoat(info.boat_id);
                                                                     Navigator.pop(context);
-                                                                    onDelete();
+                                                                    onDelete(info);
                                                             })),
                                                             // Decline Delete
                                                             SizedBox(
