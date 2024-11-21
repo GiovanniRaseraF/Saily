@@ -28,6 +28,7 @@ import 'package:saily/settings/settings_view.dart';
 import 'package:saily/tracks/fake_data.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
+import 'package:saily/widgets/connection_to_server_status_gauge.dart';
 import 'package:saily/widgets/fuel_gauge.dart';
 import 'package:saily/widgets/microdivider_widget.dart';
 import 'package:saily/widgets/power_gauge.dart';
@@ -316,6 +317,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       settingsController: settingsController,
                       recordController: recordController,
                     )),
+                // Online status
+                Positioned(
+                    top: scaleH(context, 0.01),
+                    left: scaleW(context, 0.48),
+                    child: ConnectionToServerStatusGauge(settings: settingsController)),
               ]),
             );
           }
@@ -335,14 +341,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   bottom: scaleH(c, 0.0),
                   left: scaleW(c, 0.0),
                   child: ExpandableTile(
-                      onCollapsedToExpanded: (){
-                        setState(() {
-                        });
+                      onCollapsedToExpanded: () async {
+                        await server.fetchAll();
+                        setState(() {});
                       },
-                      onExpandedToCollapsed: (){
-                        setState(() {
-                          
-                        });
+                      onExpandedToCollapsed: () async {
+                        await server.fetchAll();
+                        setState(() {});
                       },
                       collapsed: Hero(
                         transitionOnUserGestures: true,
@@ -523,6 +528,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     settingsController: settingsController,
                     recordController: recordController,
                   )),
+              // Online status
+              Positioned(
+                  top: scaleH(context, 0.01),
+                  left: scaleW(context, 0.48),
+                  child: ConnectionToServerStatusGauge(settings: settingsController)),
             ]),
           );
         });

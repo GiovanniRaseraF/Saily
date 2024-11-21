@@ -423,11 +423,8 @@ class HuracanServer extends Server {
     return false;
   }
 
-  //////////////////////////
-  /// BackGround Process ///
-  //////////////////////////
-   
-  Future<void> fetchProcess(Timer t) async {
+  @override   
+  Future<void> fetchAll() async {
     print("Fetching data....");
     print(".");
     print("...");
@@ -437,7 +434,21 @@ class HuracanServer extends Server {
     if(! settingsController.isUserLogged()) return;
     // no boat selected
     if(currentBoat.boat_id == "") return;
-    
+
+    // // fetch acti
+    final resPing = (ping());
+    resPing.then((v){
+      final val = v.getOrHandle((err) {  
+        return "error";
+      });
+
+      if(val == "error"){
+        settingsController.sendConnectionToServerStatus(ConnectionToServerStatus.FETCH_ERROR);
+      }else{
+        settingsController.sendConnectionToServerStatus(ConnectionToServerStatus.ONLINE);
+      }
+    });
+
     // // fetch acti
     final resFetchActi = (fetchAcuatorInfo());
     resFetchActi.then((v){
@@ -508,6 +519,14 @@ class HuracanServer extends Server {
 
       debugPrint(valFetchVtgi.toString());
     });
+  }
+
+  //////////////////////////
+  /// BackGround Process ///
+  //////////////////////////
+   
+  Future<void> fetchProcess(Timer t) async {
+    await fetchAll(); 
   }
 
   @override

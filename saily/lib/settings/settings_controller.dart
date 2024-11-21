@@ -1,3 +1,7 @@
+/*
+author: Giovanni Rasera
+*/
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -11,6 +15,7 @@ import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/datatypes/vehicle_info.dart';
+import 'package:saily/server/server.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:camera/camera.dart';
@@ -24,8 +29,6 @@ class SettingsController extends ChangeNotifier {
     followMapRotationStream = StreamController<bool>.broadcast();
     expandTileStream = StreamController<bool>.broadcast();
     currentMapFakeOffsetStream = StreamController<double>.broadcast();
-
-    // current off set value
 
     // gps recording
     currentRouteToFollow = StreamController<RouteInfo>.broadcast();
@@ -53,6 +56,10 @@ class SettingsController extends ChangeNotifier {
     currentHighpowerbatteryInfo = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
     currentEndotermicmotorInfo  = EndotermicmotorInfo();
     currentVehicleInfo          = VehicleInfo();
+
+    // Connection Status
+    connectionToServerStatus          = ConnectionToServerStatus.ONLINE;
+    connectionToServerStatusStream    = StreamController<ConnectionToServerStatus>.broadcast();
   }
 
   String username = "";
@@ -106,6 +113,10 @@ class SettingsController extends ChangeNotifier {
   late VehicleInfo currentVehicleInfo;
   late StreamController<VehicleInfo> vehicleInfoStream;
 
+  // Connection Status
+  late ConnectionToServerStatus connectionToServerStatus;
+  late StreamController<ConnectionToServerStatus> connectionToServerStatusStream;
+
   // stream getters
   Stream<VTGInfo> getNVTGStream() {
     return nVTGInfoStream.stream;
@@ -129,6 +140,10 @@ class SettingsController extends ChangeNotifier {
 
   Stream<VehicleInfo> getVehicleInfoStream() {
     return vehicleInfoStream.stream;
+  }
+
+  Stream<ConnectionToServerStatus> getConnectionToServerStatusStream() {
+    return connectionToServerStatusStream.stream;
   }
 
   ///
@@ -175,6 +190,13 @@ class SettingsController extends ChangeNotifier {
 
     currentVehicleInfo = newV;
     vehicleInfoStream.sink.add(newV);
+  }
+
+  void sendConnectionToServerStatus(ConnectionToServerStatus? newV){
+    if(newV == null) return;
+
+    connectionToServerStatus = newV;
+    connectionToServerStatusStream.sink.add(newV);
   }
 
   void setUsername(String us){

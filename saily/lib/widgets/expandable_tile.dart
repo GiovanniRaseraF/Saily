@@ -96,6 +96,7 @@ class _ExpandableTileState extends State<ExpandableTile> {
                         )),
                         onTap: () {
                           settingsController.setExpandedTileValue(false);
+                          onExpandedToCollapsed();
                         }),
                   ],
                 ),
@@ -115,6 +116,7 @@ class _ExpandableTileState extends State<ExpandableTile> {
                                 color: Colors.blue, size: 40)),
                         onTap: () {
                           settingsController.setExpandedTileValue(true);
+                          onCollapsedToExpanded();
                         }),
                   ],
                 ),

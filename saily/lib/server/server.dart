@@ -1,3 +1,7 @@
+/*
+author: Giovanni Rasera
+*/
+
 import 'dart:async';
 
 import 'package:dart_either/dart_either.dart';
@@ -9,6 +13,11 @@ import 'package:saily/datatypes/general_info.dart';
 import 'package:saily/datatypes/highpowerbattery_info.dart';
 import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/datatypes/route_info.dart';
+
+enum ConnectionToServerStatus {
+  ONLINE,
+  FETCH_ERROR
+}
 
 class FetchError{
   FetchError({required this.why});
@@ -82,6 +91,11 @@ abstract class Server{
   // returns the the list of boats
   Future<List<BoatInfo>> boatsList(String username, String password) async {
     return [];
+  }
+
+  // fetching all data
+  Future<void> fetchAll() async {
+
   }
 
   void resetCredentials(){
