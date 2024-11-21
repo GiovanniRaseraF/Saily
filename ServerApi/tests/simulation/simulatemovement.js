@@ -91,7 +91,7 @@ async function sim(boat){
                 let actualLat = parseFloat(pos._lat);
                 let actualLng = parseFloat(pos._lon);
                 {
-                    let actual_message = { "satellitesCount": 1, "isFixed": false, "SOG": 2.3, "lat": actualLat, "lng": actualLng };
+                    let actual_message = { "satellitesCount": 1, "isFixed": false, "SOG": 30 + Math.random() * 20, "lat": actualLat, "lng": actualLng };
                     console.log(actual_message);
                     let actual_message_str = JSON.stringify(actual_message);
                     let sendNmea2000 = createSend(defaultPath, actual_message_str, boat_id, mqtt_user, mqtt_password);
@@ -99,10 +99,10 @@ async function sim(boat){
                 };
 
                 {
-                    let busVoltage = 0.0;
-                    let motorCurrent = 0.0;
-                    let inverterTemperature = 0.0;
-                    let motorTemperature = 0.0;
+                    let busVoltage = 100 + Math.random() * 20;
+                    let motorCurrent = 100 + Math.random() * 20;
+                    let inverterTemperature = 23.3 + Math.random() * 20;;
+                    let motorTemperature = 2.3 + Math.random() * 20;;
                     let motorRPM = 2000 + Math.random() * 1000;//Date.now();
 
                     let response = { busVoltage, motorCurrent, inverterTemperature, motorTemperature, motorRPM };
@@ -119,8 +119,8 @@ async function sim(boat){
                     let throttlePedalPosition = 0; // %
                     let glowStatus = 0; //GlowStatus.OFF
                     let dieselStatus = 0; // DieselStatus.WAIT;
-                    let fuelLevel1 = 0; // %
-                    let fuelLevel2 = Date.now(); // %
+                    let fuelLevel1 = Math.random() * 40;//Date.now(); // %
+                    let fuelLevel2 = 56 + Math.random() * 40;//Date.now(); // %
 
                     let response = { motorRPM, refrigerationTemperature, batteryVoltage, throttlePedalPosition, glowStatus, dieselStatus, fuelLevel1, fuelLevel2 };
                     let responseStr = JSON.stringify(response);
@@ -147,7 +147,7 @@ async function sim(boat){
                 }
 
                 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-                await delay(30000);
+                await delay(10000);
             }
 
             await f();
