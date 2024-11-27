@@ -5,35 +5,17 @@ import 'package:saily/datatypes/route_info.dart';
 
 class UserInfo {
   UserInfo(
-      {required this.email,
+      {
       required this.username,
-      required this.password,
-      required this.boats,
       required this.routes});
   String username = "";
-  String email = "";
-  String password = "";
 
-  List<BoatInfo> boats = [];
   List<RouteInfo> routes = [];
 
-  void addBoat(BoatInfo newBoat) {
-    boats.add(newBoat);
-  }
+  
 
   void addRoute(RouteInfo newRoute) {
     routes.add(newRoute);
-  }
-
-  String boatsToJSONString() {
-    String ret = "";
-    if (boats.length == 0) return "";
-
-    for (final b in boats) {
-      ret += b.toJSONString() + ",";
-    }
-
-    return ret.substring(0, ret.length - 1);
   }
 
   String routesToJSONString() {
@@ -50,11 +32,6 @@ class UserInfo {
   String toJSONString() {
     return """{
       "username" : "$username",
-      "email" : "$email",
-      "password" : "$password",
-      "boats" : [
-        ${boatsToJSONString()}
-      ],
       "routes" : [
         ${routesToJSONString()}
       ]
@@ -76,19 +53,9 @@ class UserInfo {
   static UserInfo? fromJSONDynamic(dynamic json) {
     try {
       String username = json["username"];
-      String email = json["email"];
-      String password = json["password"];
-      List<dynamic> boatsDynamic = json["boats"];
       List<dynamic> routesDynamic = json["routes"];
       List<BoatInfo> boats = [];
       List<RouteInfo> routes = [];
-
-      for (dynamic dyn in boatsDynamic) {
-        final boat = BoatInfo.fromJSONDynamic(dyn);
-        if (boat != null) {
-          boats.add(boat);
-        }
-      }
 
       for (dynamic ryn in routesDynamic) {
         final route = RouteInfo.fromJSONDynamic(ryn);
@@ -99,9 +66,6 @@ class UserInfo {
 
       return UserInfo(
           username: username,
-          email: email,
-          password: password,
-          boats: boats,
           routes: routes);
     } on Exception {
       return null;

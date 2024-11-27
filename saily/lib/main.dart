@@ -17,7 +17,7 @@ import 'package:saily/routes/routes_view.dart';
 import 'package:saily/server/fake_server.dart';
 import 'package:saily/server/huracan_server.dart';
 import 'package:saily/server/server.dart';
-import 'package:saily/settings/fake_server.dart';
+import 'package:saily/settings/local_store.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/user/user_view.dart';
 import 'package:saily/datatypes/nmea2000_info.dart';
@@ -54,8 +54,11 @@ late RecordController recordController;
 // expanded at start
 late bool expandedatstart;
 
-// info
+// Server
 late Server server;
+
+// Local Store
+late LocalStore localStore;
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
@@ -63,9 +66,13 @@ void main() async {
   // setting init
   sharedPreferences = await SharedPreferences.getInstance();
 
+  // Local Store init
+  localStore = LocalStore(preferences: sharedPreferences);
+  localStore.loadUsers();  
+
   // setting service
   settingsService =
-      SettingsService(sharePreferences: sharedPreferences);
+      SettingsService(sharePreferences: sharedPreferences, localStore: localStore);
   settingsController = SettingsController(settingsService: settingsService);
   await settingsController.loadDependeces();
   recordController = RecordController(settingsController: settingsController);

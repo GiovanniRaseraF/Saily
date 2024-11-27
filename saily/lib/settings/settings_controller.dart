@@ -332,7 +332,7 @@ class SettingsController extends ChangeNotifier {
   }
 
   void importRoute(RouteInfo r){
-    //settingsService.addRouteToUser(username, password, r);
+    settingsService.addRouteToUser(username, r);
   }
 
   ///
@@ -369,11 +369,12 @@ class SettingsController extends ChangeNotifier {
     }
 
     RouteInfo newRoute = RouteInfo(name: name.trim(), positions: listOfRecordedPositions, from: from, to: to);
-    //settingsService.addRouteToUser(username, password, newRoute);
+    //debugPrint(newRoute.toJSONString());
+    settingsService.addRouteToUser(username, newRoute);
   }
 
   void deleteRoute(String id){
-    //settingsService.deleteRoute(id, username);
+    settingsService.deleteRoute(id, username);
   }
 
   ///
@@ -384,8 +385,7 @@ class SettingsController extends ChangeNotifier {
   }
 
   List<RouteInfo> getRoutes(){
-    return [];
-    //settingsService.getRoutes(username);
+    return settingsService.getRoutes(username);
   }
 
   ///

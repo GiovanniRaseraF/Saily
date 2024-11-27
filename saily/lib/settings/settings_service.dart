@@ -7,18 +7,21 @@ import 'package:saily/datatypes/boat_info.dart';
 import 'package:saily/datatypes/route_info.dart';
 import 'package:saily/datatypes/user_info.dart';
 import 'package:saily/main.dart';
+import 'package:saily/settings/local_store.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart';
 
 class SettingsService extends CacheProvider {
-  SettingsService({required this.sharePreferences});
-
+  SettingsService({required this.sharePreferences, required this.localStore});
+  
+  LocalStore localStore;
   SharedPreferences sharePreferences;
 
-  final String USERNAME = "USERNAME";
-  final String PASSwORD = "PASSWORD";
-  final String CURRENTBOAT = "CURRENTBOAT";
+  final String USERNAME     = "USERNAME";
+  final String PASSwORD     = "PASSWORD";
+  final String CURRENTBOAT  = "CURRENTBOAT";
+  final String ROUTES       = "ROUTES";
 
   String loadUsername(){
     String? ret = sharedPreferences.getString(USERNAME);
@@ -65,6 +68,21 @@ class SettingsService extends CacheProvider {
   @override
   bool containsKey(String key) {
     return sharePreferences.containsKey(key);
+  }
+
+  void deleteRoute(String id, String username){
+    localStore.deleteRoute(id, username);
+  }
+
+  void addRouteToUser(String username, RouteInfo newRoute){
+    localStore.addRouteToUser(username, newRoute);  
+    localStore.saveUsers();  
+  }
+
+  List<RouteInfo> getRoutes(String username){
+    UserInfo? user = localStore.getUser(username);
+    if(user == null) return [];
+    return user.routes;
   }
 
   @override

@@ -47,9 +47,9 @@ class UserWidget extends StatelessWidget {
                     Text(userInfo.username,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: SailyBlack)),
-                    Text(userInfo.email,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: SailyBlack)),
+                    // Text(userInfo.username,
+                    //     style: TextStyle(
+                    //         fontWeight: FontWeight.bold, color: SailyBlack)),
                   ],
                 ),
               ),

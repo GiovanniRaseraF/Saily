@@ -9,49 +9,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String USERS_STORE = "USERS_STORE";
 
-UserInfo adminDefault = UserInfo(
-    email: "admin@admin.com",
-    username: "admin",
-    password: "admin",
-    routes: [
-      RouteInfo(name: "Giro con alice", positions: [
-        LatLng( 43.52120256331884,  7.056244213486337),
-        LatLng(43.52120256331884,  7.056972511028611),
-        LatLng( 43.52120256331884,  7.057549079916243),
-        LatLng( 43.521158554734676,7.058216685996662),
-        LatLng( 43.52100452443738, 7.058914637807968),
-        LatLng( 43.52091650694805, 7.059430515233745),
-        LatLng( 43.52087249815524, 7.060007084121378),
-        LatLng( 43.52078448047333, 7.060735381663653),
-        LatLng( 43.52071846712764, 7.061888519438921),
-        LatLng( 43.52071846712764, 7.062586471250265),
-        LatLng( 43.52065245370971, 7.063436151716252),
-        LatLng( 43.52043240846161, 7.06395202914199),
-        LatLng( 43.520168353104566, 7.064528598029623),
-        LatLng( 43.51986028706073,  7.064953438262616),
-        LatLng( 43.51972825827471,  7.06528724130282),
-      ], from: DateTime.now().toString(), to: DateTime.now().toString()),
-    ],
-    boats: [
-      BoatInfo(boat_name: "Angelica", boat_id: "0x0000"),
-      BoatInfo(boat_name: "Marta", boat_id: "0x0001"),
-      BoatInfo(boat_name: "Lorena", boat_id: "0x0002"),
-    ]);
-
-class FakeServer {
-  FakeServer({required this.preferences});
+class LocalStore {
+  LocalStore({required this.preferences});
 
   SharedPreferences preferences;
   List<UserInfo> users = [];
 
-  void addRouteToUser(String username, String password, RouteInfo newRoute){
-    bool can = canUserLogin(username, password);
+  void addRouteToUser(String username, RouteInfo newRoute){
+    bool can = canUserLogin(username);
     if(can){
-      var user = getUser(username, password);
+      var user = getUser(username);
 
       user!.addRoute(newRoute);
       updateUser(user);
+    }else{
+      if(getUser(username)== null){
+        addUser(UserInfo(username: username, routes: [newRoute]));
+      }
     }
+
   }
 
   // First operation
@@ -59,7 +35,7 @@ class FakeServer {
     String? usersLoadedString = preferences.getString(USERS_STORE);
     if (usersLoadedString == null) {
       // create default user string
-      String defaultToStore = "[" + (adminDefault.toJSONString()) + "]";
+      String defaultToStore = "[" "]";
       preferences.setString(USERS_STORE, defaultToStore);
       usersLoadedString = defaultToStore;
     }
@@ -98,9 +74,9 @@ class FakeServer {
     return ret;
   }
 
-  bool canUserLogin(String username, String password){
+  bool canUserLogin(String username){
     for(var u in users){
-      if(u.username == username && u.password == password){
+      if(u.username == username){
         return true;
       }
     }
@@ -108,9 +84,9 @@ class FakeServer {
     return false;
   }
 
-  UserInfo? getUser(String username, String password){
+  UserInfo? getUser(String username){
     for(var u in users){
-      if(u.username == username && u.password == password){
+      if(u.username == username){
         return u;
       }
     }
@@ -118,10 +94,25 @@ class FakeServer {
     return null;
   }
 
-  void deleteUser(String username, String password){
+  void deleteRoute(String idToDelete, String username){
+    UserInfo? user = getUser(username);
+    if(user == null) return;
+
+    List<RouteInfo> newRoutes = [];
+    for(final r in user.routes){
+      if(r.id != idToDelete){
+        newRoutes.add(r);
+      }
+    }
+
+    UserInfo newUser = UserInfo(username: username, routes: newRoutes);
+    updateUser(newUser);
+  }
+
+  void deleteUser(String username){
     List<UserInfo> newUsers = [];
     for(var u in users){
-      if(u.username == username && u.password == password){
+      if(u.username == username){
         // dont add to new list 
       }else{
         newUsers.add(u);
@@ -150,7 +141,7 @@ class FakeServer {
   }
 
   void updateUser(UserInfo userToUpdate){
-    deleteUser(userToUpdate.username, userToUpdate.password);
+    deleteUser(userToUpdate.username);
     addUser(userToUpdate);
   }
 }
