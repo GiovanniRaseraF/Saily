@@ -326,7 +326,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
                 // Online status
                 Positioned(
-                    top: scaleH(context, 0.01),
+                    top: scaleH(context, 0.06),
                     left: scaleW(context, 0.48),
                     child: ConnectionToServerStatusGauge(settings: settingsController)),
               ]),
@@ -537,7 +537,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   )),
               // Online status
               Positioned(
-                  top: scaleH(context, 0.01),
+                  top: scaleH(context, 0.06),
                   left: scaleW(context, 0.48),
                   child: ConnectionToServerStatusGauge(settings: settingsController)),
             ]),
