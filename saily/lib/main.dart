@@ -71,15 +71,13 @@ void main() async {
   localStore.loadUsers();  
 
   // setting service
-  settingsService =
-      SettingsService(sharePreferences: sharedPreferences, localStore: localStore);
+  settingsService = SettingsService(sharePreferences: sharedPreferences, localStore: localStore);
   settingsController = SettingsController(settingsService: settingsService);
+
   await settingsController.loadDependeces();
   recordController = RecordController(settingsController: settingsController);
 
-  await Settings.init(
-    cacheProvider: settingsService,
-  );
+  await Settings.init(cacheProvider: settingsService);
 
   // Connect to server
   server = HuracanServer(settingsController: settingsController);
@@ -117,8 +115,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: SailyBlue),
           useMaterial3: true,
         ),
-        home:
-            LoginView(settingsController: settingsController, onLogin: () {}, server: server));
+        home: LoginView(settingsController: settingsController, onLogin: () {}, server: server));
   }
 }
 
@@ -141,7 +138,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState(
       settingsController: settingsController, onLogout: onLogout, server: server);
 }
-//
 
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState({required this.settingsController, required this.onLogout, required this.server});
