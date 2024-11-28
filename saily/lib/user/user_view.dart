@@ -126,7 +126,14 @@ class _UserViewState extends State<UserView> {
                   ]),
                   Divider(),
                   Text("Selected Boat:"),
-                  SelectedBoatWidget(info: boat)
+                  SelectedBoatWidget(info: boat, 
+                    onStopFollowingBoat: (){
+                        debugPrint("Stopped following");
+                        setState(() {
+                          boat = settingsController.currentBoat;
+                        });
+                      }
+                  )
                 ],
               ),
             ));

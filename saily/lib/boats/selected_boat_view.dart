@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:saily/datatypes/boat_info.dart';
+import 'package:saily/main.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
 
 class SelectedBoatWidget extends StatelessWidget {
-  SelectedBoatWidget({required this.info});
+  SelectedBoatWidget({required this.info, required this.onStopFollowingBoat});
 
   BoatInfo info;
+  void Function() onStopFollowingBoat;
 
   @override
   Widget build(BuildContext context) {
@@ -51,31 +53,86 @@ class SelectedBoatWidget extends StatelessWidget {
                               child: Column(
                                 children: [
                                   FittedBox(
-                                      child: Row(children: [
-                                    Text(
-                                      info.boat_name,
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.bold),
-                                    )
+                                    child: Row(children: [
+                                    Text(info.boat_name, style: TextStyle(fontWeight: FontWeight.bold),)
                                   ])),
                                   FittedBox(
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                        Icon(
-                                          Icons.online_prediction,
-                                          color: SailyBlue,
-                                        ),
-                                        Text(
-                                          "online",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        )
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Icon(Icons.online_prediction, color: SailyBlue,),
+                                        Text("online", style: TextStyle(fontWeight: FontWeight.bold),)
                                       ])),
-                                  FittedBox(
-                                      child: Row(
-                                          children: [Text("id: ${info.boat_id}")])),
+                                  FittedBox(child: Row(children: [Text("id: ${info.boat_id}")])),
+
+                                Divider(),
+                                FittedBox(
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        FloatingActionButton(
+                                          heroTag: "stop_seeing_selected_boat" + info.boat_id,
+                                          elevation: 2,
+                                          mini: true,
+                                          backgroundColor: Colors.white,
+                                          onPressed: () {
+                                            // create a dialog
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) => Dialog(
+                                                child: Container(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: <Widget>[
+                                                        Text('Stop following: ${info.boat_name} ?', style: TextStyle(fontSize: 15)),
+                                                        Divider( color: Colors.transparent),
+                                                        Divider( color: Colors.transparent),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                                                          children: [
+                                                            // Confirm Delete
+                                                            SizedBox(
+                                                                width:  gCtxW() * 0.3,
+                                                                child: FloatingActionButton(
+                                                                  heroTag: "confirm_stop_following_boat_${info.boat_id}",
+                                                                  child: Text("Yes",  style: TextStyle(color:Colors.white)),
+                                                                  backgroundColor: Colors.red,
+                                                                  elevation: 10,
+                                                                  onPressed: () {
+                                                                    print("Stop Following boat ${info.boat_name}");
+                                                                    Navigator.pop(context);
+                                                                    settingsController.setCurrentBoat(BoatInfo(boat_name: "", boat_id: ""));
+                                                                    onStopFollowingBoat();
+                                                            })),
+                                                            // Decline Delete
+                                                            SizedBox(
+                                                                width: gCtxW() * 0.3,
+                                                                child: FloatingActionButton(
+                                                                heroTag: "decline_stop_following_boat_${info.boat_id}",
+                                                                child: Text("NO",  style: TextStyle( color:Colors.white )),
+                                                                backgroundColor:  SailyBlue,
+                                                                elevation: 10,
+                                                                onPressed: () {
+                                                                  Navigator.pop(context);
+                                                                }
+                                                            )),
+                                                          ],
+                                                        ),
+                                                        Divider( color: Colors.transparent),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Icon(Icons.visibility_off, color: SailySuperRed),
+                                        ),
+                                      ]),
+                                )
                                 ],
                               ))),
                     ),

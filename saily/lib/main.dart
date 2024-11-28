@@ -82,7 +82,6 @@ void main() async {
   );
 
   // Connect to server
-  //server = LocalDebugServer(settingsController: settingsController);
   server = HuracanServer(settingsController: settingsController);
   await server.initServer();
 
@@ -94,9 +93,9 @@ void main() async {
   print("can login: $canLogin");
 
   if (!canLogin) {
-    print("User ${settingsController.getUsername()}, ${settingsController.getPassword()} does not exist");
+    print("User $u, $p does not exist");
   } else {
-    settingsController.login(settingsController.getUsername(), settingsController.getPassword());
+    settingsController.login(u, p);
   }
 
   // load settings
