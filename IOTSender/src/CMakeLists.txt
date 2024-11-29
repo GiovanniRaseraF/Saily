@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16.3)
 
-project(clean_arch_cpp)
+project(iot_sender)
 
 include_directories(${CMAKE_SOURCE_DIR}/../src/)
 include_directories(${CMAKE_SOURCE_DIR}/../src/buildsqlite)

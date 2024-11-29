@@ -74,7 +74,9 @@
         "valarray": "cpp",
         "variant": "cpp",
         "vector": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "ranges": "cpp",
+        "expected": "cpp"
     },
     "cmake.sourceDirectory": "/home/fdsa/repos/CleanArchitectureDesign/clean_arch_cpp/src",
     "cmake.configureOnOpen": true

@@ -10,7 +10,7 @@
 
 class ActuatorInfoModel: public ActuatorInfo{
     public:
-    ActuatorInfoModel() {}
+    ActuatorInfoModel() : ActuatorInfo{0, 0, 0, 0} {}
     ActuatorInfoModel(float _pedal, int _requestedGear, int _validatedGear, float _pedalTrim) : 
         ActuatorInfo{_pedal, _requestedGear, _validatedGear, _pedalTrim} {}
 

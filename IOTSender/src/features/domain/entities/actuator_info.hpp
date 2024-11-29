@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <sstream>
-#include "data_info.hpp"
 
 class ActuatorInfo {
 public:
