@@ -7,7 +7,7 @@ using ::testing::Return;
 using ::testing::Throws;
 using ::testing::Throw;
 
-TEST(Models, ActuatorInfoModelToJson){
+TEST(ActuatorInfoModelInfoModelTests, ActuatorInfoModelToJson){
     ActuatorInfoModel from(1.33, 2, 3, 4.4);
     ActuatorInfoModel value{};
 
@@ -23,31 +23,31 @@ TEST(Models, ActuatorInfoModelToJson){
     EXPECT_TRUE(value.toJsonString() == from.toJsonString());
 }
 
-TEST(Model, JsonParsingExceptionOnEmptyString){
+TEST(ActuatorInfoModelInfoModelTests, JsonParsingExceptionOnEmptyString){
     const auto result = ActuatorInfoModel::fromJsonString("");
     if(result.has_value()) FAIL();
     EXPECT_TRUE(result.error() == JsonParseException());
 }
 
-TEST(Model, JsonParsingExceptionOnUnparsableString){
+TEST(ActuatorInfoModelInfoModelTests, JsonParsingExceptionOnUnparsableString){
     const auto result = ActuatorInfoModel::fromJsonString("fdsa[fdsa]");
     if(result.has_value()) FAIL();
     EXPECT_TRUE(result.error() == JsonParseException());
 }
 
-TEST(Model, JsonParsingExceptionOnParsableStringBadJsonAttributes){
+TEST(ActuatorInfoModelInfoModelTests, JsonParsingExceptionOnParsableStringBadJsonAttributes){
     const auto result = ActuatorInfoModel::fromJsonString("{\"pedal\" : 1,\"wrong\" : 2,\"wrong2\" : 3, \"pedalTrim\" : 4}");
     if(result.has_value()) FAIL();
     EXPECT_TRUE(result.error() == JsonParseException());
 }
 
-TEST(Model, JsonParsingExceptionOnParsableStringMissinJsonAttribute){
+TEST(ActuatorInfoModelInfoModelTests, JsonParsingExceptionOnParsableStringMissinJsonAttribute){
     const auto result = ActuatorInfoModel::fromJsonString("{\"pedal\" : 1}");
     if(result.has_value()) FAIL();
     EXPECT_TRUE(result.error() == JsonParseException());
 }
 
-TEST(Model, JsonParsingExceptionOnParsableStringNumberAttributeIsDouble){
+TEST(ActuatorInfoModelInfoModelTests, JsonParsingExceptionOnParsableStringNumberAttributeIsDouble){
     const auto j1 = "{\"pedal\" : 1.1,\"requestedGear\" : 2,\"validatedGear\" : 3,\"pedalTrim\" : 4.44}";
     const auto j2 = "{\"pedal\" : 1.1,\"requestedGear\" : 2.0,\"validatedGear\" : 3.0,\"pedalTrim\" : 4.44}";
     const auto result1 = ActuatorInfoModel::fromJsonString(j1);

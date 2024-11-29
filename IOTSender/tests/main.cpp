@@ -10,6 +10,7 @@
 
 // models
 #include "./features/data/models/actuator_info_model_test.hpp"
+#include "./features/data/models/high_power_battery_info_model_test.hpp"
 
 // core
 // #include "./core/utils/network_info_test.hpp"
