@@ -1,0 +1,11 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     mksourceid
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001804, symSize: 0x758 }
+  - { offsetInCU: 0x5A, offset: 0x5A, size: 0x8, addend: 0x0, symName: _SHA1Transform, symObjAddr: 0x13BC, symBinAddr: 0x100002BC0, symSize: 0x10D4 }
+  - { offsetInCU: 0x5AD, offset: 0x5AD, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001804, symSize: 0x758 }
+  - { offsetInCU: 0xB40, offset: 0xB40, size: 0x8, addend: 0x0, symName: _SHA3Update, symObjAddr: 0x758, symBinAddr: 0x100001F5C, symSize: 0xAC4 }
+  - { offsetInCU: 0xC45, offset: 0xC45, size: 0x8, addend: 0x0, symName: _SHA1Update, symObjAddr: 0x12DC, symBinAddr: 0x100002AE0, symSize: 0xE0 }
+  - { offsetInCU: 0xCEB, offset: 0xCEB, size: 0x8, addend: 0x0, symName: _SHA3Final, symObjAddr: 0x121C, symBinAddr: 0x100002A20, symSize: 0xC0 }
+...

@@ -1,0 +1,16 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     src-verify
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _SHA1Transform, symObjAddr: 0x0, symBinAddr: 0x10000121C, symSize: 0x10D4 }
+  - { offsetInCU: 0x33, offset: 0x33, size: 0x8, addend: 0x0, symName: _SHA1Transform, symObjAddr: 0x0, symBinAddr: 0x10000121C, symSize: 0x10D4 }
+  - { offsetInCU: 0x1C5, offset: 0x1C5, size: 0x8, addend: 0x0, symName: _sha3sum_file, symObjAddr: 0x10D4, symBinAddr: 0x1000022F0, symSize: 0x140 }
+  - { offsetInCU: 0x2F3, offset: 0x2F3, size: 0x8, addend: 0x0, symName: _SHA3Update, symObjAddr: 0x1214, symBinAddr: 0x100002430, symSize: 0xAC4 }
+  - { offsetInCU: 0x5E8, offset: 0x5E8, size: 0x8, addend: 0x0, symName: _SHA3Final, symObjAddr: 0x1CD8, symBinAddr: 0x100002EF4, symSize: 0xC0 }
+  - { offsetInCU: 0x833, offset: 0x833, size: 0x8, addend: 0x0, symName: _sha1sum_file, symObjAddr: 0x1D98, symBinAddr: 0x100002FB4, symSize: 0x1DC }
+  - { offsetInCU: 0x9E2, offset: 0x9E2, size: 0x8, addend: 0x0, symName: _SHA1Update, symObjAddr: 0x1F74, symBinAddr: 0x100003190, symSize: 0xE0 }
+  - { offsetInCU: 0xA71, offset: 0xA71, size: 0x8, addend: 0x0, symName: _defossilize, symObjAddr: 0x2054, symBinAddr: 0x100003270, symSize: 0xE4 }
+  - { offsetInCU: 0xAD8, offset: 0xAD8, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2138, symBinAddr: 0x100003354, symSize: 0x7DC }
+  - { offsetInCU: 0xF37, offset: 0xF37, size: 0x8, addend: 0x0, symName: _errorMsg, symObjAddr: 0x2914, symBinAddr: 0x100003B30, symSize: 0x5C }
+  - { offsetInCU: 0xF7E, offset: 0xF7E, size: 0x8, addend: 0x0, symName: _errorMsgNH, symObjAddr: 0x2970, symBinAddr: 0x100003B8C, symSize: 0x44 }
+...
