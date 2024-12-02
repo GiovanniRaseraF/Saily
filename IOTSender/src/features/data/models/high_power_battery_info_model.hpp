@@ -8,7 +8,7 @@
 #include <core/exceptions/exceptions.hpp>
 #include <core/utils/json_parser.hpp>
 
-class HighPowerBatteryInfoModel: public HighPowerBatteryInfo{
+class HighPowerBatteryInfoModel : public HighPowerBatteryInfo{
     public: 
     HighPowerBatteryInfoModel() : HighPowerBatteryInfo{0, 0, 0, 0, 0, 0, 0, 0} {}
     HighPowerBatteryInfoModel(
