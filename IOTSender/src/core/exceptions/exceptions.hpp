@@ -25,10 +25,4 @@ struct RemoteUriException : public std::exception {
 
 };
 
-struct BoatInfoSent {
-    BoatInfoSent(){}
-};
 
-struct BoatInfoNOTSent {
-    BoatInfoNOTSent(){}
-};

@@ -14,3 +14,12 @@ struct HttpClient {
         return commands::curl(site);
     }
 };
+
+struct HttpSendClient{
+    ~HttpSendClient(){}
+    HttpSendClient(){}
+
+    virtual std::expected<std::string, TimeOutException> curl(std::string site, std::string endpoint, std::string data){
+        return commands::curlDataSend(commands::HTTP_PROTOCOL::https, site, endpoint, data);
+    }
+};

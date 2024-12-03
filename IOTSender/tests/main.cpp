@@ -15,6 +15,9 @@
 // core
 #include "./core/utils/commands_test.hpp"
 
+// dataends
+#include "./features/data/dataends/remote_data_end_test.hpp"
+
 // datasources
 // #include "./features/data/datasources/local_data_source_test.hpp"
 // #include "./features/data/datasources/remote_data_source_test.hpp"

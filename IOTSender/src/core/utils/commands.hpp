@@ -77,9 +77,11 @@ namespace commands {
     enum class HTTP_PROTOCOL {
         http, https 
     };
+
     struct curl_data_send_class {
-        // curl -X POST {protocol}://{site}/{endpoint} -d {data}
-        std::expected<std::string, std::exception> operator()(HTTP_PROTOCOL protocol, std::string site, std::string endpoint, std::string data){
+        /// @brief send data in this format
+        /// curl -X POST {protocol}://{site}/{endpoint} -d {data}
+        std::expected<std::string, TimeOutException> operator()(HTTP_PROTOCOL protocol, std::string site, std::string endpoint, std::string data){
             int out_code = 0;
 
             std::string uri = "";
@@ -92,11 +94,12 @@ namespace commands {
             std::vector<std::string> params = {"-X", "POST", uri, "-d", data};
             
             // debug
-            // std::cout << "curl ";
-            // for(auto p : params){
-            //     std::cout << p << " ";
-            // }
-            // std::cout << std::endl;
+            std::cout << "curl ";
+            for(auto p : params){
+                std::cout << p << " ";
+            }
+            std::cout << std::endl;
+
             try{
                 std::string ret = command::exec("curl", params, out_code);
                 return ret;

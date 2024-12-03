@@ -31,12 +31,13 @@ TEST(TestCommands, JustContactServer){
     }
 }
 
-TEST(TestCommands, WrongUrl){
+TEST(TestCommands, WrongUrlTimeOutException){
     using namespace commands;
-    auto ret = curlDataSend(HTTP_PROTOCOL::https, "fdsafdsahhhgh.com", "", "");
+    auto ret = curlDataSend(HTTP_PROTOCOL::https, "wrong_url_time_out_exception.com", "", "");
 
     if(ret.has_value()){
         FAIL(); 
     }else{
+        auto value = ret.error();
     }
 }
