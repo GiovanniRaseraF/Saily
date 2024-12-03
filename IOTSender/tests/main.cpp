@@ -13,8 +13,7 @@
 #include "./features/data/models/high_power_battery_info_model_test.hpp"
 
 // core
-// #include "./core/utils/network_info_test.hpp"
-// #include "./core/utils/shared_preferences_test.hpp"
+#include "./core/utils/commands_test.hpp"
 
 // datasources
 // #include "./features/data/datasources/local_data_source_test.hpp"

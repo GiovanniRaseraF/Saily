@@ -24,3 +24,11 @@ struct CacheException : public std::exception {
 struct RemoteUriException : public std::exception {
 
 };
+
+struct BoatInfoSent {
+    BoatInfoSent(){}
+};
+
+struct BoatInfoNOTSent {
+    BoatInfoNOTSent(){}
+};

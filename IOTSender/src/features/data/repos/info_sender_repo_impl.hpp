@@ -17,9 +17,9 @@ struct InfoSenderRepoImpl : public InfoSenderRepo{
     // std::shared_ptr<LocalDataSend> localDataSend;
     // std::shared_ptr<RemoteDataSend> remoteDataSend;
 
-    virtual auto sendActuatorInfo() -> std::expected<InfoSent, InfoNOTSent> override {
-    };
+    // virtual auto sendActuatorInfo() -> std::expected<InfoSent, InfoNOTSent> override {
+    // };
 
-    virtual auto sendHighPowerBatteryInfo() -> std::expected<InfoSent, InfoNOTSent> override {
-    };
+    // virtual auto sendHighPowerBatteryInfo() -> std::expected<InfoSent, InfoNOTSent> override {
+    // };
 };

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <exception>
+#include <iostream>
+#include <expected>
 
 #include <boost/filesystem.hpp>
 #include <boost/asio.hpp>
@@ -72,6 +74,39 @@ namespace commands {
         }
     };
 
+    enum class HTTP_PROTOCOL {
+        http, https 
+    };
+    struct curl_data_send_class {
+        // curl -X POST {protocol}://{site}/{endpoint} -d {data}
+        std::expected<std::string, std::exception> operator()(HTTP_PROTOCOL protocol, std::string site, std::string endpoint, std::string data){
+            int out_code = 0;
+
+            std::string uri = "";
+            if(protocol == HTTP_PROTOCOL::http){
+                uri = "http";
+            }else if(protocol == HTTP_PROTOCOL::https){
+                uri = "https";
+            }
+            uri+=("://" + site + "/" + endpoint);
+            std::vector<std::string> params = {"-X", "POST", uri, "-d", data};
+            
+            // debug
+            // std::cout << "curl ";
+            // for(auto p : params){
+            //     std::cout << p << " ";
+            // }
+            // std::cout << std::endl;
+            try{
+                std::string ret = command::exec("curl", params, out_code);
+                return ret;
+            }catch(TimeOutException toe){
+                return std::unexpected(toe);
+            }
+        }
+    };
+
     static ping_class ping = ping_class();
     static curl_class curl = curl_class();
+    static curl_data_send_class curlDataSend = curl_data_send_class();
 };
