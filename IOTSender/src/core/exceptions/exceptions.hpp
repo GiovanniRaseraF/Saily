@@ -13,6 +13,7 @@ struct JsonParseException : public std::exception {
     }
 
     friend bool operator==(const JsonParseException &lh, const JsonParseException&rh){
+        //UNUSED(lh);
         return true;
     }
 };

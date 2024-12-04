@@ -44,6 +44,8 @@ TEST(RemoteDataEnd, BoatNotExists){
     auto out = rds.sendData(endpoint, bc, "{}");
     
     if(out.has_value()){
+        auto val = *out;
+        std::cout << val.getResponse() << std::endl;
     }else{
         FAIL();
     }

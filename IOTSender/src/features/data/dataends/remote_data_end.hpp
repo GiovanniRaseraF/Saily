@@ -11,6 +11,10 @@ struct BoatInfoSent {
     BoatInfoSent(std::string _ret) : ret{_ret}{}
     std::string ret;
     
+    std::string getResponse(){
+        return ret;
+    }
+
     friend bool operator==(const BoatInfoSent&lh, const BoatInfoSent&rh){
         return true;
     }
@@ -50,13 +54,13 @@ struct RemoteDataEndImpl : public RemoteDataEnd{
 
         if(ret.has_value()) {
             auto val = *ret;
-            //std::cout << val << std::endl;
+            //std::cout << "sendData: " << val << std::endl;
             return BoatInfoSent(val);
         }else{
             auto err = ret.error();
             return std::unexpected(BoatInfoNOTSent());
         }
 
-        return BoatInfoSent();
+        return std::unexpected(BoatInfoNOTSent());
     }
 };

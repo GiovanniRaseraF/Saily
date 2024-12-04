@@ -4,22 +4,40 @@
 #include <string>
 #include <variant>
 #include <expected>
-#include <utils/network_info.hpp>
+#include <core/utils/network_info.hpp>
+#include <features/domain/entities/boat_credential.hpp>
 #include <features/domain/repos/info_sender_repo.hpp>
 #include <features/domain/entities/actuator_info.hpp>
 #include <features/domain/entities/high_power_battery_info.hpp>
 
 struct InfoSenderRepoImpl : public InfoSenderRepo{
-    virtual ~InfoSenderRepoImpl(
-    ){}
+    InfoSenderRepoImpl(
+        BoatCredential _credentials,
+        std::shared_ptr<RemoteDataEnd> _rde
+    ) : credentials{_credentials}, rde{_rde} {}
 
-    std::shared_ptr<NetworkInfo> networkInfo;
-    // std::shared_ptr<LocalDataSend> localDataSend;
-    // std::shared_ptr<RemoteDataSend> remoteDataSend;
+    BoatCredential credentials;
+    std::shared_ptr<RemoteDataEnd> rde;
 
-    // virtual auto sendActuatorInfo() -> std::expected<InfoSent, InfoNOTSent> override {
-    // };
+    virtual auto sendActuatorInfo(ActuatorInfo acti) -> std::expected<BoatInfoSent, BoatInfoNOTSent> {
+        auto func = [&](){
+            return rde->sendData("send_acti", credentials, acti.toString());
+        };
 
-    // virtual auto sendHighPowerBatteryInfo() -> std::expected<InfoSent, InfoNOTSent> override {
-    // };
+        return _sendActualData(func);
+    };
+
+    virtual auto sendHighPowerBatteryInfo(HighPowerBatteryInfo hpbi) -> std::expected<BoatInfoSent, BoatInfoNOTSent> {
+        auto func = [&](){
+            return rde->sendData("send_hpbi", credentials, hpbi.toString());
+        };
+
+        return _sendActualData(func);
+    };
+
+    private:
+    auto _sendActualData(std::function<std::expected<BoatInfoSent, BoatInfoNOTSent>(void)> func) -> std::expected<BoatInfoSent, BoatInfoNOTSent> {
+        auto result = func(); 
+        return result;
+    }
 };

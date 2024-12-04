@@ -94,11 +94,11 @@ namespace commands {
             std::vector<std::string> params = {"-X", "POST", uri, "-d", data};
             
             // debug
-            std::cout << "curl ";
-            for(auto p : params){
-                std::cout << p << " ";
-            }
-            std::cout << std::endl;
+            // std::cout << "curl ";
+            // for(auto p : params){
+            //     std::cout << p << " ";
+            // }
+            // std::cout << std::endl;
 
             try{
                 std::string ret = command::exec("curl", params, out_code);
