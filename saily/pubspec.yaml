@@ -20,19 +20,20 @@ dependencies:
   shared_preferences: ^2.2.3
   cupertino_battery_indicator: ^1.1.0
   # this is importantant for camera usage on android
-  camera: ^0.10.0+2
+  camera: ^0.11.0+2
   share: ^2.0.4
-  syncfusion_flutter_gauges: ^26.2.14
+  syncfusion_flutter_gauges: ^27.2.5
   animated_battery_gauge: ^0.2.0
   dart_either: ^2.0.0
   http: ^1.2.2
   json_annotation: ^4.9.0
+  syncfusion_flutter_charts: ^27.2.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
