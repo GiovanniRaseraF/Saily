@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:saily/datatypes/electricmotor_info.dart';
+import 'package:saily/datatypes/highpowerbattery_info.dart';
+import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/utils/saily_colors.dart';
 import 'package:saily/utils/saily_utils.dart';
@@ -9,9 +12,31 @@ import 'package:latlong2/latlong.dart';
 class RecordController {
   RecordController({required this.settingsController}){
     mapPositioning = settingsController.getCurrentBoatPositionStream();
+    hpibInfoStream = settingsController.getHighPowerBatteryInfoStream();
+    emInfoStream = settingsController.getElectricMotorInfoStream();
+    vtgInfoStream = settingsController.getNVTGStream();
+
     mapPositioning.listen((data) {
       if (recording) {
         settingsController.addPositionToRecordedPositions(data);
+      }
+    });
+
+    hpibInfoStream.listen((data) {
+      if (recording) {
+        settingsController.addPositionToRecordedHpbi(data);
+      }
+    });
+
+    emInfoStream.listen((data) {
+      if (recording) {
+        settingsController.addPositionToRecordedEmi(data);
+      }
+    });
+
+    vtgInfoStream.listen((data) {
+      if (recording) {
+        settingsController.addPositionToRecordedVtgi(data);
       }
     });
   }
@@ -24,6 +49,9 @@ class RecordController {
   int internalTime = 0;
 
   late Stream<LatLng> mapPositioning;
+  late Stream<HighpowerbatteryInfo> hpibInfoStream;
+  late Stream<ElectricmotorInfo> emInfoStream;
+  late Stream<VTGInfo> vtgInfoStream;
 
   // timer
   void startTimer(void Function() callback){

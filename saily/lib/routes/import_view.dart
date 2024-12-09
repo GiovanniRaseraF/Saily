@@ -43,8 +43,8 @@ class _ImportViewState extends State<ImportView> {
       LatLng( 43.520168353104566, 7.064528598029623),
       LatLng( 43.51986028706073,  7.064953438262616),
       LatLng( 43.51972825827471,  7.06528724130282),
-      ], from: "", to: "1"),
-    RouteInfo(name: "Da Federico", positions: [LatLng(45.134176, 13.724200)], from: "", to: "2"),
+      ], from: "", to: "1", hpibInfo: [], emInfo: [], vtgInfo: []),
+    RouteInfo(name: "Da Federico", positions: [LatLng(45.134176, 13.724200)], from: "", to: "2", hpibInfo: [], emInfo: [], vtgInfo: []),
   ];
 
   @override
@@ -63,7 +63,7 @@ class _ImportViewState extends State<ImportView> {
         body: Center(
           child: ListView(
             children: routes.map((r){
-              RouteInfo newR = RouteInfo(name: r.name, positions: r.positions, from: DateTime.now().toString(), to: DateTime.now().toString());
+              RouteInfo newR = RouteInfo(name: r.name, positions: r.positions, from: DateTime.now().toString(), to: DateTime.now().toString(), hpibInfo: [], emInfo: [], vtgInfo: []);
               return ImportWidget(info: newR, 
               onImport: (){
                 settingsController.importRoute(newR);

@@ -33,7 +33,7 @@ class SettingsController extends ChangeNotifier {
     // gps recording
     currentRouteToFollow = StreamController<RouteInfo>.broadcast();
     currentRouteBuilding = StreamController<RouteInfo>.broadcast();
-    currentBoat          = settingsService.loadCurrentBoat();
+    currentBoat = settingsService.loadCurrentBoat();
 
     // Units info
     sogUnitStream = StreamController<String>.broadcast();
@@ -44,22 +44,41 @@ class SettingsController extends ChangeNotifier {
     password = settingsService.loadPassword();
 
     // Info Streams
-    nVTGInfoStream              = StreamController<VTGInfo>.broadcast();
-    generalInfoStream           = StreamController<GeneralInfo>.broadcast();
-    electricmotorInfoStream     = StreamController<ElectricmotorInfo>.broadcast();
-    highpowerbatteryInfoStream  = StreamController<HighpowerbatteryInfo>.broadcast();
-    endotermicmotorInfoStream   = StreamController<EndotermicmotorInfo>.broadcast();
-    vehicleInfoStream           = StreamController<VehicleInfo>.broadcast();
-    currentNVTGInfo             = VTGInfo(isFixed: true, satellitesCount: 0, SOG: 0, lat:0, lng:0);
-    currentGeneralInfo          = GeneralInfo(dieselMotorModel: DieselMotorModel.None, electricMotorModel: ElectricMotorModel.None, isDualMotor: false, isHybrid: false, versionFWControlUnit: 0, versionFWDrive: 0, versionProtocol: 0);
-    currentElectricMotorInfo    = ElectricmotorInfo();
-    currentHighpowerbatteryInfo = HighpowerbatteryInfo(SOC: 0, auxBatteryVoltage: 0, batteryTemperature: 0, bmsTemperature: 0, power: 0, totalCurrent: 0, totalVoltage: 0, tte: 0);
-    currentEndotermicmotorInfo  = EndotermicmotorInfo();
-    currentVehicleInfo          = VehicleInfo();
+    nVTGInfoStream = StreamController<VTGInfo>.broadcast();
+    generalInfoStream = StreamController<GeneralInfo>.broadcast();
+    electricmotorInfoStream = StreamController<ElectricmotorInfo>.broadcast();
+    highpowerbatteryInfoStream =
+        StreamController<HighpowerbatteryInfo>.broadcast();
+    endotermicmotorInfoStream =
+        StreamController<EndotermicmotorInfo>.broadcast();
+    vehicleInfoStream = StreamController<VehicleInfo>.broadcast();
+    currentNVTGInfo =
+        VTGInfo(isFixed: true, satellitesCount: 0, SOG: 0, lat: 0, lng: 0);
+    currentGeneralInfo = GeneralInfo(
+        dieselMotorModel: DieselMotorModel.None,
+        electricMotorModel: ElectricMotorModel.None,
+        isDualMotor: false,
+        isHybrid: false,
+        versionFWControlUnit: 0,
+        versionFWDrive: 0,
+        versionProtocol: 0);
+    currentElectricMotorInfo = ElectricmotorInfo();
+    currentHighpowerbatteryInfo = HighpowerbatteryInfo(
+        SOC: 0,
+        auxBatteryVoltage: 0,
+        batteryTemperature: 0,
+        bmsTemperature: 0,
+        power: 0,
+        totalCurrent: 0,
+        totalVoltage: 0,
+        tte: 0);
+    currentEndotermicmotorInfo = EndotermicmotorInfo();
+    currentVehicleInfo = VehicleInfo();
 
     // Connection Status
-    connectionToServerStatus          = ConnectionToServerStatus.ONLINE;
-    connectionToServerStatusStream    = StreamController<ConnectionToServerStatus>.broadcast();
+    connectionToServerStatus = ConnectionToServerStatus.ONLINE;
+    connectionToServerStatusStream =
+        StreamController<ConnectionToServerStatus>.broadcast();
   }
 
   String username = "";
@@ -85,6 +104,9 @@ class SettingsController extends ChangeNotifier {
 
   // gps recording
   List<LatLng> listOfRecordedPositions = [];
+  List<HighpowerbatteryInfo> listOfRecordedHpbi = [];
+  List<ElectricmotorInfo> listOfRecordedEmi = [];
+  List<VTGInfo> listOfRecordedVtgi = [];
   List<String> listOfIds = [];
   late StreamController<RouteInfo> currentRouteToFollow;
   late StreamController<RouteInfo> currentRouteBuilding;
@@ -92,7 +114,7 @@ class SettingsController extends ChangeNotifier {
 
   // Units info
   late StreamController<String> sogUnitStream;
-  late StreamController<String>  motorTempUnitStream;
+  late StreamController<String> motorTempUnitStream;
 
   // Info Stream
   late VTGInfo currentNVTGInfo;
@@ -115,7 +137,8 @@ class SettingsController extends ChangeNotifier {
 
   // Connection Status
   late ConnectionToServerStatus connectionToServerStatus;
-  late StreamController<ConnectionToServerStatus> connectionToServerStatusStream;
+  late StreamController<ConnectionToServerStatus>
+      connectionToServerStatusStream;
 
   // stream getters
   Stream<VTGInfo> getNVTGStream() {
@@ -129,7 +152,7 @@ class SettingsController extends ChangeNotifier {
   Stream<ElectricmotorInfo> getElectricMotorInfoStream() {
     return electricmotorInfoStream.stream;
   }
-  
+
   Stream<HighpowerbatteryInfo> getHighPowerBatteryInfoStream() {
     return highpowerbatteryInfoStream.stream;
   }
@@ -157,87 +180,87 @@ class SettingsController extends ChangeNotifier {
     nVTGInfoStream.sink.add(newN);
   }
 
-  void sendGeneralInfo(GeneralInfo? newG){
-    if(newG == null) return;
+  void sendGeneralInfo(GeneralInfo? newG) {
+    if (newG == null) return;
 
     currentGeneralInfo = newG;
     generalInfoStream.sink.add(newG);
   }
 
-  void sendElectricMotorInfo(ElectricmotorInfo? newE){
-    if(newE == null) return;
+  void sendElectricMotorInfo(ElectricmotorInfo? newE) {
+    if (newE == null) return;
 
     currentElectricMotorInfo = newE;
     electricmotorInfoStream.sink.add(newE);
   }
 
-  void sendHighPowerBatteryInfo(HighpowerbatteryInfo? newH){
-    if(newH == null) return;
+  void sendHighPowerBatteryInfo(HighpowerbatteryInfo? newH) {
+    if (newH == null) return;
 
     currentHighpowerbatteryInfo = newH;
     highpowerbatteryInfoStream.sink.add(newH);
   }
 
-  void sendEndotermicMotorInfo(EndotermicmotorInfo? newE){
-    if(newE == null) return;
+  void sendEndotermicMotorInfo(EndotermicmotorInfo? newE) {
+    if (newE == null) return;
 
     currentEndotermicmotorInfo = newE;
     endotermicmotorInfoStream.sink.add(newE);
   }
 
-  void sendVehicleInfo(VehicleInfo? newV){
-    if(newV == null) return;
+  void sendVehicleInfo(VehicleInfo? newV) {
+    if (newV == null) return;
 
     currentVehicleInfo = newV;
     vehicleInfoStream.sink.add(newV);
   }
 
-  void sendConnectionToServerStatus(ConnectionToServerStatus? newV){
-    if(newV == null) return;
+  void sendConnectionToServerStatus(ConnectionToServerStatus? newV) {
+    if (newV == null) return;
 
     connectionToServerStatus = newV;
     connectionToServerStatusStream.sink.add(newV);
   }
 
-  void setUsername(String us){
+  void setUsername(String us) {
     settingsService.setUsername(us);
   }
 
-  void setPassword(String us){
+  void setPassword(String us) {
     settingsService.setPassword(us);
   }
 
-  void setCurrentBoat(BoatInfo boat){
+  void setCurrentBoat(BoatInfo boat) {
     currentBoat = boat;
     settingsService.setCurrentBoat(boat);
   }
 
-  void login(String username, String password){
-      settingsService.setUsername(username);
-      settingsService.setPassword(password);
-      
-      logged = true;
+  void login(String username, String password) {
+    settingsService.setUsername(username);
+    settingsService.setPassword(password);
+
+    logged = true;
   }
 
-  bool isUserLogged(){
+  bool isUserLogged() {
     return logged;
   }
 
-  String getUsername(){
+  String getUsername() {
     username = settingsService.loadUsername();
     return username;
   }
 
-  String getPassword(){
+  String getPassword() {
     password = settingsService.loadPassword();
     return password;
   }
 
-  BoatInfo getCurretBoat(){
+  BoatInfo getCurretBoat() {
     return currentBoat;
   }
 
-  void logout(){
+  void logout() {
     username = "";
     password = "";
     currentBoat = BoatInfo(boat_name: "", boat_id: "");
@@ -245,11 +268,11 @@ class SettingsController extends ChangeNotifier {
     settingsService.setUsername(username);
     settingsService.setPassword(password);
     settingsService.setCurrentBoat(currentBoat);
-    
+
     logged = false;
   }
 
-   Stream<String> getSogUnitStream() {
+  Stream<String> getSogUnitStream() {
     return sogUnitStream.stream;
   }
 
@@ -257,8 +280,8 @@ class SettingsController extends ChangeNotifier {
     return motorTempUnitStream.stream;
   }
 
-  void sendSogUnit(String? unit){
-    if(unit == null) return;
+  void sendSogUnit(String? unit) {
+    if (unit == null) return;
 
     settingsService.setString("sog-unit", unit);
     final send = settingsService.getString("sog-unit");
@@ -266,17 +289,17 @@ class SettingsController extends ChangeNotifier {
     sogUnitStream.add(send!);
   }
 
-  void setMotorTempUnit(String? unit){
-    if(unit == null) return;
+  void setMotorTempUnit(String? unit) {
+    if (unit == null) return;
     settingsService.setString("motor-temp-unit", unit);
     final send = settingsService.getString("motor-temp-unit");
     motorTempUnitStream.add(send!);
   }
 
-  String getCurrentSogUnit(){
+  String getCurrentSogUnit() {
     final send = settingsService.getString("sog-unit");
 
-    if(send == null){
+    if (send == null) {
       settingsService.setString("sog-unit", "km/h");
       return "km/h";
     }
@@ -284,26 +307,25 @@ class SettingsController extends ChangeNotifier {
     return send;
   }
 
-  String getMotorTempUnit(){
+  String getMotorTempUnit() {
     final send = settingsService.getString("motor-temp-unit");
-    if(send == null){
+    if (send == null) {
       settingsService.setString("motor-temp-unit", "C");
       return "C";
     }
     return send;
   }
 
-
   // camera load
-  CameraDescription getCamera(){
+  CameraDescription getCamera() {
     return camera;
   }
 
   Future<void> loadDependeces() async {
-    try{
+    try {
       var cam = await availableCameras();
       camera = cam.first;
-    }on Exception{
+    } on Exception {
       print("No camera available :) ");
     }
   }
@@ -311,18 +333,26 @@ class SettingsController extends ChangeNotifier {
   ///
   /// Set the new active route to follow
   ///
-  void setActiveRoute(RouteInfo routeToFollow){
+  void setActiveRoute(RouteInfo routeToFollow) {
     currentRouteToFollow.sink.add(routeToFollow);
   }
 
   ///
   /// Clear the new active route to follow
   ///
-  void clearActiveRoute(){
-    RouteInfo empty = RouteInfo(name: "empty", positions: [], from: DateTime.now().toString(), to: DateTime.now().toString());
+  void clearActiveRoute() {
+    RouteInfo empty = RouteInfo(
+        name: "empty",
+        positions: [],
+        from: DateTime.now().toString(),
+        to: DateTime.now().toString(),
+        hpibInfo: [],
+        emInfo: [],
+        vtgInfo: []
+        );
     currentRouteToFollow.sink.add(empty);
   }
-  
+
   Stream<RouteInfo> getActiveRouteStream() {
     return currentRouteToFollow.stream;
   }
@@ -331,60 +361,116 @@ class SettingsController extends ChangeNotifier {
     return currentRouteBuilding.stream;
   }
 
-  void importRoute(RouteInfo r){
+  void importRoute(RouteInfo r) {
     settingsService.addRouteToUser(username, r);
   }
 
   ///
   /// Record new postion
   ///
-  void addPositionToRecordedPositions(LatLng? newPosition){
+  void addPositionToRecordedPositions(LatLng? newPosition) {
     if (newPosition == null) {
       return;
     }
 
     listOfRecordedPositions.add(newPosition);
-    RouteInfo current = RouteInfo(name: "current", positions: this.listOfRecordedPositions, from: DateTime.now().toString(), to: DateTime.now().toString());
+    RouteInfo current = RouteInfo(
+        name: "current",
+        positions: this.listOfRecordedPositions,
+        from: DateTime.now().toString(),
+        to: DateTime.now().toString(),
+        hpibInfo: [],
+        emInfo: [],
+        vtgInfo: []);
     currentRouteBuilding.sink.add(current);
+  }
+
+  ///
+  /// Record new hpbi
+  ///
+  void addPositionToRecordedHpbi(HighpowerbatteryInfo? newV) {
+    if (newV == null) {
+      return;
+    }
+
+    listOfRecordedHpbi.add(newV);
+  }
+
+  ///
+  /// Record new emi
+  ///
+  void addPositionToRecordedEmi(ElectricmotorInfo? newV) {
+    if (newV == null) {
+      return;
+    }
+
+    listOfRecordedEmi.add(newV);
+  }
+
+  ///
+  /// Record new vtgi
+  ///
+  void addPositionToRecordedVtgi(VTGInfo? newV) {
+    if (newV == null) {
+      return;
+    }
+
+    listOfRecordedVtgi.add(newV);
   }
 
   ///
   /// Rest the recorder positions
   ///
-  void resetRecorderPositions(){
+  void resetRecorderPositions() {
     listOfRecordedPositions = [];
-    
-    RouteInfo current = RouteInfo(name: "current", positions: this.listOfRecordedPositions, from: DateTime.now().toString(), to: DateTime.now().toString());
+    listOfRecordedHpbi = [];
+    listOfRecordedEmi = [];
+    listOfRecordedVtgi = [];
+
+    RouteInfo current = RouteInfo(
+        name: "current",
+        positions: [],
+        from: DateTime.now().toString(),
+        to: DateTime.now().toString(),
+        hpibInfo: [],
+        emInfo: [],
+        vtgInfo: []);
     currentRouteBuilding.sink.add(current);
   }
 
-  ///  
+  ///
   /// Save recroder positions
-  /// 
-  void saveRecorderPositions(String name, String from){
+  ///
+  void saveRecorderPositions(String name, String from) {
     String to = DateTime.now().toString();
 
-    if(name.trim() == ""){
+    if (name.trim() == "") {
       name = "GenericRoute";
     }
 
-    RouteInfo newRoute = RouteInfo(name: name.trim(), positions: listOfRecordedPositions, from: from, to: to);
-    //debugPrint(newRoute.toJSONString());
+    RouteInfo newRoute = RouteInfo(
+        name: name.trim(),
+        positions: listOfRecordedPositions,
+        from: from,
+        to: to,
+        hpibInfo: listOfRecordedHpbi,
+        emInfo: listOfRecordedEmi,
+        vtgInfo: listOfRecordedVtgi);
     settingsService.addRouteToUser(username, newRoute);
   }
 
-  void deleteRoute(String id){
+  void deleteRoute(String id) {
     settingsService.deleteRoute(id, username);
   }
 
   ///
   /// Get route info
   ///
-  RouteInfo? getRouteInfo(String id){
+  RouteInfo? getRouteInfo(String id) {
     //settingsService.getRouteInfo(id, username);
   }
 
-  List<RouteInfo> getRoutes(){
+  List<RouteInfo> getRoutes() {
     return settingsService.getRoutes(username);
   }
 
@@ -406,7 +492,7 @@ class SettingsController extends ChangeNotifier {
   ///
   Stream<LatLng> getCurrentBoatPositionStream() {
     return currentBoatPositionStream.stream;
-  }  
+  }
 
   ///
   /// Send
@@ -449,10 +535,9 @@ class SettingsController extends ChangeNotifier {
     } else {
       debugPrint("updateExpandTile: sending to broadcast $expanded");
       expandTileStream.sink.add(expanded);
-      if(expanded){
+      if (expanded) {
         updateCurrentMapFakeOffset(0.03);
-      }
-      else{
+      } else {
         updateCurrentMapFakeOffset(0);
       }
     }

@@ -94,6 +94,7 @@ class RouteWidget extends StatelessWidget {
                                           mini: true,
                                           backgroundColor: Colors.white,
                                           onPressed: () {
+                                            //print(info.toJSONString());
                                             settingsController.setActiveRoute(info);
                                             Navigator.pop(context);
                                           },
