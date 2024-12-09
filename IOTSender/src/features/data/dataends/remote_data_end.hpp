@@ -16,6 +16,8 @@ struct BoatInfoSent {
     }
 
     friend bool operator==(const BoatInfoSent&lh, const BoatInfoSent&rh){
+        (void)(lh);
+        (void)(rh);
         return true;
     }
 };
@@ -24,6 +26,8 @@ struct BoatInfoNOTSent {
     BoatInfoNOTSent(){}
     
     friend bool operator==(const BoatInfoNOTSent&lh, const BoatInfoNOTSent&rh){
+        (void)(lh);
+        (void)(rh);
         return true;
     }
 };
@@ -58,6 +62,7 @@ struct RemoteDataEndImpl : public RemoteDataEnd{
             return BoatInfoSent(val);
         }else{
             auto err = ret.error();
+            std::cout << "error: " << err.what() << std::endl;
             return std::unexpected(BoatInfoNOTSent());
         }
 

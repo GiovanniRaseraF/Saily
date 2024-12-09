@@ -103,7 +103,8 @@ namespace commands {
             try{
                 std::string ret = command::exec("curl", params, out_code);
                 return ret;
-            }catch(TimeOutException toe){
+            }catch(TimeOutException &toe){
+                (void)(toe);
                 return std::unexpected(toe);
             }
         }

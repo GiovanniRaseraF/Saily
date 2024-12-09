@@ -4,7 +4,7 @@
 
 struct JsonParseException : public std::exception {
     JsonParseException() : w{""} {}
-    JsonParseException(std::string _w) : w{w} {}
+    JsonParseException(std::string _w) : w{_w} {}
 
     std::string w;
 
@@ -13,7 +13,8 @@ struct JsonParseException : public std::exception {
     }
 
     friend bool operator==(const JsonParseException &lh, const JsonParseException&rh){
-        //UNUSED(lh);
+        (void)(lh);
+        (void)(rh);
         return true;
     }
 };
