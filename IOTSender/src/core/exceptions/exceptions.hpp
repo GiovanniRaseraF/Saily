@@ -8,7 +8,7 @@ struct JsonParseException : public std::exception {
 
     std::string w;
 
-    std::string what(){
+    virtual std::string what(){
         return w;
     }
 

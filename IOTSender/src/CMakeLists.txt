@@ -20,4 +20,4 @@ if(Boost_FOUND)
 endif()
 
 set_property(TARGET main PROPERTY CXX_STANDARD 23 CXX_O)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra ")

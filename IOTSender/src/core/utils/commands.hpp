@@ -15,7 +15,7 @@ struct TimeOutException : public std::exception {
     std::string message;
     TimeOutException(std::string s) : message{s} {}
 
-    std::string what(){
+    virtual std::string what(){
         return message;
     }
 };
