@@ -109,6 +109,7 @@ class _SingleRouteViewState extends State<SingleRouteView> {
                       child: SfCartesianChart(
                         title: ChartTitle(text: 'Data Chart'),
                         legend: Legend(isVisible: true),
+                        
                         series: [
                           LineSeries<VTGInfo, num>(
                             enableTooltip: false,
