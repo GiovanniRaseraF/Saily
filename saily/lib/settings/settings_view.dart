@@ -25,15 +25,17 @@ class _SettingsViewState extends State<SettingsView> {
     return Scaffold(
       body: SettingsScreen(hasAppBar: true, children: [
         SettingsGroup(title: 'Map Setting', children: <Widget>[
-          SwitchSettingsTile(
-            settingKey: 'expand-tile',
-            title: 'Expand Tile',
-            subtitle:
-                'The map will move the cursor according to the expande tile below',
-            defaultValue: false,
-            onChange: (value) async {
-              settingsController.updateExpandTile(value);
-            },
+          Card(
+            child: SwitchSettingsTile(
+              settingKey: 'expand-tile',
+              title: 'Expand Tile',
+              subtitle:
+                  'The map will move the cursor according to the expande tile below',
+              defaultValue: false,
+              onChange: (value) async {
+                settingsController.updateExpandTile(value);
+              },
+            ),
           ),
 
         SettingsGroup(title: 'Telemetry Units', children: <Widget>[

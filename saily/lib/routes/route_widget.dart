@@ -194,7 +194,7 @@ class RouteWidget extends StatelessWidget {
                     ]),
 
                   Positioned(child: FloatingActionButton(mini: true, 
-                    child: Icon(Icons.more_horiz, color: SailyBlue,),
+                    child: Icon(Icons.zoom_in, color: SailyBlue,),
                     elevation: 0,
                     backgroundColor: SailyWhite,
                     onPressed: (){
