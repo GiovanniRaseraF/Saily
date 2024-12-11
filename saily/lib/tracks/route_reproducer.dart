@@ -3,8 +3,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:xml/xml.dart';
 import 'dart:io';
 
-class FakeData {
-  FakeData();
+class RouteReproducer {
+  RouteReproducer();
 
   String rawdata = "";
   int counter = 0;

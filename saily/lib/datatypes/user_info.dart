@@ -12,8 +12,6 @@ class UserInfo {
 
   List<RouteInfo> routes = [];
 
-  
-
   void addRoute(RouteInfo newRoute) {
     routes.add(newRoute);
   }

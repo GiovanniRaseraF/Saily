@@ -16,6 +16,7 @@ import 'package:saily/record/record_view.dart';
 import 'package:saily/routes/routes_view.dart';
 import 'package:saily/server/fake_server.dart';
 import 'package:saily/server/huracan_server.dart';
+import 'package:saily/server/mock_server.dart';
 import 'package:saily/server/server.dart';
 import 'package:saily/settings/local_store.dart';
 import 'package:saily/tracks/gpx_trips.dart';
@@ -25,7 +26,6 @@ import 'package:saily/env.dart';
 import 'package:saily/settings/settings_controller.dart';
 import 'package:saily/settings/settings_service.dart';
 import 'package:saily/settings/settings_view.dart';
-import 'package:saily/tracks/fake_data.dart';
 import 'package:saily/utils/saily_utils.dart';
 import 'package:saily/utils/utils.dart';
 import 'package:saily/widgets/connection_to_server_status_gauge.dart';
@@ -79,9 +79,20 @@ void main() async {
 
   await Settings.init(cacheProvider: settingsService);
 
+  ///////////////////////////////////////////////////////////////////
   // Connect to server
-  server = HuracanServer(settingsController: settingsController);
+
+  // Used in production
+  //server = HuracanServer(settingsController: settingsController);
+
+  // (sed in testing
+  MockServerStore store = MockServerStore(preferences: sharedPreferences);
+  await store.loadRoats();
+  server = MockServer(settingsController: settingsController, store: store);
+
+  // Init it
   await server.initServer();
+  ///////////////////////////////////////////////////////////////////
 
   // Prelogging
   String u = settingsController.getUsername();

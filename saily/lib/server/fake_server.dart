@@ -17,19 +17,19 @@ import 'package:saily/datatypes/nmea2000_info.dart';
 import 'package:saily/main.dart';
 import 'package:saily/server/server.dart';
 import 'package:saily/settings/settings_controller.dart';
-import 'package:saily/tracks/fake_data.dart';
+import 'package:saily/tracks/route_reproducer.dart';
 import 'package:saily/tracks/gpx_trips.dart';
 import 'package:saily/utils/utils.dart';
 
 class FakeServerFetcherInfo extends Server{
   FakeServerFetcherInfo({required this.settingsController}){
-    fakeData = FakeData();
-    fakeData.load_parse(cannesTrip);
+    routeReproducer = RouteReproducer();
+    routeReproducer.load_parse(cannesTrip);
     setFetchProcess(interval: Duration(milliseconds: 1000), callback: fetchProcess);
   }
 
   SettingsController settingsController;
-  late FakeData fakeData;
+  late RouteReproducer routeReproducer;
   double SOG = 0;
   double SOC = 0;
   double RPM = 0;
@@ -41,7 +41,7 @@ class FakeServerFetcherInfo extends Server{
     
     // gps positioning
     //settingsController.updateCurrentBoatPosition(Saily().homePosition);
-    settingsController.updateCurrentBoatPosition(fakeData.getNext());
+    settingsController.updateCurrentBoatPosition(routeReproducer.getNext());
 
     // gps count
     VTGInfo gpsCount = (await fetchVTGInfo()).getOrElse((){
