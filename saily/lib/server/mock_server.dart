@@ -80,6 +80,29 @@ class MockServerStore {
     }
   }
 
+  Future<Either<FetchError, GeneralInfo>> getGi(String username, String password, String boat_id) async {
+    if(isBoatInUser(username, password, boat_id)){
+      var ret = GeneralInfo(isHybrid: true, isDualMotor: false, versionProtocol: 1, versionFWControlUnit: 1, versionFWDrive: 1, dieselMotorModel: DieselMotorModel.HyundaiS270, electricMotorModel: ElectricMotorModel.THOR6000);
+      return Either.right(ret);
+    }else{
+      return Either.left(FetchError(why: "no boat"));
+    }
+  }
+
+  Future<Either<FetchError, ElectricmotorInfo>> getEmi(String username, String password, String boat_id) async {
+    if(isBoatInUser(username, password, boat_id)){
+      var ret = ElectricmotorInfo();
+      ret.motorRPM = 2000 + Random().nextDouble() * 1000;
+      ret.busVoltage = 20 + Random().nextDouble() * 10;
+      ret.inverterTemperature = 20 + Random().nextDouble() * 10;
+      ret.motorTemperature = 20 + Random().nextDouble() * 10;
+      return Either.right(ret);
+    }else{
+      return Either.left(FetchError(why: "no boat"));
+    }
+  }
+
+
   bool isUserInStore(String username, String password){
     for(final u in users){
       if(u.username == username && u.password == password) return true;
@@ -148,20 +171,23 @@ class MockServer extends Server {
 
   @override
   Future<Either<FetchError, ElectricmotorInfo>> fetchElectricmotorInfo() async {
-    return Either.right(ElectricmotorInfo());
+    String USERNAME = settingsController.username;
+    String PASSWORD = settingsController.password;
+    BoatInfo currentBoat = settingsController.getCurretBoat();
+    return store.getEmi(USERNAME, PASSWORD, currentBoat.boat_id);
   }
 
   @override
-  Future<Either<FetchError, EndotermicmotorInfo>>
-      fetchEndotermicmotorInfo() async {
+  Future<Either<FetchError, EndotermicmotorInfo>> fetchEndotermicmotorInfo() async {
     return Either.right(EndotermicmotorInfo());
   }
 
   @override
   Future<Either<FetchError, GeneralInfo>> fetchGeneralInfo() async {
-    return Either.left(
-      FetchError(why: " not implemented")
-    );
+    String USERNAME = settingsController.username;
+    String PASSWORD = settingsController.password;
+    BoatInfo currentBoat = settingsController.getCurretBoat();
+    return store.getGi(USERNAME, PASSWORD, currentBoat.boat_id);
   }
 
   @override
